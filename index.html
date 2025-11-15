@@ -1,0 +1,1853 @@
+﻿<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>राधा कृष्ण भजन संग्रह</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FEFCE8 0%, #FFFBEB 100%);
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(212, 162, 14, 0.2);
+            overflow: hidden;
+            border: 2px solid #F59E0B;
+            display: none; /* Start hidden */
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .container {
+            background: #2d3748;
+            color: white;
+            border-color: #4a5568;
+        }
+
+        /* Splash Screen Styles - FIXED */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .splash-logo {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .splash-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .splash-subtitle {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .splash-message {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            opacity: 0;
+            animation: fadeInMessage 1s ease-in 2s forwards;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInMessage {
+            to { opacity: 1; }
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        body.dark-mode .header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        }
+
+        .main-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .sub-title {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Navigation Styles */
+        .nav-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: #FEF3C7;
+            border-bottom: 2px solid #F59E0B;
+        }
+
+        body.dark-mode .nav-tabs {
+            background: #4a5568;
+            border-color: #718096;
+        }
+
+        .nav-tab {
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-size: 12px;
+            font-weight: bold;
+            color: #92400E;
+        }
+
+        body.dark-mode .nav-tab {
+            color: #e2e8f0;
+        }
+
+        .nav-tab.active {
+            background: white;
+            border-bottom: 3px solid #D97706;
+            color: #D97706;
+        }
+
+        body.dark-mode .nav-tab.active {
+            background: #2d3748;
+            border-color: #F59E0B;
+            color: #F59E0B;
+        }
+
+        .nav-tab:active {
+            background: #FDE68A;
+        }
+
+        body.dark-mode .nav-tab:active {
+            background: #4a5568;
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Screen Styles */
+        .screen {
+            display: none;
+            padding: 20px;
+            min-height: 500px;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Common Styles for All Screens */
+        .section-title {
+            color: #1E40AF;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        body.dark-mode .section-title {
+            color: #90cdf4;
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+            height: 200px;
+        }
+
+        .video-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .bhajan-list {
+            background: #F0F9FF;
+            border: 2px solid #1E40AF;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .bhajan-list {
+            background: #2d3748;
+            border-color: #4a5568;
+        }
+
+        .bhajan-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #F59E0B;
+        }
+
+        body.dark-mode .bhajan-item {
+            background: #4a5568;
+            border-left-color: #F59E0B;
+        }
+
+        .bhajan-item:active {
+            transform: scale(0.98);
+            background: #FEF7CD;
+        }
+
+        body.dark-mode .bhajan-item:active {
+            background: #5a6578;
+        }
+
+        .current-playing {
+            background: #FEF7CD;
+            border: 2px solid #D97706;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        body.dark-mode .current-playing {
+            background: #4a5568;
+            border-color: #F59E0B;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .action-btn.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+
+        .action-btn.share {
+            background: linear-gradient(135deg, #1E40AF, #3730A3);
+        }
+
+        /* Share Modal Styles */
+        .share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .share-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        body.dark-mode .share-modal-content {
+            background: #2d3748;
+            color: white;
+        }
+
+        .share-modal-title {
+            color: #92400E;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .share-modal-title {
+            color: #F59E0B;
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .share-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #F8FAFB;
+        }
+
+        body.dark-mode .share-option {
+            background: #4a5568;
+        }
+
+        .share-option:active {
+            transform: scale(0.95);
+        }
+
+        .share-option.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .share-option.telegram {
+            background: #0088CC;
+            color: white;
+        }
+
+        .share-option.copy {
+            background: #6B7280;
+            color: white;
+        }
+
+        .share-option.more {
+            background: #F59E0B;
+            color: white;
+        }
+
+        .share-icon {
+            font-size: 24px;
+        }
+
+        .share-text {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .modal-close-btn {
+            background: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        /* Screen 2 - Jap Counter Styles */
+        .jap-counter-container {
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        .counter-display {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .jap-target {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .counter-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .counter-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .counter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .increment-btn {
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: white;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #EF4444, #F87171);
+            color: white;
+        }
+
+        .jap-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .achievement-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 25px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Sound Control */
+        .sound-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 25px;
+        }
+
+        .sound-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .sound-btn:active {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Target Progress Bar */
+        .target-progress {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #34D399);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Target Setting Modal */
+        .target-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .target-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        body.dark-mode .target-modal-content {
+            background: #2d3748;
+            color: white;
+        }
+
+        .modal-title {
+            color: #92400E;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .modal-title {
+            color: #F59E0B;
+        }
+
+        .target-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .target-option {
+            padding: 15px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #F9FAFB;
+        }
+
+        body.dark-mode .target-option {
+            background: #4a5568;
+            border-color: #718096;
+        }
+
+        .target-option.active {
+            border-color: #10B981;
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        body.dark-mode .target-option.active {
+            background: #065F46;
+            color: white;
+        }
+
+        .target-option:active {
+            transform: scale(0.95);
+        }
+
+        .target-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .target-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.confirm {
+            background: #10B981;
+            color: white;
+        }
+
+        .modal-btn.cancel {
+            background: #6B7280;
+            color: white;
+        }
+
+        /* Mala Completion Popup */
+        .mala-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .mala-popup-content {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 300px;
+            animation: popupBounce 0.6s ease-out;
+        }
+
+        @keyframes popupBounce {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .mala-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .mala-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .mala-message {
+            font-size: 16px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .mala-close-btn {
+            background: white;
+            color: #D97706;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Screen 3 - About Styles */
+        .about-content {
+            background: #F0F9FF;
+            border: 2px solid #1E40AF;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .about-content {
+            background: #2d3748;
+            border-color: #4a5568;
+        }
+
+        .about-text {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        body.dark-mode .about-text {
+            color: #e2e8f0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-item {
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #10B981;
+            font-size: 13px;
+        }
+
+        body.dark-mode .feature-item {
+            background: #4a5568;
+            color: #e2e8f0;
+        }
+
+        /* Screen 4 - Settings Styles */
+        .settings-option {
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        body.dark-mode .settings-option {
+            background: #4a5568;
+            border-color: #718096;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-title {
+            font-weight: bold;
+            color: #92400E;
+            margin-bottom: 5px;
+        }
+
+        body.dark-mode .setting-title {
+            color: #F59E0B;
+        }
+
+        .setting-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        body.dark-mode .setting-desc {
+            color: #e2e8f0;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 25px;
+            background: #D1D5DB;
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .toggle-switch.active {
+            background: #10B981;
+        }
+
+        .toggle-knob {
+            width: 21px;
+            height: 21px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active .toggle-knob {
+            left: 27px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        @media (max-width: 480px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-container {
+                height: 180px;
+            }
+            
+            .nav-tab {
+                font-size: 11px;
+                padding: 12px 5px;
+            }
+            
+            .counter-display {
+                font-size: 3rem;
+            }
+            
+            .share-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen - FIXED CONTENT -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-logo">🕉️</div>
+        <div class="splash-title">राधा जप काउंटर ऐप</div>
+        <div class="splash-subtitle">में आपका स्वागत है</div>
+        <div class="splash-message" id="splashMessage">जय श्री कृष्ण राधे राधे</div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-title">🔗 शेयर करें</div>
+            <div class="share-options">
+                <div class="share-option whatsapp" onclick="shareOnWhatsApp()">
+                    <span class="share-icon">📱</span>
+                    <span class="share-text">WhatsApp</span>
+                </div>
+                <div class="share-option telegram" onclick="shareOnTelegram()">
+                    <span class="share-icon">✈️</span>
+                    <span class="share-text">Telegram</span>
+                </div>
+                <div class="share-option copy" onclick="copyToClipboard()">
+                    <span class="share-icon">📋</span>
+                    <span class="share-text">लिंक कॉपी</span>
+                </div>
+                <div class="share-option more" onclick="nativeShare()">
+                    <span class="share-icon">📲</span>
+                    <span class="share-text">अन्य</span>
+                </div>
+            </div>
+            <button class="modal-close-btn" onclick="closeShareModal()">✖️ बंद करें</button>
+        </div>
+    </div>
+
+    <!-- Mala Completion Popup -->
+    <div class="mala-popup" id="malaPopup">
+        <div class="mala-popup-content">
+            <div class="mala-icon">🎉</div>
+            <div class="mala-title">बधाई हो!</div>
+            <div class="mala-message" id="malaCompletionMessage">आपने 1 माला (108 जप) पूरी कर ली है!</div>
+            <button class="mala-close-btn" onclick="closeMalaPopup()">शुक्रिया</button>
+        </div>
+    </div>
+
+    <!-- Target Setting Modal -->
+    <div class="target-modal" id="targetModal">
+        <div class="target-modal-content">
+            <div class="modal-title">🎯 जप लक्ष्य सेट करें</div>
+            <div class="target-options">
+                <div class="target-option" onclick="selectTarget(108)">
+                    <div class="target-value">108</div>
+                    <div class="target-label">1 माला</div>
+                </div>
+                <div class="target-option" onclick="selectTarget(1080)">
+                    <div class="target-value">1,080</div>
+                    <div class="target-label">10 माला</div>
+                </div>
+                <div class="target-option" onclick="selectTarget(5400)">
+                    <div class="target-value">5,400</div>
+                    <div class="target-label">50 माला</div>
+                </div>
+                <div class="target-option" onclick="selectTarget(10800)">
+                    <div class="target-value">10,800</div>
+                    <div class="target-label">100 माला</div>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeTargetModal()">रद्द करें</button>
+                <button class="modal-btn confirm" onclick="confirmTarget()">सेट करें</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Main App Container -->
+    <div class="container" id="mainApp">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="main-title">जय श्री कृष्ण</div>
+            <div class="sub-title">राधा कृष्ण भजन</div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="switchScreen(0)">
+                <span class="tab-icon">🎵</span>
+                <span>भजन</span>
+            </div>
+            <div class="nav-tab" onclick="switchScreen(1)">
+                <span class="tab-icon">📿</span>
+                <span>जप</span>
+            </div>
+            <div class="nav-tab" onclick="switchScreen(2)">
+                <span class="tab-icon">ℹ️</span>
+                <span>जानकारी</span>
+            </div>
+            <div class="nav-tab" onclick="switchScreen(3)">
+                <span class="tab-icon">⚙️</span>
+                <span>सेटिंग</span>
+            </div>
+        </div>
+
+        <!-- SCREEN 1: BHAJAN VIDEOS -->
+        <div class="screen active" id="screen0">
+            <div class="video-container" id="videoContainer">
+                <div class="video-placeholder">
+                    <div class="video-icon">🎵</div>
+                    <div class="video-text">राधा कृष्ण भजन संग्रह</div>
+                    <div class="video-note">नीचे से भजन चुनें</div>
+                </div>
+            </div>
+
+            <div class="current-playing">
+                <div class="current-title" id="currentTitle">भजन चुनें</div>
+                <div class="current-status" id="currentStatus">नीचे से कोई भजन सिलेक्ट करें</div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn youtube" onclick="openInYouTube()">
+                    <span class="btn-icon">📺</span>
+                    <span class="btn-text">YouTube में देखें</span>
+                </button>
+                <button class="action-btn share" onclick="openShareModal('video')">
+                    <span class="btn-icon">🔗</span>
+                    <span class="btn-text">लिंक शेयर करें</span>
+                </button>
+            </div>
+
+            <div class="bhajan-list">
+                <div class="section-title">🎵 भजन वीडियो संग्रह</div>
+                
+                <div class="bhajan-item" onclick="playVideo(0)">
+                    <div class="bhajan-icon">🕉️</div>
+                    <div class="bhajan-info">
+                        <div class="bhajan-title">श्री कृष्ण गोविन्द हरे मुरारे</div>
+                        <div class="bhajan-duration">🎬 4:32 • भक्ति भजन</div>
+                    </div>
+                </div>
+                
+                <div class="bhajan-item" onclick="playVideo(1)">
+                    <div class="bhajan-icon">🌸</div>
+                    <div class="bhajan-info">
+                        <div class="bhajan-title">राधे राधे भजन</div>
+                        <div class="bhajan-duration">🎬 5:15 • राधा भजन</div>
+                    </div>
+                </div>
+                
+                <div class="bhajan-item" onclick="playVideo(2)">
+                    <div class="bhajan-icon">🎵</div>
+                    <div class="bhajan-info">
+                        <div class="bhajan-title">मेरे तो गिरिधर गोपाल</div>
+                        <div class="bhajan-duration">🎬 6:20 • क्लासिक भजन</div>
+                    </div>
+                </div>
+                
+                <div class="bhajan-item" onclick="playVideo(3)">
+                    <div class="bhajan-icon">🙏</div>
+                    <div class="bhajan-info">
+                        <div class="bhajan-title">श्री कृष्ण शरणम ममः</div>
+                        <div class="bhajan-duration">🎬 3:45 • मंत्र भजन</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: RADHA JAP COUNTER -->
+        <div class="screen" id="screen1">
+            <div class="section-title">📿 राधा जप काउंटर</div>
+            
+            <div class="jap-counter-container">
+                <div class="jap-target">🎯 लक्ष्य: <span id="currentTarget">108</span> जप (<span id="malaCount">1</span> माला)</div>
+                <div class="counter-display" id="japCount">0</div>
+                <div class="jap-mantra">ॐ राधे राधे</div>
+                
+                <!-- Sound Control -->
+                <div class="sound-control">
+                    <span>🔊 आवाज:</span>
+                    <button class="sound-btn" id="soundBtn" onclick="toggleSound()">🔊</button>
+                    <span id="soundStatus">चालू</span>
+                </div>
+
+                <!-- Target Progress -->
+                <div class="target-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0% पूरा हुआ (0/108)</div>
+                </div>
+
+                <div class="counter-buttons">
+                    <button class="counter-btn increment-btn" onclick="incrementJap()">
+                        <span class="btn-icon">➕</span>
+                        <span class="btn-text">जप बढ़ाएं</span>
+                    </button>
+                    <button class="counter-btn reset-btn" onclick="resetJap()">
+                        <span class="btn-icon">🔄</span>
+                        <span class="btn-text">रीसेट करें</span>
+                    </button>
+                </div>
+
+                <div class="jap-stats">
+                    <div class="stat-box">
+                        <div class="stat-value" id="todayCount">0</div>
+                        <div class="stat-label">आज के जप</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="totalCount">0</div>
+                        <div class="stat-label">कुल जप</div>
+                    </div>
+                </div>
+
+                <div class="achievement-badge" id="achievementBadge">
+                    🌟 108 जप पूरे करने का लक्ष्य रखें
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn" onclick="openTargetModal()">
+                    <span class="btn-icon">🎯</span>
+                    <span class="btn-text">लक्ष्य सेट करें</span>
+                </button>
+                <button class="action-btn" onclick="openShareModal('progress')">
+                    <span class="btn-icon">📊</span>
+                    <span class="btn-text">प्रोग्रेस शेयर करें</span>
+                </button>
+            </div>
+
+            <div class="bhajan-list">
+                <div class="section-title">📖 जप मंत्र</div>
+                <div class="bhajan-item" onclick="setMantra('ॐ राधे राधे')">
+                    <div class="bhajan-info">
+                        <div class="bhajan-title">ॐ राधे राधे</div>
+                        <div class="bhajan-duration">मुख्य मंत्र • 2 शब्द</div>
+                    </div>
+                </div>
+                <div class="bhajan-item" onclick="setMantra('ॐ श्री कृष्णाय नमः')">
+                    <div class="bhajan-info">
+                        <div class="bhajan-title">ॐ श्री कृष्णाय नमः</div>
+                        <div class="bhajan-duration">कृष्ण मंत्र • 3 शब्द</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: ABOUT APP -->
+        <div class="screen" id="screen2">
+            <div class="section-title">ℹ️ ऐप के बारे में</div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    🌸 <strong>राधा कृष्ण भजन संग्रह</strong> ऐप आपके लिए एक सम्पूर्ण भक्ति अनुभव प्रदान करती है। इस ऐप में आपको राधा कृष्ण के सबसे लोकप्रिय भजन मिलेंगे।
+                </div>
+                
+                <div class="section-title">✨ विशेषताएं</div>
+                <ul class="feature-list">
+                    <li class="feature-item">🎵 उच्च गुणवत्ता वाले भजन वीडियो</li>
+                    <li class="feature-item">📿 राधा जप काउंटर</li>
+                    <li class="feature-item">📖 भजनों के पूरे बोल</li>
+                    <li class="feature-item">🔊 बैकग्राउंड में चलने की सुविधा</li>
+                    <li class="feature-item">📱 यूजर फ्रेंडली इंटरफेस</li>
+                    <li class="feature-item">🆓 पूरी तरह मुफ्त</li>
+                </ul>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn" onclick="rateApp()">
+                    <span class="btn-icon">⭐</span>
+                    <span class="btn-text">रेटिंग दें</span>
+                </button>
+                <button class="action-btn" onclick="openShareModal('app')">
+                    <span class="btn-icon">📲</span>
+                    <span class="btn-text">ऐप शेयर करें</span>
+                </button>
+            </div>
+
+            <div class="current-playing">
+                <div class="current-title">संस्करण 1.0</div>
+                <div class="current-status">अंतिम अपडेट: नवंबर 2025</div>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: SETTINGS -->
+        <div class="screen" id="screen3">
+            <div class="section-title">⚙️ सेटिंग्स</div>
+            
+            <div class="settings-option">
+                <div class="setting-info">
+                    <div class="setting-title">🔔 नोटिफिकेशन</div>
+                    <div class="setting-desc">नए भजन की सूचनाएं प्राप्त करें</div>
+                </div>
+                <div class="toggle-switch" onclick="toggleSetting('notifications')">
+                    <div class="toggle-knob"></div>
+                </div>
+            </div>
+
+            <div class="settings-option">
+                <div class="setting-info">
+                    <div class="setting-title">🌙 डार्क मोड</div>
+                    <div class="setting-desc">ऐप को डार्क थीम में उपयोग करें</div>
+                </div>
+                <div class="toggle-switch" id="darkModeToggle" onclick="toggleDarkMode()">
+                    <div class="toggle-knob"></div>
+                </div>
+            </div>
+
+            <div class="settings-option">
+                <div class="setting-info">
+                    <div class="setting-title">📿 ऑटो जप</div>
+                    <div class="setting-desc">जप काउंटर स्वचालित रूप से बढ़ाएं</div>
+                </div>
+                <div class="toggle-switch active" onclick="toggleSetting('autoJap')">
+                    <div class="toggle-knob"></div>
+                </div>
+            </div>
+
+            <div class="settings-option">
+                <div class="setting-info">
+                    <div class="setting-title">💾 डेटा सेविंग</div>
+                    <div class="setting-desc">कम डेटा उपयोग में वीडियो चलाएं</div>
+                </div>
+                <div class="toggle-switch" onclick="toggleSetting('dataSaving')">
+                    <div class="toggle-knob"></div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn" onclick="resetSettings()">
+                    <span class="btn-icon">🔄</span>
+                    <span class="btn-text">रीसेट करें</span>
+                </button>
+                <button class="action-btn" onclick="contactSupport()">
+                    <span class="btn-icon">📧</span> <!-- Changed from 📞 to 📧 -->
+                    <span class="btn-text">सहायता</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Audio Context for Beep Sound
+        let audioContext;
+        let beepSound = null;
+        let soundEnabled = true;
+        let darkMode = false;
+        let currentShareType = '';
+
+        // Jap Counter Variables
+        let japCount = 0;
+        let todayCount = 0;
+        let totalCount = 0;
+        let japTarget = 108;
+        let currentMantra = "ॐ राधे राधे";
+        let selectedTarget = 108;
+        let completedMalas = 0;
+
+        // Global Variables
+        let currentVideoIndex = -1;
+        let currentVideoUrl = "";
+        let currentScreen = 0;
+
+        // Elements
+        const notificationElement = document.getElementById('notification');
+        const splashScreen = document.getElementById('splashScreen');
+        const malaPopup = document.getElementById('malaPopup');
+        const targetModal = document.getElementById('targetModal');
+        const mainApp = document.getElementById('mainApp');
+        const shareModal = document.getElementById('shareModal');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        // Initialize Audio
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                createBeepSound();
+            } catch (error) {
+                console.log('Audio not supported');
+                soundEnabled = false;
+                updateSoundUI();
+            }
+        }
+
+        // Create Beep Sound
+        function createBeepSound() {
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+            
+            beepSound = { oscillator, gainNode };
+        }
+
+        // Play Beep Sound
+        function playBeep() {
+            if (!soundEnabled || !audioContext) return;
+            
+            try {
+                createBeepSound();
+            } catch (error) {
+                console.log('Beep sound error:', error);
+            }
+        }
+
+        // Toggle Sound
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            updateSoundUI();
+            showNotification(soundEnabled ? '🔊 आवाज चालू' : '🔇 आवाज बंद');
+        }
+
+        function updateSoundUI() {
+            const soundBtn = document.getElementById('soundBtn');
+            const soundStatus = document.getElementById('soundStatus');
+            
+            if (soundEnabled) {
+                soundBtn.textContent = '🔊';
+                soundStatus.textContent = 'चालू';
+            } else {
+                soundBtn.textContent = '🔇';
+                soundStatus.textContent = 'बंद';
+            }
+        }
+
+        // Dark Mode Function
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.classList.add('active');
+                showNotification('🌙 डार्क मोड चालू');
+            } else {
+                document.body.classList.remove('dark-mode');
+                darkModeToggle.classList.remove('active');
+                showNotification('☀️ लाइट मोड चालू');
+            }
+            saveSettings();
+        }
+
+        // Share Modal Functions
+        function openShareModal(type) {
+            currentShareType = type;
+            shareModal.style.display = 'flex';
+        }
+
+        function closeShareModal() {
+            shareModal.style.display = 'none';
+        }
+
+        function shareOnWhatsApp() {
+            let message = '';
+            let url = '';
+            
+            if (currentShareType === 'video' && currentVideoIndex !== -1) {
+                const video = videoDatabase[currentVideoIndex];
+                message = `🎵 ${video.title}\n\n${video.youtubeUrl}`;
+                url = video.youtubeUrl;
+            } else if (currentShareType === 'progress') {
+                const malaCount = Math.floor(japCount / 108);
+                message = `📿 मेरी राधा जप प्रगति:\nआज के जप: ${todayCount}\nकुल जप: ${totalCount}\nपूरी मालाएं: ${malaCount}\nलक्ष्य: ${japTarget} जप\nप्रगति: ${Math.round((japCount / japTarget) * 100)}%\n\n${currentMantra}`;
+            } else if (currentShareType === 'app') {
+                message = `📱 राधा कृष्ण भजन ऐप डाउनलोड करें\n\nभजन सुनें और जप करें\n${window.location.href}`;
+                url = window.location.href;
+            }
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            closeShareModal();
+            showNotification('📱 WhatsApp पर शेयर किया');
+        }
+
+        function shareOnTelegram() {
+            let message = '';
+            let url = '';
+            
+            if (currentShareType === 'video' && currentVideoIndex !== -1) {
+                const video = videoDatabase[currentVideoIndex];
+                message = `🎵 ${video.title}`;
+                url = video.youtubeUrl;
+            } else if (currentShareType === 'progress') {
+                const malaCount = Math.floor(japCount / 108);
+                message = `📿 मेरी राधा जप प्रगति:\nआज के जप: ${todayCount}\nकुल जप: ${totalCount}\nपूरी मालाएं: ${malaCount}`;
+            } else if (currentShareType === 'app') {
+                message = `📱 राधा कृष्ण भजन ऐप`;
+                url = window.location.href;
+            }
+            
+            const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(message)}`;
+            window.open(telegramUrl, '_blank');
+            closeShareModal();
+            showNotification('✈️ Telegram पर शेयर किया');
+        }
+
+        function copyToClipboard() {
+            let text = '';
+            
+            if (currentShareType === 'video' && currentVideoIndex !== -1) {
+                const video = videoDatabase[currentVideoIndex];
+                text = video.youtubeUrl;
+            } else if (currentShareType === 'progress') {
+                const malaCount = Math.floor(japCount / 108);
+                text = `📿 मेरी राधा जप प्रगति:\nआज के जप: ${todayCount}\nकुल जप: ${totalCount}\nपूरी मालाएं: ${malaCount}\nलक्ष्य: ${japTarget} जप\nप्रगति: ${Math.round((japCount / japTarget) * 100)}%`;
+            } else if (currentShareType === 'app') {
+                text = window.location.href;
+            }
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('✅ लिंक कॉपी हो गया!');
+                closeShareModal();
+            }).catch(() => {
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('✅ लिंक कॉपी हो गया!');
+                closeShareModal();
+            });
+        }
+
+        function nativeShare() {
+            let shareData = {};
+            
+            if (currentShareType === 'video' && currentVideoIndex !== -1) {
+                const video = videoDatabase[currentVideoIndex];
+                shareData = {
+                    title: video.title,
+                    text: 'यह भजन सुनें: ' + video.title,
+                    url: video.youtubeUrl
+                };
+            } else if (currentShareType === 'progress') {
+                const malaCount = Math.floor(japCount / 108);
+                shareData = {
+                    title: 'मेरी राधा जप प्रगति',
+                    text: `आज के जप: ${todayCount}\nकुल जप: ${totalCount}\nपूरी मालाएं: ${malaCount}`
+                };
+            } else if (currentShareType === 'app') {
+                shareData = {
+                    title: 'राधा कृष्ण भजन ऐप',
+                    text: 'यह भजन ऐप डाउनलोड करें',
+                    url: window.location.href
+                };
+            }
+            
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => {
+                        showNotification('✅ शेयर किया गया!');
+                        closeShareModal();
+                    })
+                    .catch((error) => {
+                        console.log('Share failed:', error);
+                        showNotification('❌ शेयर नहीं हो पाया');
+                    });
+            } else {
+                showNotification('❌ यह डिवाइस शेयर सपोर्ट नहीं करता');
+            }
+        }
+
+        // Splash Screen - SIMPLE AND WORKING VERSION
+        function showSplashScreen() {
+            // Show splash screen immediately
+            splashScreen.style.display = 'flex';
+            
+            // Show welcome message after 2 seconds
+            setTimeout(() => {
+                document.getElementById('splashMessage').style.display = 'block';
+            }, 2000);
+            
+            // Hide splash screen and show main app after 4 seconds
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                mainApp.style.display = 'block';
+                initAudio();
+                loadJapData();
+                loadSettings();
+                showNotification('🎵 राधा कृष्ण भजन ऐप में आपका स्वागत है!');
+            }, 4000);
+        }
+
+        // Mala Completion Popup
+        function showMalaPopup(malaNumber) {
+            const malaMessage = document.getElementById('malaCompletionMessage');
+            malaMessage.textContent = `आपने ${malaNumber} माला (${malaNumber * 108} जप) पूरी कर ली है!`;
+            malaPopup.style.display = 'flex';
+        }
+
+        function closeMalaPopup() {
+            malaPopup.style.display = 'none';
+        }
+
+        // Target Setting Modal - FIXED MALA CALCULATION
+        function openTargetModal() {
+            targetModal.style.display = 'flex';
+            // Set active target option
+            document.querySelectorAll('.target-option').forEach(option => {
+                option.classList.remove('active');
+                if (parseInt(option.querySelector('.target-value').textContent.replace(',', '')) === japTarget) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        function closeTargetModal() {
+            targetModal.style.display = 'none';
+        }
+
+        function selectTarget(target) {
+            selectedTarget = target;
+            document.querySelectorAll('.target-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        function confirmTarget() {
+            japTarget = selectedTarget;
+            updateJapDisplay();
+            closeTargetModal();
+            const malaCount = Math.floor(japTarget / 108);
+            showNotification(`🎯 नया लक्ष्य सेट: ${japTarget.toLocaleString()} जप (${malaCount} माला)`);
+        }
+
+        // Calculate mala count
+        function getMalaCount() {
+            return Math.floor(japTarget / 108);
+        }
+
+        // Jap Counter Functions
+        function incrementJap() {
+            japCount++;
+            todayCount++;
+            totalCount++;
+            
+            // Play beep sound
+            playBeep();
+            
+            updateJapDisplay();
+            
+            // Vibration effect
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+            
+            // Check for mala completion (every 108 japs)
+            if (japCount % 108 === 0 && japCount > 0) {
+                completedMalas = japCount / 108;
+                showMalaPopup(completedMalas);
+            }
+            
+            // Check achievements
+            checkAchievements();
+            
+            showNotification(`📿 जप काउंट: ${japCount}`);
+        }
+
+        function resetJap() {
+            japCount = 0;
+            completedMalas = 0;
+            updateJapDisplay();
+            showNotification('🔄 जप काउंट रीसेट हो गया');
+        }
+
+        function updateJapDisplay() {
+            document.getElementById('japCount').textContent = japCount;
+            document.getElementById('todayCount').textContent = todayCount;
+            document.getElementById('totalCount').textContent = totalCount;
+            document.getElementById('currentTarget').textContent = japTarget.toLocaleString();
+            document.getElementById('malaCount').textContent = getMalaCount();
+            
+            // Update progress bar
+            const progressPercent = Math.min((japCount / japTarget) * 100, 100);
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = 
+                `${Math.round(progressPercent)}% पूरा हुआ (${japCount}/${japTarget.toLocaleString()})`;
+            
+            // Update achievement badge
+            updateAchievementBadge();
+            
+            // Save to localStorage
+            saveJapData();
+        }
+
+        function updateAchievementBadge() {
+            const badge = document.getElementById('achievementBadge');
+            const malaCount = getMalaCount();
+            
+            if (japCount >= japTarget) {
+                badge.innerHTML = `🎉 लक्ष्य पूरा! ${japTarget.toLocaleString()} जप (${malaCount} माला) संपन्न`;
+                badge.style.background = 'rgba(34, 197, 94, 0.3)';
+            } else if (japCount >= japTarget * 0.5) {
+                badge.innerHTML = `🌟 अच्छा प्रयास! ${japCount.toLocaleString()}/${japTarget.toLocaleString()} जप`;
+                badge.style.background = 'rgba(234, 179, 8, 0.3)';
+            } else {
+                badge.innerHTML = `🎯 लक्ष्य: ${japTarget.toLocaleString()} जप (${malaCount} माला) पूरे करें`;
+                badge.style.background = 'rgba(255,255,255,0.2)';
+            }
+        }
+
+        function checkAchievements() {
+            if (japCount === japTarget) {
+                const malaCount = getMalaCount();
+                showNotification(`🎉 बधाई! आपने ${japTarget.toLocaleString()} जप (${malaCount} माला) पूरे कर लिए!`);
+            } else if (japCount % 100 === 0 && japCount > 0) {
+                showNotification(`👍 अच्छा! ${japCount.toLocaleString()} जप पूरे हुए`);
+            }
+        }
+
+        function setMantra(mantra) {
+            currentMantra = mantra;
+            showNotification('📖 मंत्र बदल गया: ' + mantra);
+        }
+
+        // Settings Functions
+        function toggleSetting(settingName) {
+            const toggle = event.currentTarget;
+            toggle.classList.toggle('active');
+            showNotification('⚙️ सेटिंग अपडेट हो गई: ' + settingName);
+            saveSettings();
+        }
+
+        function resetSettings() {
+            document.querySelectorAll('.toggle-switch').forEach(toggle => {
+                toggle.classList.remove('active');
+            });
+            document.querySelectorAll('.toggle-switch')[2].classList.add('active');
+            
+            // Reset dark mode
+            darkMode = false;
+            document.body.classList.remove('dark-mode');
+            darkModeToggle.classList.remove('active');
+            
+            showNotification('🔄 सभी सेटिंग्स रीसेट हो गईं');
+            saveSettings();
+        }
+
+        function contactSupport() {
+            const email = 'rish.jain8@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                showNotification('✅ ईमेल कॉपी हो गया: rish.jain8@gmail.com');
+            }).catch(() => {
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = email;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('✅ ईमेल कॉपी हो गया: rish.jain8@gmail.com');
+            });
+        }
+
+        // About Screen Functions
+        function rateApp() {
+            showNotification('⭐ Play Store पर जाकर रेटिंग दें');
+        }
+
+        // Save and Load Settings
+        function saveSettings() {
+            const settings = {
+                darkMode: darkMode,
+                soundEnabled: soundEnabled,
+                lastUpdate: new Date().toISOString()
+            };
+            localStorage.setItem('appSettings', JSON.stringify(settings));
+        }
+
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('appSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                darkMode = settings.darkMode || false;
+                soundEnabled = settings.soundEnabled !== undefined ? settings.soundEnabled : true;
+                
+                if (darkMode) {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.classList.add('active');
+                }
+                updateSoundUI();
+            }
+        }
+
+        // Video Functions
+        function playVideo(index) {
+            currentVideoIndex = index;
+            const video = videoDatabase[index];
+            
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = `
+                <iframe 
+                    class="video-frame"
+                    src="${video.embedUrl}?rel=0&modestbranding=1&autoplay=1"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            `;
+            
+            updateCurrentPlaying();
+            currentVideoUrl = video.youtubeUrl;
+            showNotification(`🎵 "${video.title}" चल रहा है...`);
+        }
+
+        function openInYouTube() {
+            if (currentVideoUrl && currentVideoIndex !== -1) {
+                window.open(currentVideoUrl, '_blank');
+                showNotification('📺 YouTube में खुल रहा है...');
+            } else {
+                showNotification('❌ पहले कोई भजन चुनें');
+            }
+        }
+
+        function updateCurrentPlaying() {
+            if (currentVideoIndex !== -1) {
+                const video = videoDatabase[currentVideoIndex];
+                document.getElementById('currentTitle').textContent = video.title;
+                document.getElementById('currentStatus').textContent = 'चल रहा है • ' + video.type;
+            }
+        }
+
+        // Screen Switching Function
+        function switchScreen(screenNumber) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById('screen' + screenNumber).classList.add('active');
+            document.querySelectorAll('.nav-tab')[screenNumber].classList.add('active');
+            
+            currentScreen = screenNumber;
+        }
+
+        // Utility Functions
+        function showNotification(message) {
+            notificationElement.textContent = message;
+            notificationElement.style.display = 'block';
+            setTimeout(() => {
+                notificationElement.style.display = 'none';
+            }, 3000);
+        }
+
+        function saveJapData() {
+            const japData = {
+                japCount: japCount,
+                todayCount: todayCount,
+                totalCount: totalCount,
+                japTarget: japTarget,
+                soundEnabled: soundEnabled,
+                lastUpdate: new Date().toDateString()
+            };
+            localStorage.setItem('radhaJapData', JSON.stringify(japData));
+        }
+
+        function loadJapData() {
+            const savedData = localStorage.getItem('radhaJapData');
+            if (savedData) {
+                const japData = JSON.parse(savedData);
+                
+                // Check if it's a new day
+                const today = new Date().toDateString();
+                if (japData.lastUpdate !== today) {
+                    japData.todayCount = 0; // Reset daily count
+                }
+                
+                japCount = japData.japCount || 0;
+                todayCount = japData.todayCount || 0;
+                totalCount = japData.totalCount || 0;
+                japTarget = japData.japTarget || 108;
+                soundEnabled = japData.soundEnabled !== undefined ? japData.soundEnabled : true;
+                
+                updateJapDisplay();
+                updateSoundUI();
+            }
+        }
+
+        // Video Database
+        const videoDatabase = [
+            {
+                title: "श्री कृष्ण गोविन्द हरे मुरारे",
+                embedUrl: "https://www.youtube.com/embed/xDYTKQc9Gr8",
+                youtubeUrl: "https://www.youtube.com/watch?v=xDYTKQc9Gr8",
+                duration: "4:32",
+                type: "भक्ति भजन"
+            },
+            {
+                title: "राधे राधे भजन",
+                embedUrl: "https://www.youtube.com/embed/fiOu9jAr78k", 
+                youtubeUrl: "https://www.youtube.com/watch?v=fiOu9jAr78k",
+                duration: "5:15",
+                type: "राधा भजन"
+            },
+            {
+                title: "मेरे तो गिरिधर गोपाल",
+                embedUrl: "https://www.youtube.com/embed/Feoea8FQTI0",
+                youtubeUrl: "https://www.youtube.com/watch?v=Feoea8FQTI0",
+                duration: "6:20",
+                type: "क्लासिक भजन"
+            },
+            {
+                title: "श्री कृष्ण शरणम ममः",
+                embedUrl: "https://www.youtube.com/embed/PfF_cE__jFw",
+                youtubeUrl: "https://www.youtube.com/watch?v=PfF_cE__jFw",
+                duration: "3:45",
+                type: "मंत्र भजन"
+            }
+        ];
+
+        // Initialize App - SIMPLE AND WORKING
+        window.addEventListener('load', function() {
+            showSplashScreen();
+            
+            // Auto play first video after splash screen
+            setTimeout(() => {
+                if (currentScreen === 0) {
+                    playVideo(0);
+                }
+            }, 4500);
+        });
+
+        // Add click sounds for better UX
+        function playClickSound() {
+            // Simple click sound simulation
+        }
+
+        document.querySelectorAll('button, .nav-tab, .bhajan-item, .toggle-switch').forEach(element => {
+            element.addEventListener('click', playClickSound);
+        });
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target === shareModal) {
+                closeShareModal();
+            }
+            if (event.target === targetModal) {
+                closeTargetModal();
+            }
+            if (event.target === malaPopup) {
+                closeMalaPopup();
+            }
+        });
+    </script>
+</body>
+</html>
