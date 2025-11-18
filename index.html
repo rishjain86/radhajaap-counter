@@ -16,7 +16,8 @@
             background: linear-gradient(135deg, #FEFCE8 0%, #FFFBEB 100%);
             min-height: 100vh;
             transition: all 0.3s ease;
-            overflow: hidden;
+            /* ✅ 1. SCROLL FIX */
+            overflow-y: auto;
         }
 
         body.dark-mode {
@@ -531,6 +532,57 @@
             color: #F59E0B;
         }
 
+        /* ✅ 3. EXIT CONFIRMATION MODAL */
+        .exit-modal-content {
+            background: linear-gradient(135deg, #EF4444, #F87171);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .exit-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .exit-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .exit-message {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .exit-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .exit-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .exit-btn.confirm {
+            background: white;
+            color: #EF4444;
+        }
+
+        .exit-btn.cancel {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
         /* Mala Completion Popup */
         .mala-popup-content {
             background: linear-gradient(135deg, #F59E0B, #D97706);
@@ -755,6 +807,19 @@
         <div class="splash-blessing" id="splashBlessing">भगवान आपको सुख-शांति प्रदान करें</div>
     </div>
 
+    <!-- ✅ 3. EXIT CONFIRMATION MODAL -->
+    <div class="modal" id="exitModal">
+        <div class="exit-modal-content">
+            <div class="exit-icon">🚪</div>
+            <div class="exit-title">ऐप से बाहर जाएं?</div>
+            <div class="exit-message">क्या आप वाकई ऐप से बाहर जाना चाहते हैं?</div>
+            <div class="exit-buttons">
+                <button class="exit-btn cancel" onclick="closeExitModal()">रद्द करें</button>
+                <button class="exit-btn confirm" onclick="confirmExit()">बाहर जाएं</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Mala Completion Popup -->
     <div class="modal" id="malaPopup">
         <div class="mala-popup-content">
@@ -822,6 +887,9 @@
 
     <!-- MAIN MENU SCREEN -->
     <div class="screen" id="mainMenu">
+        <!-- ✅ 2. BACK BUTTON for main menu (exit functionality) -->
+        <button class="back-btn" onclick="openExitModal()">← बैक</button>
+        
         <div class="header">
             <div class="main-title">जय श्री कृष्ण</div>
             <div class="sub-title">राधा जप काउंटर</div>
@@ -857,6 +925,7 @@
 
     <!-- BHAJAN SCREEN -->
     <div class="screen" id="bhajanScreen">
+        <!-- ✅ 2. BACK BUTTON -->
         <button class="back-btn" onclick="showScreen('mainMenu')">← बैक</button>
         
         <div class="header">
@@ -930,6 +999,7 @@
 
     <!-- JAP COUNTER SCREEN -->
     <div class="screen" id="japScreen">
+        <!-- ✅ 2. BACK BUTTON -->
         <button class="back-btn" onclick="showScreen('mainMenu')">← बैक</button>
         
         <div class="header">
@@ -1016,6 +1086,7 @@
 
     <!-- INFO SCREEN -->
     <div class="screen" id="infoScreen">
+        <!-- ✅ 2. BACK BUTTON -->
         <button class="back-btn" onclick="showScreen('mainMenu')">← बैक</button>
         
         <div class="header">
@@ -1073,6 +1144,7 @@
 
     <!-- SETTINGS SCREEN -->
     <div class="screen" id="settingsScreen">
+        <!-- ✅ 2. BACK BUTTON -->
         <button class="back-btn" onclick="showScreen('mainMenu')">← बैक</button>
         
         <div class="header">
@@ -1139,6 +1211,7 @@
 
     <!-- PRIVACY POLICY SCREEN -->
     <div class="screen" id="privacyScreen">
+        <!-- ✅ 2. BACK BUTTON -->
         <button class="back-btn" onclick="showScreen('mainMenu')">← बैक</button>
         
         <div class="header">
@@ -1245,6 +1318,27 @@
                 type: "महामंत्र"
             }
         ];
+
+        // ✅ 3. EXIT CONFIRMATION FUNCTIONS
+        function openExitModal() {
+            document.getElementById('exitModal').style.display = 'flex';
+        }
+
+        function closeExitModal() {
+            document.getElementById('exitModal').style.display = 'none';
+        }
+
+        function confirmExit() {
+            // Close the app/window
+            if (navigator.app) {
+                navigator.app.exitApp();
+            } else if (window.close) {
+                window.close();
+            } else {
+                // For browsers that don't allow window.close()
+                window.history.back();
+            }
+        }
 
         // Simple beep sound using Web Audio API
         function playBeep() {
