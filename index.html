@@ -887,7 +887,7 @@
             </div>
             <div class="modal-buttons">
                 <button class="modal-btn cancel" onclick="closeExitModal()">नहीं</button>
-                <button class="modal-btn confirm" onclick="confirmExit()">हाँ, बंद करें</button>
+                <button class="modal-btn confirm" onclick="directExit()">हाँ, बंद करें</button>
             </div>
         </div>
     </div>
@@ -1334,10 +1334,6 @@
             document.getElementById('exitModal').style.display = 'none';
         }
 
-        function confirmExit() {
-            closeExitModal();
-            directExit();
-        }
 
         // Direct Exit Function (without confirmation) - used by confirmExit()
         function directExit() {
@@ -1831,3 +1827,4 @@
     </script>
 </body>
 </html>
+
