@@ -3,236 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radha Krishna Divine</title>
+    <title>Radha Krishna Divine Pro</title>
     <style>
         :root {
-            --primary-gold: #FFD700;
-            --deep-orange: #FF8C00;
-            --glass: rgba(255, 255, 255, 0.15);
-            --text-gold: #FFD700;
+            --gold: #FFD700;
+            --dark-bg: #1a0101;
+            --glass: rgba(255, 255, 255, 0.1);
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
         body {
-            background: radial-gradient(circle, #2c0101 0%, #000000 100%);
+            background: radial-gradient(circle, #3d0202 0%, #000000 100%);
             color: white;
             min-height: 100vh;
-            overflow-x: hidden;
+            transition: 0.3s;
         }
 
-        /* Animated Background Sparkles */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.3;
-            z-index: -1;
+        /* Light Mode Toggle */
+        body.light-theme {
+            background: radial-gradient(circle, #fff5e6 0%, #ffcc80 100%);
+            color: #4d2600;
         }
 
-        /* Premium Header */
         .header {
-            padding: 30px 20px;
+            padding: 25px;
             text-align: center;
-            background: linear-gradient(to bottom, rgba(255, 140, 0, 0.2), transparent);
-            border-bottom: 1px solid var(--primary-gold);
+            border-bottom: 1px solid var(--gold);
+            background: rgba(0,0,0,0.3);
         }
 
-        .header h1 {
-            font-size: 28px;
-            letter-spacing: 2px;
-            color: var(--text-gold);
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
-            text-transform: uppercase;
-        }
+        .header h1 { color: var(--gold); text-shadow: 0 0 10px rgba(255,215,0,0.5); }
 
-        /* Screen Container */
-        .screen {
-            display: none;
-            padding: 20px;
-            animation: fadeIn 0.5s ease-in;
-        }
-
+        .screen { display: none; padding: 20px; padding-bottom: 80px; animation: slideUp 0.4s ease; }
         .screen.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
 
-        /* Dhinchak Menu Cards */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .menu-card {
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .card {
             background: var(--glass);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 25px 15px;
+            border: 1px solid rgba(255,215,0,0.2);
+            padding: 25px 10px;
             border-radius: 20px;
             text-align: center;
-            transition: 0.3s;
             cursor: pointer;
         }
 
-        .menu-card:active { transform: scale(0.9); border-color: var(--primary-gold); }
-
-        .menu-card i {
-            font-size: 30px;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        /* Counter UI - The Main Attraction */
-        .counter-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--primary-gold);
+        /* Jap UI */
+        .counter-circle {
+            width: 220px; height: 220px;
+            border: 5px solid var(--gold);
             border-radius: 50%;
-            width: 250px;
-            height: 250px;
-            margin: 40px auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 30px rgba(255, 140, 0, 0.4);
-            position: relative;
+            margin: 30px auto;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            box-shadow: 0 0 20px var(--gold);
         }
 
-        .counter-display {
-            font-size: 60px;
-            font-weight: bold;
-            color: var(--primary-gold);
-        }
-
-        .btn-jap {
+        .btn-main {
             background: linear-gradient(45deg, #FF8C00, #FFD700);
-            border: none;
-            width: 100%;
-            padding: 20px;
-            border-radius: 50px;
-            color: #000;
-            font-size: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
-            cursor: pointer;
+            border: none; width: 100%; padding: 18px;
+            border-radius: 50px; font-weight: bold; font-size: 18px;
+            cursor: pointer; margin-top: 10px;
         }
 
-        /* Ads Space */
+        /* Bhajan List */
+        .bhajan-row {
+            background: rgba(255,255,255,0.05);
+            padding: 15px; border-radius: 10px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-left: 4px solid var(--gold);
+        }
+
+        .play-btn { color: var(--gold); font-weight: bold; cursor: pointer; }
+
+        .video-box { width: 100%; height: 200px; background: #000; border-radius: 15px; margin-bottom: 15px; overflow: hidden; }
+
         .banner-ad {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: #111;
-            border-top: 1px solid var(--primary-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #444;
-        }
-
-        /* Utility */
-        .back-btn {
-            color: var(--primary-gold);
-            text-decoration: none;
-            font-size: 14px;
-            margin-bottom: 20px;
-            display: inline-block;
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 50px;
+            background: #000; border-top: 1px solid var(--gold);
+            display: flex; align-items: center; justify-content: center; font-size: 10px;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Divine Radha</h1>
+        <h1 id="topTitle">Divine Radha</h1>
     </div>
 
     <div class="screen active" id="mainMenu">
         <div class="menu-grid">
-            <div class="menu-card" onclick="startJap()">
-                <span>📿</span>
-                <p>Start Jap</p>
-            </div>
-            <div class="menu-card" onclick="showScreen('bhajan')">
-                <span>🎵</span>
-                <p>Bhajans</p>
-            </div>
-            <div class="menu-card" onclick="showScreen('stats')">
-                <span>📊</span>
-                <p>History</p>
-            </div>
-            <div class="menu-card" onclick="showScreen('settings')">
-                <span>⚙️</span>
-                <p>Settings</p>
-            </div>
+            <div class="card" onclick="showScreen('japScreen')"><span>📿</span><p>Start Jap</p></div>
+            <div class="card" onclick="showScreen('bhajanScreen')"><span>🎵</span><p>Bhajans</p></div>
+            <div class="card" onclick="showScreen('historyScreen')"><span>📊</span><p>History</p></div>
+            <div class="card" onclick="showScreen('settingsScreen')"><span>⚙️</span><p>Settings</p></div>
         </div>
     </div>
 
     <div class="screen" id="japScreen">
-        <a href="#" class="back-btn" onclick="showScreen('mainMenu')">← EXIT TO MENU</a>
-        <div class="counter-box">
-            <p style="font-size: 12px; color: var(--primary-gold);">COUNT</p>
-            <div class="counter-display" id="japCount">0</div>
-            <p style="font-size: 14px; margin-top: 5px;">Radhe Radhe</p>
+        <button class="btn-main" onclick="showScreen('mainMenu')" style="padding: 10px; background: none; color: var(--gold); border: 1px solid var(--gold);">← BACK</button>
+        <div class="counter-circle">
+            <h2 id="displayCount" style="font-size: 50px;">0</h2>
+            <p>Radhe Radhe</p>
         </div>
-        <button class="btn-jap" onclick="incrementJap()">Press to Jap</button>
-        <p style="text-align: center; margin-top: 20px; color: #888;">Target: 108</p>
+        <button class="btn-main" onclick="handleJap()">PRESS TO JAP</button>
+        <p style="text-align: center; margin-top: 15px;">Target: 108 | Today: <span id="todayStat">0</span></p>
     </div>
 
     <div class="screen" id="bhajanScreen">
-        <a href="#" class="back-btn" onclick="showScreen('mainMenu')">← BACK</a>
-        <h2 style="color: var(--primary-gold); margin-bottom: 15px;">Sacred List</h2>
-        <div class="menu-card" style="width: 100%; margin-bottom: 10px; text-align: left;">
-            🎵 Shree Krishna Govind...
+        <button class="btn-main" onclick="showScreen('mainMenu')" style="padding: 10px; margin-bottom:10px;">← BACK</button>
+        <div class="video-box" id="player">
+            <div style="padding: 80px 20px; text-align: center;">Select a Bhajan to Play</div>
         </div>
-        <div class="menu-card" style="width: 100%; text-align: left;">
-            🎵 Radhe Radhe Barsane...
+        <div id="bhajanList">
+            <div class="bhajan-row"><span>1. Shree Krishna Govind</span> <span class="play-btn" onclick="playVid('xDYTKQc9Gr8')">PLAY</span></div>
+            <div class="bhajan-row"><span>2. Radhe Radhe Barsane</span> <span class="play-btn" onclick="playVid('fiOu9jAr78k')">PLAY</span></div>
+            <div class="bhajan-row"><span>3. Mere To Giridhar</span> <span class="play-btn" onclick="playVid('Feoea8FQTI0')">PLAY</span></div>
         </div>
     </div>
 
-    <div class="banner-ad">
-        AD SPACE : ca-app-pub-6519206650027176/5330315933
+    <div class="screen" id="historyScreen">
+        <button class="btn-main" onclick="showScreen('mainMenu')" style="padding: 10px; margin-bottom:10px;">← BACK</button>
+        <div class="card" style="width: 100%;">
+            <h3>Life-Time Japs</h3>
+            <h1 id="totalJaps" style="font-size: 40px; color: var(--gold); margin: 10px 0;">0</h1>
+            <p>Total Malas: <span id="totalMalas">0</span></p>
+        </div>
     </div>
+
+    <div class="screen" id="settingsScreen">
+        <button class="btn-main" onclick="showScreen('mainMenu')" style="padding: 10px; margin-bottom:10px;">← BACK</button>
+        <div class="card" style="width: 100%; text-align: left; margin-bottom: 10px;" onclick="toggleTheme()">
+            🌓 Toggle Dark/Light Mode
+        </div>
+        <div class="card" style="width: 100%; text-align: left; background: rgba(255,0,0,0.1);" onclick="resetData()">
+            🗑️ Reset All Data
+        </div>
+    </div>
+
+    <div class="banner-ad">Banner: ca-app-pub-6519206650027176/5330315933</div>
 
     <script>
-        const INTERSTITIAL_ID = 'ca-app-pub-6519206650027176/7837770216';
-        let count = 0;
+        // Storage Logic
+        let stats = JSON.parse(localStorage.getItem('radhaStats')) || { total: 0, today: 0, date: new Date().toDateString() };
+
+        function save() {
+            localStorage.setItem('radhaStats', JSON.stringify(stats));
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('displayCount').innerText = stats.today;
+            document.getElementById('todayStat').innerText = stats.today;
+            document.getElementById('totalJaps').innerText = stats.total;
+            document.getElementById('totalMalas').innerText = Math.floor(stats.total / 108);
+        }
+
+        function handleJap() {
+            stats.total++;
+            stats.today++;
+            if (navigator.vibrate) navigator.vibrate(50);
+            
+            if (stats.today % 108 === 0) {
+                alert("Mala Completed! Radhe Radhe!");
+                // Trigger Interstitial Ad logic here
+                console.log("Ad Trigger: ca-app-pub-6519206650027176/7837770216");
+            }
+            save();
+        }
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            updateUI();
         }
 
-        function startJap() {
-            // Interstitial Ad Trigger logic can go here
-            console.log("Loading Ad: " + INTERSTITIAL_ID);
-            showScreen('japScreen');
+        function playVid(id) {
+            document.getElementById('player').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
         }
 
-        function incrementJap() {
-            count++;
-            document.getElementById('japCount').innerText = count;
-            
-            // Haptic Feedback
-            if (navigator.vibrate) navigator.vibrate(60);
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
 
-            // Ad on 108
-            if (count % 108 === 0) {
-                alert("Mala Complete! Showing Ad...");
+        function resetData() {
+            if(confirm("Are you sure? All counts will be zero.")) {
+                stats = { total: 0, today: 0, date: new Date().toDateString() };
+                save();
             }
         }
+
+        // Check if day changed to reset today's count
+        if (stats.date !== new Date().toDateString()) {
+            stats.today = 0;
+            stats.date = new Date().toDateString();
+            save();
+        }
+
+        updateUI();
     </script>
 </body>
 </html>
