@@ -3,124 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radha Krishna Jap - Rishit</title>
+    <title>Radha Krishna Divine</title>
     <style>
-        /* CSS remains same as previous version - Keeping it clean and English */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: linear-gradient(135deg, #FEFCE8 0%, #FFFBEB 100%); min-height: 100vh; overflow-y: auto; }
-        body.dark-mode { background: #1a1a2e; color: white; }
-        .header { background: linear-gradient(135deg, #D97706, #F59E0B); color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center; }
-        .screen { display: none; padding: 20px; padding-bottom: 70px; } /* Space for Banner */
+        :root {
+            --primary-gold: #FFD700;
+            --deep-orange: #FF8C00;
+            --glass: rgba(255, 255, 255, 0.15);
+            --text-gold: #FFD700;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle, #2c0101 0%, #000000 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Sparkles */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        /* Premium Header */
+        .header {
+            padding: 30px 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(255, 140, 0, 0.2), transparent);
+            border-bottom: 1px solid var(--primary-gold);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: var(--text-gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            text-transform: uppercase;
+        }
+
+        /* Screen Container */
+        .screen {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
         .screen.active { display: block; }
-        .menu-btn { width: 100%; background: linear-gradient(135deg, #D97706, #F59E0B); color: white; border: none; padding: 18px; border-radius: 15px; font-size: 18px; font-weight: bold; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; }
-        .content-box { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 2px solid #F59E0B; }
-        body.dark-mode .content-box { background: #2d3748; border-color: #4a5568; }
-        .jap-counter-container { background: linear-gradient(135deg, #8B5CF6, #A78BFA); border-radius: 20px; padding: 25px; text-align: center; color: white; }
-        .counter-display { font-size: 4rem; font-weight: bold; margin: 15px 0; }
-        .increment-btn { width: 100%; background: #10B981; color: white; border: none; padding: 20px; border-radius: 15px; font-size: 22px; font-weight: bold; cursor: pointer; }
-        .notification { position: fixed; top: 20px; right: 20px; background: #10B981; color: white; padding: 12px; border-radius: 10px; display: none; z-index: 1000; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dhinchak Menu Cards */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .menu-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 25px 15px;
+            border-radius: 20px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .menu-card:active { transform: scale(0.9); border-color: var(--primary-gold); }
+
+        .menu-card i {
+            font-size: 30px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* Counter UI - The Main Attraction */
+        .counter-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary-gold);
+            border-radius: 50%;
+            width: 250px;
+            height: 250px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.4);
+            position: relative;
+        }
+
+        .counter-display {
+            font-size: 60px;
+            font-weight: bold;
+            color: var(--primary-gold);
+        }
+
+        .btn-jap {
+            background: linear-gradient(45deg, #FF8C00, #FFD700);
+            border: none;
+            width: 100%;
+            padding: 20px;
+            border-radius: 50px;
+            color: #000;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+            cursor: pointer;
+        }
+
+        /* Ads Space */
+        .banner-ad {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #111;
+            border-top: 1px solid var(--primary-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #444;
+        }
+
+        /* Utility */
+        .back-btn {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
 
-    <div class="splash-screen" id="splashScreen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#F59E0B; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10000; color:white;">
-        <h1 style="font-size:32px;">Jai Shree Krishna</h1>
-        <p>Loading Devotional Experience...</p>
+    <div class="header">
+        <h1>Divine Radha</h1>
     </div>
 
-    <div class="screen active" id="mainMenu" style="display:none;">
-        <div class="header">
-            <h2>Jai Shree Krishna</h2>
-            <p>Radha Jap Counter</p>
-        </div>
-        <div class="menu-buttons">
-            <button class="menu-btn" onclick="showBhajan()">🎵 Bhajan Collection</button>
-            <button class="menu-btn" onclick="showJap()">📿 Jap Counter</button>
-            <button class="menu-btn" onclick="showScreen('settings')">⚙️ Settings</button>
+    <div class="screen active" id="mainMenu">
+        <div class="menu-grid">
+            <div class="menu-card" onclick="startJap()">
+                <span>📿</span>
+                <p>Start Jap</p>
+            </div>
+            <div class="menu-card" onclick="showScreen('bhajan')">
+                <span>🎵</span>
+                <p>Bhajans</p>
+            </div>
+            <div class="menu-card" onclick="showScreen('stats')">
+                <span>📊</span>
+                <p>History</p>
+            </div>
+            <div class="menu-card" onclick="showScreen('settings')">
+                <span>⚙️</span>
+                <p>Settings</p>
+            </div>
         </div>
     </div>
 
     <div class="screen" id="japScreen">
-        <button onclick="showScreen('mainMenu')" style="margin-bottom:10px; padding:8px;">← Back</button>
-        <div class="jap-counter-container">
+        <a href="#" class="back-btn" onclick="showScreen('mainMenu')">← EXIT TO MENU</a>
+        <div class="counter-box">
+            <p style="font-size: 12px; color: var(--primary-gold);">COUNT</p>
             <div class="counter-display" id="japCount">0</div>
-            <p style="margin-bottom:20px; font-weight:bold;">Om Radhe Radhe</p>
-            <button class="increment-btn" onclick="incrementJap()">Count Jap</button>
+            <p style="font-size: 14px; margin-top: 5px;">Radhe Radhe</p>
+        </div>
+        <button class="btn-jap" onclick="incrementJap()">Press to Jap</button>
+        <p style="text-align: center; margin-top: 20px; color: #888;">Target: 108</p>
+    </div>
+
+    <div class="screen" id="bhajanScreen">
+        <a href="#" class="back-btn" onclick="showScreen('mainMenu')">← BACK</a>
+        <h2 style="color: var(--primary-gold); margin-bottom: 15px;">Sacred List</h2>
+        <div class="menu-card" style="width: 100%; margin-bottom: 10px; text-align: left;">
+            🎵 Shree Krishna Govind...
+        </div>
+        <div class="menu-card" style="width: 100%; text-align: left;">
+            🎵 Radhe Radhe Barsane...
         </div>
     </div>
 
-    <div id="banner-ad-container" style="position:fixed; bottom:0; left:0; width:100%; height:50px; background:#eee; display:none; align-items:center; justify-content:center; font-size:12px; color:#666;">
-        Banner Ad Placeholder
+    <div class="banner-ad">
+        AD SPACE : ca-app-pub-6519206650027176/5330315933
     </div>
 
-    <div class="notification" id="notification"></div>
-
     <script>
-        // AD CONFIGURATION
-        const AD_UNITS = {
-            INTERSTITIAL: 'ca-app-pub-6519206650027176/7837770216',
-            BANNER: 'ca-app-pub-6519206650027176/5330315933'
-        };
-
-        let japCount = 0;
-
-        window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('splashScreen').style.display = 'none';
-                document.getElementById('mainMenu').style.display = 'block';
-                initAds();
-            }, 3000);
-        };
+        const INTERSTITIAL_ID = 'ca-app-pub-6519206650027176/7837770216';
+        let count = 0;
 
         function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
 
-        // Add Interstitial Ad when moving to Jap/Bhajan
-        function showJap() {
-            showInterstitial();
+        function startJap() {
+            // Interstitial Ad Trigger logic can go here
+            console.log("Loading Ad: " + INTERSTITIAL_ID);
             showScreen('japScreen');
         }
 
         function incrementJap() {
-            japCount++;
-            document.getElementById('japCount').innerText = japCount;
-            if(navigator.vibrate) navigator.vibrate(50);
+            count++;
+            document.getElementById('japCount').innerText = count;
             
-            // Show ad every 108 counts
-            if(japCount % 108 === 0) {
-                showInterstitial();
+            // Haptic Feedback
+            if (navigator.vibrate) navigator.vibrate(60);
+
+            // Ad on 108
+            if (count % 108 === 0) {
+                alert("Mala Complete! Showing Ad...");
             }
-        }
-
-        // ADS LOGIC (Mockup for Cordova/Capacitor AdMob Plus)
-        function initAds() {
-            console.log("Ads Initialized");
-            // Logic to show Banner
-            const banner = document.getElementById('banner-ad-container');
-            banner.style.display = 'flex'; 
-            
-            // If using a plugin:
-            // admob.banner.show({ id: AD_UNITS.BANNER });
-        }
-
-        function showInterstitial() {
-            console.log("Loading Interstitial: " + AD_UNITS.INTERSTITIAL);
-            // If using a plugin:
-            /*
-            admob.interstitial.load({ id: AD_UNITS.INTERSTITIAL }).then(() => {
-                admob.interstitial.show();
-            });
-            */
-            showNotification("Loading Blissful Ad...");
-        }
-
-        function showNotification(msg) {
-            const n = document.getElementById('notification');
-            n.innerText = msg;
-            n.style.display = 'block';
-            setTimeout(() => n.style.display = 'none', 2000);
         }
     </script>
 </body>
