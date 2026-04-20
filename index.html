@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radha Krishna Divine Pro</title>
+    <title>Divine Jaap Pro</title>
     <style>
         :root {
-            --gold: #FFD700;
-            --dark-bg: #1a0101;
+            --primary-color: #FFD700;
+            --dark-bg: #111;
             --glass: rgba(255, 255, 255, 0.1);
+            --bg-gradient: radial-gradient(circle, #333 0%, #000 100%);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: background 0.3s ease, color 0.3s ease; }
 
         body {
-            background: radial-gradient(circle, #3d0202 0%, #000000 100%);
+            background: var(--bg-gradient);
             color: white;
             min-height: 100vh;
             overflow-x: hidden;
@@ -23,173 +24,244 @@
         .header {
             padding: 20px;
             text-align: center;
-            border-bottom: 1px solid var(--gold);
-            background: rgba(0,0,0,0.5);
+            border-bottom: 2px solid var(--primary-color);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
         }
 
-        .header h1 { color: var(--gold); font-size: 24px; text-transform: uppercase; }
+        .header h1 { color: var(--primary-color); font-size: 26px; text-transform: uppercase; letter-spacing: 2px; }
 
-        .screen { display: none; padding: 20px; padding-bottom: 100px; animation: fadeIn 0.4s ease; }
+        .screen { display: none; padding: 20px; padding-bottom: 120px; animation: fadeIn 0.4s ease; }
         .screen.active { display: block; }
 
-        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
 
         /* Menu Grid */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
         .card {
             background: var(--glass);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,215,0,0.2);
-            padding: 25px 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 30px 10px;
             border-radius: 20px;
             text-align: center;
+            cursor: pointer;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
+        .card h2 { font-size: 40px; margin-bottom: 10px; }
+        .card p { font-weight: bold; font-size: 16px; color: #ddd; }
 
-        /* Jap UI */
+        /* Jaap UI */
         .counter-circle {
-            width: 200px; height: 200px;
-            border: 5px solid var(--gold);
+            width: 250px; height: 250px;
+            border: 8px solid var(--primary-color);
             border-radius: 50%;
-            margin: 30px auto;
+            margin: 40px auto;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            box-shadow: 0 0 20px rgba(255,215,0,0.4);
+            box-shadow: 0 0 30px var(--primary-color);
+            background: rgba(0,0,0,0.5);
+            cursor: pointer;
+            user-select: none;
         }
+        .counter-circle:active { transform: scale(0.95); }
 
         .btn-main {
-            background: linear-gradient(45deg, #FF8C00, #FFD700);
+            background: var(--primary-color);
             border: none; width: 100%; padding: 18px;
             border-radius: 50px; font-weight: bold; font-size: 18px;
-            color: #000; cursor: pointer;
+            color: #000; cursor: pointer; margin-top: 15px;
         }
+        .btn-outline { background: transparent; color: white; border: 1px solid white; }
 
-        /* Banner Placeholder (Important for Ads) */
-        #ad-banner-space {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #444;
-            border-top: 1px solid var(--gold);
-            z-index: 9999;
+        /* Audio Player */
+        .audio-card {
+            background: var(--glass); padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid var(--primary-color);
         }
+        audio { width: 100%; margin-top: 10px; border-radius: 30px; }
+
+        /* Ad Banner Placeholder */
+        #ad-banner-space {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 50px;
+            background: #111; display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: #666; border-top: 1px solid #333; z-index: 9999;
+        }
+        
+        .mantra-text { text-align: center; font-size: 20px; margin-top: 20px; font-style: italic; color: #ccc; }
+        .mala-count { text-align: center; color: var(--primary-color); margin-top: 10px; font-weight: bold; font-size: 20px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Divine Radha</h1>
+        <h1 id="appTitle">Divine Jaap Pro</h1>
     </div>
 
     <div class="screen active" id="mainMenu">
+        <h3 style="text-align: center; color: #aaa; margin-bottom: 10px;">Select Your Deity</h3>
         <div class="menu-grid">
-            <div class="card" onclick="showScreen('japScreen')"><span>📿</span><p>Start Jap</p></div>
-            <div class="card" onclick="showScreen('bhajanScreen')"><span>🎵</span><p>Bhajans</p></div>
-            <div class="card" onclick="showScreen('historyScreen')"><span>📊</span><p>History</p></div>
-            <div class="card" onclick="showScreen('settingsScreen')"><span>⚙️</span><p>Settings</p></div>
+            <div class="card" onclick="selectDeity('radha')"><h2>🦚</h2><p>Radha Krishna</p></div>
+            <div class="card" onclick="selectDeity('shiva')"><h2>🔱</h2><p>Shiv Ji</p></div>
+            <div class="card" onclick="selectDeity('ram')"><h2>🏹</h2><p>Shree Ram</p></div>
+            <div class="card" onclick="selectDeity('navkar')"><h2>🕉️</h2><p>Navkar Mantra</p></div>
         </div>
+        <button class="btn-main btn-outline" onclick="resetAllData()" style="margin-top: 40px;">Reset All Data</button>
     </div>
 
     <div class="screen" id="japScreen">
-        <button class="btn-main" onclick="showScreen('mainMenu')" style="background:none; color:var(--gold); border:1px solid var(--gold); margin-bottom:15px;">← BACK</button>
-        <div class="counter-circle">
-            <h2 id="displayCount" style="font-size: 50px;">0</h2>
-            <p>Japs Done</p>
+        <button class="btn-main btn-outline" onclick="showScreen('mainMenu'); resetTheme();">← Back to Menu</button>
+        
+        <p class="mantra-text" id="activeMantra">Mantra here...</p>
+        
+        <div class="counter-circle" onclick="handleJap()">
+            <h2 id="displayCount" style="font-size: 60px; color: white;">0</h2>
+            <p style="color: #bbb;">Tap to Jaap</p>
         </div>
-        <button class="btn-main" onclick="handleJap()">PRESS TO JAP</button>
-        <p style="text-align: center; margin-top: 20px; color: #888;">Target: 108</p>
+        
+        <div class="mala-count" id="malaDisplay">Malas Completed: 0</div>
+
+        <button class="btn-main" onclick="showScreen('audioScreen')">🎵 Listen Aarti & Bhajans</button>
     </div>
 
-    <div class="screen" id="bhajanScreen">
-        <button class="btn-main" onclick="showScreen('mainMenu')">← BACK</button>
-        <p style="margin-top:20px; text-align:center;">Bhajan List Loading...</p>
-    </div>
-
-    <div class="screen" id="historyScreen">
-        <button class="btn-main" onclick="showScreen('mainMenu')">← BACK</button>
-        <div class="card" style="margin-top:20px;">
-            <p>Total Life-Time Japs</p>
-            <h1 id="totalHistory">0</h1>
-        </div>
-    </div>
-
-    <div class="screen" id="settingsScreen">
-        <button class="btn-main" onclick="showScreen('mainMenu')">← BACK</button>
-        <div class="card" style="margin-top:20px;" onclick="resetData()">Reset App Data</div>
+    <div class="screen" id="audioScreen">
+        <button class="btn-main btn-outline" onclick="showScreen('japScreen')">← Back to Jaap</button>
+        <h3 style="margin: 20px 0; text-align: center; color: var(--primary-color);">Devotional Tracks</h3>
+        
+        <div id="audioList">
+            </div>
     </div>
 
     <div id="ad-banner-space">
-        AD LOADING...
+        AdMob Banner Space
     </div>
 
-    <script src="cordova.js"></script> <script>
-        // AD CONFIGURATION
+    <script src="cordova.js"></script>
+    <script>
+        // ADMOB CONFIGURATION
         const AD_IDS = {
             banner: 'ca-app-pub-6519206650027176/5330315933',
             interstitial: 'ca-app-pub-6519206650027176/7837770216'
         };
 
-        let stats = JSON.parse(localStorage.getItem('radhaStats')) || { total: 0, today: 0 };
+        // DEITY CONFIGURATION & THEMES
+        const deityData = {
+            radha: { 
+                name: "Radha Krishna", mantra: "Hare Krishna Hare Rama", color: "#FF1493", bg: "radial-gradient(circle, #4a0024 0%, #000000 100%)",
+                tracks: [{ title: "Achyutam Keshavam", file: "radha_bhajan1.mp3" }, { title: "Radha Krishna Aarti", file: "radha_aarti.mp3" }]
+            },
+            shiva: { 
+                name: "Om Namah Shivay", mantra: "Om Namah Shivaya", color: "#00BFFF", bg: "radial-gradient(circle, #001a33 0%, #000000 100%)",
+                tracks: [{ title: "Shiv Tandav Stotram", file: "shiv_tandav.mp3" }, { title: "Om Jai Shiv Omkara", file: "shiv_aarti.mp3" }]
+            },
+            ram: { 
+                name: "Jai Shree Ram", mantra: "Shri Ram Jai Ram Jai Jai Ram", color: "#FF8C00", bg: "radial-gradient(circle, #4d2600 0%, #000000 100%)",
+                tracks: [{ title: "Mangal Bhavan Amangal Hari", file: "ram_bhajan.mp3" }, { title: "Shri Ram Chandra Kripalu", file: "ram_aarti.mp3" }]
+            },
+            navkar: { 
+                name: "Navkar Mantra", mantra: "Namo Arihantanam, Namo Siddhanam...", color: "#FFD700", bg: "radial-gradient(circle, #332b00 0%, #000000 100%)",
+                tracks: [{ title: "Navkar Mantra Mahamantra", file: "navkar.mp3" }]
+            }
+        };
 
-        // 1. Initialize Ads on Device Ready
+        // STATE MANAGEMENT
+        let currentDeity = null;
+        let stats = JSON.parse(localStorage.getItem('divineStats')) || {
+            radha: 0, shiva: 0, ram: 0, navkar: 0
+        };
+
+        // ADMOB INITIALIZATION
         document.addEventListener('deviceready', () => {
-            initBannerAd();
-            prepareInterstitial();
-        }, false);
-
-        function initBannerAd() {
             if (window.admob) {
                 admob.banner.show({ id: AD_IDS.banner });
+                prepareInterstitial();
             }
-        }
+        }, false);
 
         function prepareInterstitial() {
-            if (window.admob) {
-                admob.interstitial.load({ id: AD_IDS.interstitial });
-            }
+            if (window.admob) admob.interstitial.load({ id: AD_IDS.interstitial });
         }
 
-        function showInterstitial() {
-            if (window.admob) {
-                admob.interstitial.show().then(() => {
-                    prepareInterstitial(); // Load next one after showing
-                });
-            }
-        }
-
-        // 2. Jap Logic with Ad Trigger
-        function handleJap() {
-            stats.total++;
-            stats.today++;
-            
-            document.getElementById('displayCount').innerText = stats.today;
-            localStorage.setItem('radhaStats', JSON.stringify(stats));
-
-            if (navigator.vibrate) navigator.vibrate(50);
-
-            // Show Interstitial on every 108 counts (Mala Complete)
-            if (stats.today % 108 === 0) {
-                showInterstitial();
-            }
-        }
-
+        // APP LOGIC
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.getElementById('totalHistory').innerText = stats.total;
         }
 
-        function resetData() {
-            if(confirm("Clear everything?")) {
-                stats = { total: 0, today: 0 };
-                localStorage.clear();
-                location.reload();
+        function selectDeity(deityKey) {
+            currentDeity = deityKey;
+            const data = deityData[deityKey];
+            
+            // Apply Theme
+            document.documentElement.style.setProperty('--primary-color', data.color);
+            document.documentElement.style.setProperty('--bg-gradient', data.bg);
+            document.getElementById('appTitle').innerText = data.name;
+            document.getElementById('activeMantra').innerText = `"${data.mantra}"`;
+            
+            updateDisplay();
+            loadAudio(data.tracks);
+            showScreen('japScreen');
+        }
+
+        function resetTheme() {
+            document.documentElement.style.setProperty('--primary-color', '#FFD700');
+            document.documentElement.style.setProperty('--bg-gradient', 'radial-gradient(circle, #333 0%, #000 100%)');
+            document.getElementById('appTitle').innerText = 'Divine Jaap Pro';
+        }
+
+        function handleJap() {
+            stats[currentDeity]++;
+            localStorage.setItem('divineStats', JSON.stringify(stats));
+            
+            // Haptic Feedback
+            if (navigator.vibrate) navigator.vibrate(50);
+            
+            updateDisplay();
+
+            // Interstitial Logic for Exact 108 counts (1 Mala)
+            if (stats[currentDeity] % 108 === 0) {
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Long vibration for Mala complete
+                alert("Jai Ho! 1 Mala Completed! 🙏");
+                if (window.admob) {
+                    admob.interstitial.show().then(() => prepareInterstitial());
+                }
+            } else if (stats[currentDeity] % 108 === 100) {
+                // Preload backup check at 100 counts
+                prepareInterstitial();
+            }
+        }
+
+        function updateDisplay() {
+            const count = stats[currentDeity];
+            const malas = Math.floor(count / 108);
+            const currentMalaCount = count % 108;
+            
+            document.getElementById('displayCount').innerText = currentMalaCount;
+            document.getElementById('malaDisplay').innerText = `Malas Completed: ${malas}`;
+        }
+
+        function loadAudio(tracks) {
+            const audioDiv = document.getElementById('audioList');
+            audioDiv.innerHTML = '';
+            
+            tracks.forEach(track => {
+                // Note: Place your actual MP3 files in an 'audio' folder inside your project
+                audioDiv.innerHTML += `
+                    <div class="audio-card">
+                        <h4>${track.title}</h4>
+                        <audio controls controlsList="nodownload">
+                            <source src="audio/${track.file}" type="audio/mpeg">
+                            Your browser does not support audio.
+                        </audio>
+                    </div>
+                `;
+            });
+        }
+
+        function resetAllData() {
+            if(confirm("Are you sure you want to clear all Jaap history?")) {
+                stats = { radha: 0, shiva: 0, ram: 0, navkar: 0 };
+                localStorage.setItem('divineStats', JSON.stringify(stats));
+                alert("All history reset successfully.");
             }
         }
     </script>
