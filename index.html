@@ -74,11 +74,28 @@
         }
         .btn-outline { background: transparent; color: white; border: 1px solid white; }
 
-        /* Audio Player */
-        .audio-card {
-            background: var(--glass); padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid var(--primary-color);
+        /* YouTube Media Player Styling */
+        .media-card {
+            background: var(--glass); padding: 15px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid var(--primary-color);
         }
-        audio { width: 100%; margin-top: 10px; border-radius: 30px; }
+        
+        /* Responsive YouTube Iframe */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
 
         /* Ad Banner Placeholder */
         #ad-banner-space {
@@ -120,14 +137,14 @@
         
         <div class="mala-count" id="malaDisplay">Malas Completed: 0</div>
 
-        <button class="btn-main" onclick="showScreen('audioScreen')">🎵 Listen Aarti & Bhajans</button>
+        <button class="btn-main" onclick="showScreen('mediaScreen')">📺 Watch Aarti & Bhajans</button>
     </div>
 
-    <div class="screen" id="audioScreen">
+    <div class="screen" id="mediaScreen">
         <button class="btn-main btn-outline" onclick="showScreen('japScreen')">← Back to Jaap</button>
-        <h3 style="margin: 20px 0; text-align: center; color: var(--primary-color);">Devotional Tracks</h3>
+        <h3 style="margin: 20px 0; text-align: center; color: var(--primary-color);">Devotional Videos</h3>
         
-        <div id="audioList">
+        <div id="mediaList">
             </div>
     </div>
 
@@ -143,23 +160,35 @@
             interstitial: 'ca-app-pub-6519206650027176/7837770216'
         };
 
-        // DEITY CONFIGURATION & THEMES
+        // DEITY CONFIGURATION (Replace YT_IDs with actual YouTube Video IDs)
+        // Example: For https://www.youtube.com/watch?v=dQw4w9WgXcQ, the ID is "dQw4w9WgXcQ"
         const deityData = {
             radha: { 
                 name: "Radha Krishna", mantra: "Hare Krishna Hare Rama", color: "#FF1493", bg: "radial-gradient(circle, #4a0024 0%, #000000 100%)",
-                tracks: [{ title: "Achyutam Keshavam", file: "radha_bhajan1.mp3" }, { title: "Radha Krishna Aarti", file: "radha_aarti.mp3" }]
+                videos: [
+                    { title: "Achyutam Keshavam", ytId: "x0bZE7-44xQ" }, // Replace with real ID
+                    { title: "Radha Krishna Aarti", ytId: "7O2HhC27q38" } // Replace with real ID
+                ]
             },
             shiva: { 
                 name: "Om Namah Shivay", mantra: "Om Namah Shivaya", color: "#00BFFF", bg: "radial-gradient(circle, #001a33 0%, #000000 100%)",
-                tracks: [{ title: "Shiv Tandav Stotram", file: "shiv_tandav.mp3" }, { title: "Om Jai Shiv Omkara", file: "shiv_aarti.mp3" }]
+                videos: [
+                    { title: "Shiv Tandav Stotram", ytId: "q6E2X7n-z9A" },
+                    { title: "Om Jai Shiv Omkara", ytId: "aO6B6X3_FkQ" }
+                ]
             },
             ram: { 
                 name: "Jai Shree Ram", mantra: "Shri Ram Jai Ram Jai Jai Ram", color: "#FF8C00", bg: "radial-gradient(circle, #4d2600 0%, #000000 100%)",
-                tracks: [{ title: "Mangal Bhavan Amangal Hari", file: "ram_bhajan.mp3" }, { title: "Shri Ram Chandra Kripalu", file: "ram_aarti.mp3" }]
+                videos: [
+                    { title: "Mangal Bhavan Amangal Hari", ytId: "D8QoN18w42g" },
+                    { title: "Shri Ram Chandra Kripalu", ytId: "w_Q91H84W_0" }
+                ]
             },
             navkar: { 
                 name: "Navkar Mantra", mantra: "Namo Arihantanam, Namo Siddhanam...", color: "#FFD700", bg: "radial-gradient(circle, #332b00 0%, #000000 100%)",
-                tracks: [{ title: "Navkar Mantra Mahamantra", file: "navkar.mp3" }]
+                videos: [
+                    { title: "Navkar Mantra Mahamantra", ytId: "7z3Y8a4b4K8" }
+                ]
             }
         };
 
@@ -185,6 +214,12 @@
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            
+            // Stop videos from playing in background when user leaves the video screen
+            if(id !== 'mediaScreen') {
+                document.getElementById('mediaList').innerHTML = ''; 
+                if(currentDeity) loadMedia(deityData[currentDeity].videos);
+            }
         }
 
         function selectDeity(deityKey) {
@@ -198,7 +233,7 @@
             document.getElementById('activeMantra').innerText = `"${data.mantra}"`;
             
             updateDisplay();
-            loadAudio(data.tracks);
+            loadMedia(data.videos);
             showScreen('japScreen');
         }
 
@@ -217,15 +252,14 @@
             
             updateDisplay();
 
-            // Interstitial Logic for Exact 108 counts (1 Mala)
+            // Interstitial Logic for Exact 108 counts
             if (stats[currentDeity] % 108 === 0) {
-                if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Long vibration for Mala complete
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]); 
                 alert("Jai Ho! 1 Mala Completed! 🙏");
                 if (window.admob) {
                     admob.interstitial.show().then(() => prepareInterstitial());
                 }
             } else if (stats[currentDeity] % 108 === 100) {
-                // Preload backup check at 100 counts
                 prepareInterstitial();
             }
         }
@@ -239,19 +273,21 @@
             document.getElementById('malaDisplay').innerText = `Malas Completed: ${malas}`;
         }
 
-        function loadAudio(tracks) {
-            const audioDiv = document.getElementById('audioList');
-            audioDiv.innerHTML = '';
+        function loadMedia(videos) {
+            const mediaDiv = document.getElementById('mediaList');
+            mediaDiv.innerHTML = '';
             
-            tracks.forEach(track => {
-                // Note: Place your actual MP3 files in an 'audio' folder inside your project
-                audioDiv.innerHTML += `
-                    <div class="audio-card">
-                        <h4>${track.title}</h4>
-                        <audio controls controlsList="nodownload">
-                            <source src="audio/${track.file}" type="audio/mpeg">
-                            Your browser does not support audio.
-                        </audio>
+            videos.forEach(video => {
+                mediaDiv.innerHTML += `
+                    <div class="media-card">
+                        <h4 style="margin-bottom:10px;">${video.title}</h4>
+                        <div class="video-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/${video.ytId}?rel=0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
                     </div>
                 `;
             });
