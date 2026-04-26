@@ -2,44 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Divine Jaap Pro</title>
     <style>
         :root {
             --primary-color: #FFD700;
-            --dark-bg: #111;
-            --glass: rgba(255, 255, 255, 0.1);
             --bg-gradient: radial-gradient(circle, #333 0%, #000 100%);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: background 0.3s ease, color 0.3s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
 
         body {
             background: var(--bg-gradient);
             color: white;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s ease;
         }
 
         .header {
             padding: 20px;
             text-align: center;
-            border-bottom: 2px solid var(--primary-color);
             background: rgba(0,0,0,0.6);
+            border-bottom: 2px solid var(--primary-color);
             backdrop-filter: blur(10px);
         }
 
-        .header h1 { color: var(--primary-color); font-size: 26px; text-transform: uppercase; letter-spacing: 2px; }
+        .header h1 { color: var(--primary-color); font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
 
-        .screen { display: none; padding: 20px; padding-bottom: 120px; animation: fadeIn 0.4s ease; }
-        .screen.active { display: block; }
+        .screen { display: none; padding: 20px; animation: fadeIn 0.4s ease; flex-grow: 1; }
+        .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
         @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
 
         /* Menu Grid */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 400px; }
         .card {
-            background: var(--glass);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.2);
             padding: 30px 10px;
@@ -48,64 +48,34 @@
             cursor: pointer;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
+        .card:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
         .card h2 { font-size: 40px; margin-bottom: 10px; }
-        .card p { font-weight: bold; font-size: 16px; color: #ddd; }
+        .card p { font-weight: bold; font-size: 16px; color: #fff; }
 
         /* Jaap UI */
+        .mantra-text { font-size: 22px; margin-bottom: 20px; font-style: italic; color: #ccc; text-align: center; min-height: 60px; }
+        
         .counter-circle {
-            width: 250px; height: 250px;
+            width: 240px; height: 240px;
             border: 8px solid var(--primary-color);
             border-radius: 50%;
-            margin: 40px auto;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             box-shadow: 0 0 30px var(--primary-color);
             background: rgba(0,0,0,0.5);
             cursor: pointer;
             user-select: none;
+            margin-bottom: 20px;
         }
-        .counter-circle:active { transform: scale(0.95); }
+        .counter-circle:active { transform: scale(0.92); }
+        .count-num { font-size: 70px; color: white; font-weight: bold; }
 
-        .btn-main {
-            background: var(--primary-color);
-            border: none; width: 100%; padding: 18px;
-            border-radius: 50px; font-weight: bold; font-size: 18px;
-            color: #000; cursor: pointer; margin-top: 15px;
-        }
-        .btn-outline { background: transparent; color: white; border: 1px solid white; }
+        .mala-count { color: var(--primary-color); font-weight: bold; font-size: 22px; margin-bottom: 30px; }
 
-        /* YouTube Media Player Styling */
-        .media-card {
-            background: var(--glass); padding: 15px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid var(--primary-color);
+        .btn-back {
+            background: transparent; color: white; border: 1px solid white;
+            padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer;
         }
-        
-        /* Responsive YouTube Iframe */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        /* Ad Banner Placeholder */
-        #ad-banner-space {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 50px;
-            background: #111; display: flex; align-items: center; justify-content: center;
-            font-size: 12px; color: #666; border-top: 1px solid #333; z-index: 9999;
-        }
-        
-        .mantra-text { text-align: center; font-size: 20px; margin-top: 20px; font-style: italic; color: #ccc; }
-        .mala-count { text-align: center; color: var(--primary-color); margin-top: 10px; font-weight: bold; font-size: 20px; }
     </style>
 </head>
 <body>
@@ -115,190 +85,87 @@
     </div>
 
     <div class="screen active" id="mainMenu">
-        <h3 style="text-align: center; color: #aaa; margin-bottom: 10px;">Select Your Deity</h3>
         <div class="menu-grid">
-            <div class="card" onclick="selectDeity('radha')"><h2>🦚</h2><p>Radha Krishna</p></div>
-            <div class="card" onclick="selectDeity('shiva')"><h2>🔱</h2><p>Shiv Ji</p></div>
-            <div class="card" onclick="selectDeity('ram')"><h2>🏹</h2><p>Shree Ram</p></div>
+            <div class="card" onclick="selectDeity('radha')"><h2>🌸</h2><p>Radha Radha</p></div>
+            <div class="card" onclick="selectDeity('ram')"><h2>🏹</h2><p>Jai Shree Ram</p></div>
+            <div class="card" onclick="selectDeity('shiva')"><h2>🔱</h2><p>Om Namah Shivay</p></div>
             <div class="card" onclick="selectDeity('navkar')"><h2>🕉️</h2><p>Navkar Mantra</p></div>
         </div>
-        <button class="btn-main btn-outline" onclick="resetAllData()" style="margin-top: 40px;">Reset All Data</button>
     </div>
 
     <div class="screen" id="japScreen">
-        <button class="btn-main btn-outline" onclick="showScreen('mainMenu'); resetTheme();">← Back to Menu</button>
-        
         <p class="mantra-text" id="activeMantra">Mantra here...</p>
         
         <div class="counter-circle" onclick="handleJap()">
-            <h2 id="displayCount" style="font-size: 60px; color: white;">0</h2>
-            <p style="color: #bbb;">Tap to Jaap</p>
+            <div class="count-num" id="displayCount">0</div>
+            <p style="color: #bbb; font-size: 12px;">TAP TO JAAP</p>
         </div>
         
-        <div class="mala-count" id="malaDisplay">Malas Completed: 0</div>
+        <div class="mala-count" id="malaDisplay">Malas: 0</div>
 
-        <button class="btn-main" onclick="showScreen('mediaScreen')">📺 Watch Aarti & Bhajans</button>
+        <button class="btn-back" onclick="goBack()">← BACK TO MENU</button>
     </div>
 
-    <div class="screen" id="mediaScreen">
-        <button class="btn-main btn-outline" onclick="showScreen('japScreen')">← Back to Jaap</button>
-        <h3 style="margin: 20px 0; text-align: center; color: var(--primary-color);">Devotional Videos</h3>
-        
-        <div id="mediaList">
-            </div>
-    </div>
-
-    <div id="ad-banner-space">
-        AdMob Banner Space
-    </div>
-
-    <script src="cordova.js"></script>
     <script>
-        // ADMOB CONFIGURATION
-        const AD_IDS = {
-            banner: 'ca-app-pub-6519206650027176/5330315933',
-            interstitial: 'ca-app-pub-6519206650027176/7837770216'
-        };
-
-        // DEITY CONFIGURATION (Replace YT_IDs with actual YouTube Video IDs)
-        // Example: For https://www.youtube.com/watch?v=dQw4w9WgXcQ, the ID is "dQw4w9WgXcQ"
         const deityData = {
-            radha: { 
-                name: "Radha Krishna", mantra: "Hare Krishna Hare Rama", color: "#FF1493", bg: "radial-gradient(circle, #4a0024 0%, #000000 100%)",
-                videos: [
-                    { title: "Achyutam Keshavam", ytId: "x0bZE7-44xQ" }, // Replace with real ID
-                    { title: "Radha Krishna Aarti", ytId: "7O2HhC27q38" } // Replace with real ID
-                ]
-            },
-            shiva: { 
-                name: "Om Namah Shivay", mantra: "Om Namah Shivaya", color: "#00BFFF", bg: "radial-gradient(circle, #001a33 0%, #000000 100%)",
-                videos: [
-                    { title: "Shiv Tandav Stotram", ytId: "q6E2X7n-z9A" },
-                    { title: "Om Jai Shiv Omkara", ytId: "aO6B6X3_FkQ" }
-                ]
-            },
-            ram: { 
-                name: "Jai Shree Ram", mantra: "Shri Ram Jai Ram Jai Jai Ram", color: "#FF8C00", bg: "radial-gradient(circle, #4d2600 0%, #000000 100%)",
-                videos: [
-                    { title: "Mangal Bhavan Amangal Hari", ytId: "D8QoN18w42g" },
-                    { title: "Shri Ram Chandra Kripalu", ytId: "w_Q91H84W_0" }
-                ]
-            },
-            navkar: { 
-                name: "Navkar Mantra", mantra: "Namo Arihantanam, Namo Siddhanam...", color: "#FFD700", bg: "radial-gradient(circle, #332b00 0%, #000000 100%)",
-                videos: [
-                    { title: "Navkar Mantra Mahamantra", ytId: "7z3Y8a4b4K8" }
-                ]
-            }
+            radha: { name: "Radha Radha", mantra: "Radhe Radhe Govind, Radhe Radhe!", color: "#FF69B4", bg: "radial-gradient(circle, #4a0024 0%, #000 100%)" },
+            ram: { name: "Jai Shree Ram", mantra: "Ram Siya Ram, Siya Ram Jai Jai Ram", color: "#FF8C00", bg: "radial-gradient(circle, #4d2600 0%, #000 100%)" },
+            shiva: { name: "Om Namah Shivay", mantra: "Om Namah Shivaya", color: "#00BFFF", bg: "radial-gradient(circle, #001a33 0%, #000 100%)" },
+            navkar: { name: "Navkar Mantra", mantra: "Namo Arihantanam, Namo Siddhanam", color: "#FFD700", bg: "radial-gradient(circle, #332b00 0%, #000 100%)" }
         };
 
-        // STATE MANAGEMENT
         let currentDeity = null;
-        let stats = JSON.parse(localStorage.getItem('divineStats')) || {
-            radha: 0, shiva: 0, ram: 0, navkar: 0
-        };
+        let count = 0;
+        let malas = 0;
 
-        // ADMOB INITIALIZATION
-        document.addEventListener('deviceready', () => {
-            if (window.admob) {
-                admob.banner.show({ id: AD_IDS.banner });
-                prepareInterstitial();
-            }
-        }, false);
-
-        function prepareInterstitial() {
-            if (window.admob) admob.interstitial.load({ id: AD_IDS.interstitial });
-        }
-
-        // APP LOGIC
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+        function selectDeity(key) {
+            currentDeity = key;
+            const data = deityData[key];
             
-            // Stop videos from playing in background when user leaves the video screen
-            if(id !== 'mediaScreen') {
-                document.getElementById('mediaList').innerHTML = ''; 
-                if(currentDeity) loadMedia(deityData[currentDeity].videos);
-            }
-        }
-
-        function selectDeity(deityKey) {
-            currentDeity = deityKey;
-            const data = deityData[deityKey];
-            
-            // Apply Theme
+            // Theme Apply
             document.documentElement.style.setProperty('--primary-color', data.color);
             document.documentElement.style.setProperty('--bg-gradient', data.bg);
             document.getElementById('appTitle').innerText = data.name;
             document.getElementById('activeMantra').innerText = `"${data.mantra}"`;
             
+            count = 0;
+            malas = 0;
             updateDisplay();
-            loadMedia(data.videos);
-            showScreen('japScreen');
-        }
-
-        function resetTheme() {
-            document.documentElement.style.setProperty('--primary-color', '#FFD700');
-            document.documentElement.style.setProperty('--bg-gradient', 'radial-gradient(circle, #333 0%, #000 100%)');
-            document.getElementById('appTitle').innerText = 'Divine Jaap Pro';
+            
+            document.getElementById('mainMenu').classList.remove('active');
+            document.getElementById('japScreen').classList.add('active');
         }
 
         function handleJap() {
-            stats[currentDeity]++;
-            localStorage.setItem('divineStats', JSON.stringify(stats));
+            count++;
             
-            // Haptic Feedback
-            if (navigator.vibrate) navigator.vibrate(50);
+            // 1 Mala = 108 Counts
+            if (count >= 108) {
+                count = 0;
+                malas++;
+                
+                // 🟢 MIT APP INVENTOR BRIDGE: Signal for Interstitial Ad
+                if (window.AppInventor) {
+                    window.AppInventor.setWebViewString("SHOW_AD");
+                }
+            }
             
             updateDisplay();
-
-            // Interstitial Logic for Exact 108 counts
-            if (stats[currentDeity] % 108 === 0) {
-                if (navigator.vibrate) navigator.vibrate([100, 50, 100]); 
-                alert("Jai Ho! 1 Mala Completed! 🙏");
-                if (window.admob) {
-                    admob.interstitial.show().then(() => prepareInterstitial());
-                }
-            } else if (stats[currentDeity] % 108 === 100) {
-                prepareInterstitial();
-            }
         }
 
         function updateDisplay() {
-            const count = stats[currentDeity];
-            const malas = Math.floor(count / 108);
-            const currentMalaCount = count % 108;
-            
-            document.getElementById('displayCount').innerText = currentMalaCount;
+            document.getElementById('displayCount').innerText = count;
             document.getElementById('malaDisplay').innerText = `Malas Completed: ${malas}`;
         }
 
-        function loadMedia(videos) {
-            const mediaDiv = document.getElementById('mediaList');
-            mediaDiv.innerHTML = '';
+        function goBack() {
+            // Reset Theme to Default
+            document.documentElement.style.setProperty('--primary-color', '#FFD700');
+            document.documentElement.style.setProperty('--bg-gradient', 'radial-gradient(circle, #333 0%, #000 100%)');
+            document.getElementById('appTitle').innerText = 'Divine Jaap Pro';
             
-            videos.forEach(video => {
-                mediaDiv.innerHTML += `
-                    <div class="media-card">
-                        <h4 style="margin-bottom:10px;">${video.title}</h4>
-                        <div class="video-container">
-                            <iframe 
-                                src="https://www.youtube.com/embed/${video.ytId}?rel=0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function resetAllData() {
-            if(confirm("Are you sure you want to clear all Jaap history?")) {
-                stats = { radha: 0, shiva: 0, ram: 0, navkar: 0 };
-                localStorage.setItem('divineStats', JSON.stringify(stats));
-                alert("All history reset successfully.");
-            }
+            document.getElementById('japScreen').classList.remove('active');
+            document.getElementById('mainMenu').classList.add('active');
         }
     </script>
 </body>
