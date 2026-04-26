@@ -5,83 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Divine Jaap Pro</title>
     <style>
-        :root {
-            --primary-color: #FFD700;
-            --bg-gradient: radial-gradient(circle, #333 0%, #000 100%);
-        }
-
+        :root { --primary-color: #FFD700; --bg-gradient: radial-gradient(circle, #333 0%, #000 100%); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-gradient); color: white; min-height: 100vh; display: flex; flex-direction: column; transition: all 0.5s ease; overflow: hidden; }
+        
+        .header { padding: 15px; text-align: center; background: rgba(0,0,0,0.6); border-bottom: 2px solid var(--primary-color); position: relative; }
+        .header h1 { color: var(--primary-color); font-size: 22px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Sound Toggle Button */
+        .sound-toggle { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 10px; }
 
-        body {
-            background: var(--bg-gradient);
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.5s ease;
-        }
-
-        .header {
-            padding: 20px;
-            text-align: center;
-            background: rgba(0,0,0,0.6);
-            border-bottom: 2px solid var(--primary-color);
-            backdrop-filter: blur(10px);
-        }
-
-        .header h1 { color: var(--primary-color); font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
-
-        .screen { display: none; padding: 20px; animation: fadeIn 0.4s ease; flex-grow: 1; }
+        .screen { display: none; padding: 20px; flex-grow: 1; }
         .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
-
-        /* Menu Grid */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 400px; }
-        .card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 30px 10px;
-            border-radius: 20px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        .card:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
-        .card h2 { font-size: 40px; margin-bottom: 10px; }
-        .card p { font-weight: bold; font-size: 16px; color: #fff; }
-
-        /* Jaap UI */
-        .mantra-text { font-size: 22px; margin-bottom: 20px; font-style: italic; color: #ccc; text-align: center; min-height: 60px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; }
+        .card { background: rgba(255,255,255,0.1); padding: 25px 10px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
         
-        .counter-circle {
-            width: 240px; height: 240px;
-            border: 8px solid var(--primary-color);
-            border-radius: 50%;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            box-shadow: 0 0 30px var(--primary-color);
-            background: rgba(0,0,0,0.5);
-            cursor: pointer;
-            user-select: none;
-            margin-bottom: 20px;
-        }
-        .counter-circle:active { transform: scale(0.92); }
-        .count-num { font-size: 70px; color: white; font-weight: bold; }
-
-        .mala-count { color: var(--primary-color); font-weight: bold; font-size: 22px; margin-bottom: 30px; }
-
-        .btn-back {
-            background: transparent; color: white; border: 1px solid white;
-            padding: 12px 30px; border-radius: 50px; font-weight: bold; cursor: pointer;
-        }
+        .counter-circle { width: 220px; height: 220px; border: 8px solid var(--primary-color); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 0 25px var(--primary-color); background: rgba(0,0,0,0.5); cursor: pointer; margin: 20px 0; }
+        .count-num { font-size: 65px; font-weight: bold; }
+        
+        .btn-back { background: transparent; color: white; border: 1px solid white; padding: 10px 25px; border-radius: 50px; font-weight: bold; }
+        .mantra-text { font-size: 18px; margin-bottom: 10px; font-style: italic; color: #ccc; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1 id="appTitle">Divine Jaap Pro</h1>
+        <div class="sound-toggle" onclick="toggleSound()" id="soundBtn">🔊</div>
     </div>
 
     <div class="screen active" id="mainMenu">
@@ -94,62 +45,51 @@
     </div>
 
     <div class="screen" id="japScreen">
-        <p class="mantra-text" id="activeMantra">Mantra here...</p>
-        
+        <p class="mantra-text" id="activeMantra">Mantra</p>
         <div class="counter-circle" onclick="handleJap()">
             <div class="count-num" id="displayCount">0</div>
-            <p style="color: #bbb; font-size: 12px;">TAP TO JAAP</p>
+            <p style="color: #bbb; font-size: 10px;">TAP</p>
         </div>
-        
-        <div class="mala-count" id="malaDisplay">Malas: 0</div>
-
-        <button class="btn-back" onclick="goBack()">← BACK TO MENU</button>
+        <div id="malaDisplay" style="color:var(--primary-color); font-weight:bold; margin-bottom:20px;">Malas: 0</div>
+        <button class="btn-back" onclick="goBack()">← MENU</button>
     </div>
 
+    <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+
     <script>
+        let count = 0, malas = 0, isSoundOn = true;
+        const audio = document.getElementById('clickSound');
+
         const deityData = {
-            radha: { name: "Radha Radha", mantra: "Radhe Radhe Govind, Radhe Radhe!", color: "#FF69B4", bg: "radial-gradient(circle, #4a0024 0%, #000 100%)" },
-            ram: { name: "Jai Shree Ram", mantra: "Ram Siya Ram, Siya Ram Jai Jai Ram", color: "#FF8C00", bg: "radial-gradient(circle, #4d2600 0%, #000 100%)" },
+            radha: { name: "Radha Radha", mantra: "Radhe Radhe Govind", color: "#FF69B4", bg: "radial-gradient(circle, #4a0024 0%, #000 100%)" },
+            ram: { name: "Jai Shree Ram", mantra: "Ram Siya Ram", color: "#FF8C00", bg: "radial-gradient(circle, #4d2600 0%, #000 100%)" },
             shiva: { name: "Om Namah Shivay", mantra: "Om Namah Shivaya", color: "#00BFFF", bg: "radial-gradient(circle, #001a33 0%, #000 100%)" },
-            navkar: { name: "Navkar Mantra", mantra: "Namo Arihantanam, Namo Siddhanam", color: "#FFD700", bg: "radial-gradient(circle, #332b00 0%, #000 100%)" }
+            navkar: { name: "Navkar Mantra", mantra: "Namo Arihantanam", color: "#FFD700", bg: "radial-gradient(circle, #332b00 0%, #000 100%)" }
         };
 
-        let currentDeity = null;
-        let count = 0;
-        let malas = 0;
+        function toggleSound() {
+            isSoundOn = !isSoundOn;
+            document.getElementById('soundBtn').innerText = isSoundOn ? '🔊' : '🔇';
+        }
 
         function selectDeity(key) {
-            currentDeity = key;
-            const data = deityData[key];
-            
-            // Theme Apply
-            document.documentElement.style.setProperty('--primary-color', data.color);
-            document.documentElement.style.setProperty('--bg-gradient', data.bg);
-            document.getElementById('appTitle').innerText = data.name;
-            document.getElementById('activeMantra').innerText = `"${data.mantra}"`;
-            
-            count = 0;
-            malas = 0;
-            updateDisplay();
-            
+            const d = deityData[key];
+            document.documentElement.style.setProperty('--primary-color', d.color);
+            document.documentElement.style.setProperty('--bg-gradient', d.bg);
+            document.getElementById('appTitle').innerText = d.name;
+            document.getElementById('activeMantra').innerText = `"${d.mantra}"`;
+            count = 0; malas = 0; updateDisplay();
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('japScreen').classList.add('active');
         }
 
         function handleJap() {
+            if(isSoundOn) { audio.currentTime = 0; audio.play(); }
             count++;
-            
-            // 1 Mala = 108 Counts
             if (count >= 108) {
-                count = 0;
-                malas++;
-                
-                // 🟢 MIT APP INVENTOR BRIDGE: Signal for Interstitial Ad
-                if (window.AppInventor) {
-                    window.AppInventor.setWebViewString("SHOW_AD");
-                }
+                count = 0; malas++;
+                if (window.AppInventor) window.AppInventor.setWebViewString("SHOW_AD");
             }
-            
             updateDisplay();
         }
 
@@ -159,11 +99,6 @@
         }
 
         function goBack() {
-            // Reset Theme to Default
-            document.documentElement.style.setProperty('--primary-color', '#FFD700');
-            document.documentElement.style.setProperty('--bg-gradient', 'radial-gradient(circle, #333 0%, #000 100%)');
-            document.getElementById('appTitle').innerText = 'Divine Jaap Pro';
-            
             document.getElementById('japScreen').classList.remove('active');
             document.getElementById('mainMenu').classList.add('active');
         }
