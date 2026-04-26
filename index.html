@@ -8,24 +8,17 @@
         :root { --primary-color: #FFD700; --bg-gradient: radial-gradient(circle, #333 0%, #000 100%); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg-gradient); color: white; min-height: 100vh; display: flex; flex-direction: column; transition: all 0.5s ease; overflow: hidden; }
-        
         .header { padding: 15px; text-align: center; background: rgba(0,0,0,0.6); border-bottom: 2px solid var(--primary-color); position: relative; }
         .header h1 { color: var(--primary-color); font-size: 22px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        /* Sound Toggle Button */
         .sound-toggle { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 10px; }
-
         .screen { display: none; padding: 20px; flex-grow: 1; }
         .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 400px; }
         .card { background: rgba(255,255,255,0.1); padding: 25px 10px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        
         .counter-circle { width: 220px; height: 220px; border: 8px solid var(--primary-color); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 0 25px var(--primary-color); background: rgba(0,0,0,0.5); cursor: pointer; margin: 20px 0; }
         .count-num { font-size: 65px; font-weight: bold; }
-        
         .btn-back { background: transparent; color: white; border: 1px solid white; padding: 10px 25px; border-radius: 50px; font-weight: bold; }
-        .mantra-text { font-size: 18px; margin-bottom: 10px; font-style: italic; color: #ccc; text-align: center; }
+        .mantra-text { font-size: 18px; margin-bottom: 10px; font-style: italic; color: #ccc; text-align: center; min-height: 50px; }
     </style>
 </head>
 <body>
@@ -54,11 +47,8 @@
         <button class="btn-back" onclick="goBack()">← MENU</button>
     </div>
 
-    <audio id="clickSound" src="click.mp3" preload="auto"></audio>
-
     <script>
         let count = 0, malas = 0, isSoundOn = true;
-        const audio = document.getElementById('clickSound');
 
         const deityData = {
             radha: { name: "Radha Radha", mantra: "Radhe Radhe Govind", color: "#FF69B4", bg: "radial-gradient(circle, #4a0024 0%, #000 100%)" },
@@ -84,10 +74,15 @@
         }
 
         function handleJap() {
-            if(isSoundOn) { audio.currentTime = 0; audio.play(); }
+            // Sound Signal
+            if (isSoundOn && window.AppInventor) {
+                window.AppInventor.setWebViewString("PLAY_SOUND");
+            }
+            
             count++;
             if (count >= 108) {
                 count = 0; malas++;
+                // Ad Signal
                 if (window.AppInventor) window.AppInventor.setWebViewString("SHOW_AD");
             }
             updateDisplay();
