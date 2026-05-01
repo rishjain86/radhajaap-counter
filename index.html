@@ -334,6 +334,7 @@
                 document.getElementById('splashScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'flex';
                 
+                // Trigger auto interstitial every 3 minutes
                 setInterval(() => { triggerNativeInterstitial('Timer_3_Min'); }, 3 * 60 * 1000); 
             }, 2500);
         });
@@ -410,6 +411,7 @@
                     document.getElementById('malaCompletionMessage').innerHTML += `<br><br>🌟 आपका लक्ष्य (${targets[type]} जप) पूरा हुआ!`;
                 }
                 
+                // Trigger Native Interstitial Ad after Mala Complete
                 setTimeout(() => { triggerNativeInterstitial('108_Jap_' + type); }, 1000);
             }
             
@@ -505,14 +507,12 @@
             if (sSound === 'false') { toggleSound(); } // Call to set UI
         }
 
-        // Native AdMob Trigger (AppCreator24 Support)
+        // --- NEW APP CREATOR 24 NATIVE AD TRIGGER ---
         function triggerNativeInterstitial(source) {
             const now = Date.now();
             if (now - lastAdTime < 60000) return; // 1 min Anti-spam
-            if (typeof admob !== 'undefined') {
-                admob.interstitial.show(); 
-                lastAdTime = now;
-            }
+            
+            lastAdTime = now;
         }
 
         // Utils
