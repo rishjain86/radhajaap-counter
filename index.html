@@ -26,7 +26,7 @@
             color: white;
         }
 
-        /* Floating Action Button (FAB) for Menu - Replaces the double header */
+        /* Floating Action Button (FAB) for Menu */
         .fab-menu {
             position: fixed;
             bottom: 30px;
@@ -79,6 +79,51 @@
         .screen { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
         .screen.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* TV & Desktop (Landscape) Optimization */
+        @media (min-width: 768px), (orientation: landscape) {
+            .container { 
+                max-width: 900px !important; /* Container ko choda (wide) kar diya */
+                justify-content: center; 
+                padding-top: 5vh;
+            }
+            .counter-container { 
+                padding: 40px 60px !important; /* Box ko bada kiya */
+                border-radius: 30px;
+            }
+            .counter-display { 
+                font-size: 8rem !important; /* Jaap ka number TV par bahut bada dikhega */
+                margin: 25px 0 !important; 
+            }
+            .target-dropdown {
+                font-size: 18px !important;
+                padding: 15px !important;
+            }
+            .mala-stats { 
+                font-size: 22px !important; 
+                padding: 15px !important;
+            }
+            .btn-inc { 
+                font-size: 2.5rem !important; /* Jap karein button bada kar diya */
+                padding: 25px !important; 
+            }
+            .btn-reset {
+                font-size: 1.5rem !important;
+                padding: 15px !important;
+            }
+            /* Bhajan Video Player ko bada karna */
+            .video-container {
+                height: 450px !important; /* TV par video half screen lega */
+                border-radius: 20px;
+            }
+            .section-title {
+                font-size: 35px !important;
+            }
+            .list-item {
+                font-size: 20px !important; /* List items padhne me aasan honge */
+                padding: 20px !important;
+            }
+        }
 
         /* UI Elements */
         .section-title { color: #1E40AF; font-size: 20px; font-weight: bold; margin-bottom: 15px; text-align: center; }
@@ -144,7 +189,7 @@
             <div style="font-size: 60px; margin-bottom: 15px;">🎉</div>
             <h2 style="margin-bottom: 10px;">बधाई हो!</h2>
             <p id="malaCompletionMessage" style="margin-bottom: 20px; font-size: 18px;">आपने 1 माला पूरी कर ली है!</p>
-            <button onclick="closeMalaPopup()" style="background: white; color: #D97706; border: none; padding: 12px 30px; border-radius: 20px; font-weight: bold; cursor:pointer; font-size: 16px;">जय श्री कृष्ण</button>
+            <button onclick="closeMalaPopup()" id="closePopupBtn" style="background: white; color: #D97706; border: none; padding: 12px 30px; border-radius: 20px; font-weight: bold; cursor:pointer; font-size: 16px;">जय श्री कृष्ण</button>
         </div>
     </div>
 
@@ -326,6 +371,10 @@
         let soundEnabled = true;
         let navigationCount = 0;
         let audioCtx;
+        
+        // TV specific variables
+        let activeScreenId = 0; // Tracks which screen is open
+        let isPopupOpen = false; // Tracks if a popup is active
 
         // Init App
         window.addEventListener('load', () => {
@@ -378,6 +427,8 @@
         }
 
         function switchScreen(id, title) {
+            activeScreenId = id; // Track active screen for TV remote logic
+            
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
             
@@ -393,6 +444,29 @@
             }
         }
 
+        // TV Remote (D-Pad) Keypress Event
+        document.addEventListener('keydown', function(event) {
+            // Only count if popup is closed and we are on a Jaap screen (screens 1 to 4)
+            if (!isPopupOpen && activeScreenId >= 1 && activeScreenId <= 4) {
+                
+                // KeyCodes for TV Remote OK/Center, Space, and Enter
+                if (event.key === 'Enter' || event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 23 || event.keyCode === 66) {
+                    
+                    // Prevent default action (like scrolling down with spacebar)
+                    if (event.keyCode === 32) event.preventDefault();
+
+                    // Increment the specific counter based on active screen
+                    if (activeScreenId === 1) incrementCounter('radha');
+                    else if (activeScreenId === 2) incrementCounter('shiv');
+                    else if (activeScreenId === 3) incrementCounter('ram');
+                    else if (activeScreenId === 4) incrementCounter('navkar');
+                }
+            } else if (isPopupOpen && (event.key === 'Enter' || event.keyCode === 13 || event.keyCode === 23 || event.keyCode === 66)) {
+                // If popup is open, pressing 'OK' on TV remote will close the popup
+                closeMalaPopup();
+            }
+        });
+
         // Counter Engine
         function incrementCounter(type) {
             playClickSound(); // Play sound on click
@@ -402,9 +476,11 @@
 
             // 108 = 1 Mala logic
             if (counts[type] > 0 && counts[type] % 108 === 0) {
+                isPopupOpen = true; // Block TV remote background clicks
                 const malasDone = counts[type] / 108;
                 document.getElementById('malaCompletionMessage').textContent = `आपने ${names[type]} की ${malasDone} माला पूरी कर ली है!`;
                 document.getElementById('malaPopup').style.display = 'flex';
+                document.getElementById('closePopupBtn').focus(); // Auto-focus close button for TV remote
                 
                 // Target Completion Check
                 if(counts[type] === targets[type]) {
@@ -457,6 +533,7 @@
 
         function closeMalaPopup() {
             playClickSound();
+            isPopupOpen = false; // Allow TV remote clicks again
             document.getElementById('malaPopup').style.display = 'none';
         }
 
