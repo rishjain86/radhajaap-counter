@@ -22,7 +22,7 @@
 
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* Themes */
+        /* Dynamic Time & Deity Themes */
         body.theme-morning { background: linear-gradient(135deg, #FF7E5F, #FEB47B); } 
         body.theme-night { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); } 
         body.theme-bhajan { background: linear-gradient(135deg, #FF416C, #FF4B2B); }
@@ -65,11 +65,13 @@
         /* Professional Counter Number */
         .counter-display { font-size: 8rem; font-weight: bold; margin: 10px 0 30px 0; text-shadow: 0 0 15px rgba(255,255,255,0.4); font-variant-numeric: tabular-nums; line-height: 1; }
         
-        /* Equal Buttons */
+        /* Global Button Styles */
         .btn { padding: 15px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.4rem; cursor: pointer; color: white; background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 15px rgba(0,0,0,0.2); transition: transform 0.1s; }
         .btn:active { transform: scale(0.95); }
+        
+        /* Button Group specific layout (Only for Jaap and Reset) */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; max-width: 500px; }
-        .btn-group .btn { flex: 1; } 
+        .btn-group .btn { flex: 1; } /* Make them exactly equal width */
         .btn-inc { background: rgba(46, 204, 113, 0.5); }
         .btn-reset { background: rgba(231, 76, 60, 0.5); }
 
@@ -80,8 +82,9 @@
         .list-item { padding: 15px 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-align: left; transition: all 0.2s; }
         .list-item:hover, .list-item:focus { background: rgba(255,255,255,0.2); transform: scale(1.02); }
 
+        /* Fixed Settings Row */
         .setting-row { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; font-size: 1.5rem; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; margin-bottom: 15px; }
-        .setting-btn { padding: 10px 25px; font-size: 1.2rem; flex: none; width: auto; }
+        .setting-btn { padding: 10px 25px; font-size: 1.2rem; flex: none; width: auto; /* Prevent taking full width */ }
 
         /* FX */
         .aarti-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1; }
@@ -93,9 +96,9 @@
         .diya:nth-child(4) { animation-delay: 0s; } .diya:nth-child(3), .diya:nth-child(5) { animation-delay: 0.3s; } .diya:nth-child(2), .diya:nth-child(6) { animation-delay: 0.6s; } .diya:nth-child(1), .diya:nth-child(7) { animation-delay: 0.9s; }
         @keyframes diya-glow { 0% { text-shadow: 0 0 10px rgba(255, 165, 0, 0.4), 0 0 20px rgba(255, 69, 0, 0.2); transform: scale(0.95); } 100% { text-shadow: 0 0 25px rgba(255, 165, 0, 0.9), 0 0 45px rgba(255, 215, 0, 0.8), 0 0 70px #FFD700; transform: scale(1.1); } }
 
+        /* Popups */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; }
         .modal-content { text-align: center; padding: 40px; width: 500px; max-width: 90%; border-radius: 30px; }
-        .ad-loader { font-size: 1.2rem; margin-top: 15px; color: #FFD700; font-weight: bold; }
 
         /* Mobile */
         @media (max-width: 768px) {
@@ -111,6 +114,7 @@
             .btn-group { gap: 15px; padding: 0 10px; } 
             .btn { font-size: 1.2rem; padding: 14px; border-radius: 12px; } 
             
+            /* Mobile Settings Row Fix */
             .setting-row { font-size: 1.2rem; padding: 15px; }
             .setting-btn { font-size: 1rem; padding: 8px 20px; }
             
@@ -141,8 +145,7 @@
         <div class="glass-panel modal-content">
             <div style="font-size: 60px; margin-bottom: 15px; animation: bounce 1s infinite;">🌸</div>
             <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
-            <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 10px;">आपने 1 माला पूरी कर ली है!</p>
-            <div class="ad-loader" id="adNotice">कृपया प्रतीक्षा करें...</div>
+            <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
             <button tabindex="0" class="btn" id="closePopupBtn" onclick="closePopup()" style="margin-top: 20px; font-size: 1.2rem;">आगे बढ़ें (Close)</button>
         </div>
     </div>
@@ -275,8 +278,8 @@
         let isPopupOpen = false;
 
         window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV15');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV6');
+            const savedData = localStorage.getItem('premiumJaapDataV13');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV4');
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -347,8 +350,8 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV15', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV6', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV13', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV4', JSON.stringify(targets)); 
         }
 
         function switchScreen(id) {
@@ -404,47 +407,29 @@
             document.getElementById(`mala_${id}`).innerText = Math.floor(data[id] / 108);
         }
 
-        // --- FIXED AD LOGIC (NO CRASH) ---
         function checkAdMilestones(id) {
             const count = data[id];
             const target = targets[id];
 
             if (count > 0 && count === target) {
-                showModal(`🌟 अद्भुत! आपका ${target/108} माला का लक्ष्य पूरा हुआ!`, "rewarded", "लक्ष्य पूर्ण");
+                showModal(`🌟 अद्भुत! आपका ${target/108} माला का लक्ष्य पूरा हुआ!`, "लक्ष्य पूर्ण");
                 return;
             }
 
             if (count > 0 && count % 540 === 0) { 
-                showModal(`अद्भुत! आपने 5 माला पूरी कर ली हैं।`, "rewarded", "जय श्री कृष्ण"); 
+                showModal(`अद्भुत! आपने 5 माला पूरी कर ली हैं।`, "जय श्री कृष्ण"); 
             } else if (count > 0 && count % 108 === 0) { 
-                showModal(`आपने 1 माला पूरी कर ली है।`, "interstitial", "जय श्री कृष्ण"); 
+                showModal(`आपने 1 माला पूरी कर ली है।`, "जय श्री कृष्ण"); 
             }
         }
 
-        function showModal(message, adType, title="जय श्री कृष्ण") {
+        // Removed the window.location.href logic to prevent ERR_UNKNOWN_URL_SCHEME crashes
+        function showModal(message, title="जय श्री कृष्ण") {
             isPopupOpen = true;
             document.getElementById('malaPopupTitle').innerText = title;
             document.getElementById('popupMessage').innerText = message;
             document.getElementById('malaPopup').style.display = 'flex';
             setTimeout(() => { document.getElementById('closePopupBtn').focus(); }, 100); 
-            
-            // Trigger Ad Invisible (Safe from crash)
-            triggerAppCreatorAd(adType);
-        }
-
-        function triggerAppCreatorAd(type) {
-            try {
-                // Creates a hidden invisible box to send Ad signal without leaving the page
-                let iframe = document.createElement("iframe");
-                iframe.style.display = "none";
-                iframe.src = "appcreator24://" + type;
-                document.body.appendChild(iframe);
-                
-                // Clean up automatically
-                setTimeout(() => { document.body.removeChild(iframe); }, 1500);
-            } catch(e) {
-                console.log("Ad Error Handled Safely");
-            }
         }
 
         function closePopup() { document.getElementById('malaPopup').style.display = 'none'; isPopupOpen = false; document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }
