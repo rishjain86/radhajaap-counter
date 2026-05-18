@@ -85,7 +85,7 @@
         .flower { position: absolute; font-size: 35px; animation: fall linear infinite; opacity: 0; }
         @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0.2; } }
 
-        .diya-container { position: absolute; bottom: 6%; left: 0; width: 100%; display: none; justify-content: space-evenly; align-items: center; padding: 0 20px; pointer-events: none; z-index: 2; }
+        .diya-container { position: absolute; bottom: 8%; left: 0; width: 100%; display: none; justify-content: space-evenly; align-items: center; padding: 0 20px; pointer-events: none; z-index: 2; }
         .diya { font-size: 60px; animation: diya-glow 2s ease-in-out infinite alternate; }
         .diya:nth-child(4) { animation-delay: 0s; } .diya:nth-child(3), .diya:nth-child(5) { animation-delay: 0.3s; } .diya:nth-child(2), .diya:nth-child(6) { animation-delay: 0.6s; } .diya:nth-child(1), .diya:nth-child(7) { animation-delay: 0.9s; }
         @keyframes diya-glow { 0% { text-shadow: 0 0 10px rgba(255, 165, 0, 0.4), 0 0 20px rgba(255, 69, 0, 0.2); transform: scale(0.95); } 100% { text-shadow: 0 0 25px rgba(255, 165, 0, 0.9), 0 0 45px rgba(255, 215, 0, 0.8), 0 0 70px #FFD700; transform: scale(1.1); } }
@@ -97,7 +97,7 @@
         /* Mobile */
         @media (max-width: 768px) {
             .container { flex-direction: column; height: 100vh; margin: 0; max-width: 100vw; gap: 0; }
-            .main-content { border-radius: 0; padding: 15px; padding-bottom: 90px; justify-content: flex-start; padding-top: 6vh; }
+            .main-content { border-radius: 0; padding: 15px; padding-bottom: 95px; justify-content: flex-start; padding-top: 6vh; }
             .mantra-title { font-size: 1.8rem; } 
             .mantra-subtitle { font-size: 0.95rem; margin-bottom: 12px; }
             .stats-box { font-size: 1.1rem; padding: 8px 20px; margin-bottom: 15px; }
@@ -112,9 +112,9 @@
             .setting-btn { font-size: 1rem; padding: 8px 20px; }
             
             .video-container { height: 220px; margin-bottom: 15px; } .bhajan-list { max-height: calc(100vh - 400px); } .list-item { font-size: 1rem; padding: 12px 15px; }
-            .diya-container { bottom: 13%; padding: 0 10px; } .diya { font-size: 38px; }
+            .diya-container { bottom: 15%; padding: 0 10px; } .diya { font-size: 38px; }
 
-            .sidebar { position: fixed; bottom: 50px; left: 0; width: 100%; height: 75px; flex-direction: row; justify-content: space-around; align-items: center; border-radius: 25px 25px 0 0; padding: 5px; gap: 2px; z-index: 1000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); }
+            .sidebar { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; flex-direction: row; justify-content: space-around; align-items: center; border-radius: 25px 25px 0 0; padding: 5px; gap: 2px; z-index: 1000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); }
             .sidebar-title, .sidebar hr, .streak-banner { display: none; }
             
             .main-content::before {
@@ -125,12 +125,6 @@
             .menu-item { flex-direction: column; padding: 5px; font-size: 11px; gap: 3px; flex: 1; text-align: center; border-radius: 10px; background: transparent; }
             .menu-item span { font-size: 20px; } .menu-item.active { background: rgba(255,255,255,0.2); border: none; }
         }
-
-        /* Banner ad placeholder */
-        #bannerAd {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 50px; z-index: 2000;
-            background: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center;
-        }
     </style>
 </head>
 <body>
@@ -140,16 +134,13 @@
         <span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span>
     </div>
 
-    <!-- यह div AppCreator24 अपने आप बैनर ऐड से भर देगा -->
-    <div id="bannerAd"></div>
-
     <div class="modal" id="malaPopup">
         <div class="glass-panel modal-content">
             <div style="font-size: 60px; margin-bottom: 15px; animation: bounce 1s infinite;">🌸</div>
             <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
             <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
             
-            <button id="adLinkBtn" class="btn ad-btn-link" style="margin-top:20px;font-size:1.2rem;width:100%;" onclick="triggerAd()"> आगे बढ़ें </button>
+            <button id="adLinkBtn" class="btn ad-btn-link" style="margin-top:20px;font-size:1.2rem;width:100%;" onclick="triggerAd()"> आगे बढ़ें </button> 
         </div>
     </div>
 
@@ -278,12 +269,14 @@
         let data = { radha: 0, shiv: 0, ram: 0, navkar: 0, sound: true, anim: true };
         let targets = { radha: 108, shiv: 108, ram: 108, navkar: 108 };
         let activeScreen = 'radha';
+        
+        // USER'S EXACT JAVASCRIPT CODE IMPLEMENTATION
         let isPopupOpen = false;
         let currentAdUrl = ""; 
 
         window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV20');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV11');
+            const savedData = localStorage.getItem('premiumJaapDataV21');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV12');
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -354,8 +347,8 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV20', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV11', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV21', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV12', JSON.stringify(targets)); 
         }
 
         function switchScreen(id) {
@@ -411,6 +404,7 @@
             document.getElementById(`mala_${id}`).innerText = Math.floor(data[id] / 108);
         }
 
+        // AD LOGIC
         function checkAdMilestones(id) {
             const count = data[id];
             const target = targets[id];
@@ -427,6 +421,7 @@
             }
         }
 
+        // USER'S PROVIDED FUNCTION 1
         function showModal(message, adUrl, title="जय श्री कृष्ण") { 
             isPopupOpen = true; 
             currentAdUrl = adUrl; 
@@ -436,11 +431,12 @@
             setTimeout(() => { document.getElementById('adLinkBtn').focus(); }, 100); 
         } 
         
+        // USER'S PROVIDED FUNCTION 2
         function triggerAd() { 
             playSound(); 
             document.getElementById('malaPopup').style.display = 'none'; 
             isPopupOpen = false; 
-            // AppCreator24 के लिए यही तरीका सही है 
+            // IMPORTANT 
             window.location.href = currentAdUrl; 
             setTimeout(() => { document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }, 300); 
         }
