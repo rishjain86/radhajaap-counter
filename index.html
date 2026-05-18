@@ -85,7 +85,7 @@
         .flower { position: absolute; font-size: 35px; animation: fall linear infinite; opacity: 0; }
         @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0.2; } }
 
-        .diya-container { position: absolute; bottom: 8%; left: 0; width: 100%; display: none; justify-content: space-evenly; align-items: center; padding: 0 20px; pointer-events: none; z-index: 2; }
+        .diya-container { position: absolute; bottom: 6%; left: 0; width: 100%; display: none; justify-content: space-evenly; align-items: center; padding: 0 20px; pointer-events: none; z-index: 2; }
         .diya { font-size: 60px; animation: diya-glow 2s ease-in-out infinite alternate; }
         .diya:nth-child(4) { animation-delay: 0s; } .diya:nth-child(3), .diya:nth-child(5) { animation-delay: 0.3s; } .diya:nth-child(2), .diya:nth-child(6) { animation-delay: 0.6s; } .diya:nth-child(1), .diya:nth-child(7) { animation-delay: 0.9s; }
         @keyframes diya-glow { 0% { text-shadow: 0 0 10px rgba(255, 165, 0, 0.4), 0 0 20px rgba(255, 69, 0, 0.2); transform: scale(0.95); } 100% { text-shadow: 0 0 25px rgba(255, 165, 0, 0.9), 0 0 45px rgba(255, 215, 0, 0.8), 0 0 70px #FFD700; transform: scale(1.1); } }
@@ -112,7 +112,7 @@
             .setting-btn { font-size: 1rem; padding: 8px 20px; }
             
             .video-container { height: 220px; margin-bottom: 15px; } .bhajan-list { max-height: calc(100vh - 400px); } .list-item { font-size: 1rem; padding: 12px 15px; }
-            .diya-container { bottom: 15%; padding: 0 10px; } .diya { font-size: 38px; }
+            .diya-container { bottom: 13%; padding: 0 10px; } .diya { font-size: 38px; }
 
             .sidebar { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; flex-direction: row; justify-content: space-around; align-items: center; border-radius: 25px 25px 0 0; padding: 5px; gap: 2px; z-index: 1000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); }
             .sidebar-title, .sidebar hr, .streak-banner { display: none; }
@@ -139,7 +139,6 @@
             <div style="font-size: 60px; margin-bottom: 15px; animation: bounce 1s infinite;">🌸</div>
             <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
             <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
-            
             <button id="adLinkBtn" class="btn ad-btn-link" style="margin-top:20px;font-size:1.2rem;width:100%;" onclick="triggerAd()"> आगे बढ़ें </button> 
         </div>
     </div>
@@ -270,13 +269,12 @@
         let targets = { radha: 108, shiv: 108, ram: 108, navkar: 108 };
         let activeScreen = 'radha';
         
-        // USER'S EXACT JAVASCRIPT CODE IMPLEMENTATION
         let isPopupOpen = false;
         let currentAdUrl = ""; 
 
         window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV21');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV12');
+            const savedData = localStorage.getItem('premiumJaapDataV22');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV13');
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -347,8 +345,8 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV21', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV12', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV22', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV13', JSON.stringify(targets)); 
         }
 
         function switchScreen(id) {
@@ -404,7 +402,6 @@
             document.getElementById(`mala_${id}`).innerText = Math.floor(data[id] / 108);
         }
 
-        // AD LOGIC
         function checkAdMilestones(id) {
             const count = data[id];
             const target = targets[id];
@@ -421,7 +418,7 @@
             }
         }
 
-        // USER'S PROVIDED FUNCTION 1
+        // PERFECT CRASH-FREE FIX FOR APPCREATOR24
         function showModal(message, adUrl, title="जय श्री कृष्ण") { 
             isPopupOpen = true; 
             currentAdUrl = adUrl; 
@@ -431,14 +428,26 @@
             setTimeout(() => { document.getElementById('adLinkBtn').focus(); }, 100); 
         } 
         
-        // USER'S PROVIDED FUNCTION 2
         function triggerAd() { 
             playSound(); 
             document.getElementById('malaPopup').style.display = 'none'; 
             isPopupOpen = false; 
-            // IMPORTANT 
-            window.location.href = currentAdUrl; 
-            setTimeout(() => { document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }, 300); 
+            
+            // CREATES INVISIBLE IFRAME TO TRIGGER AD WITHOUT NAVIGATING MAIN PAGE
+            let adFrame = document.createElement("iframe");
+            adFrame.style.position = "absolute";
+            adFrame.style.width = "1px";
+            adFrame.style.height = "1px";
+            adFrame.style.border = "none";
+            adFrame.style.opacity = "0";
+            adFrame.src = currentAdUrl;
+            document.body.appendChild(adFrame);
+
+            // Clean up iframe and focus back
+            setTimeout(() => { 
+                if(document.body.contains(adFrame)) document.body.removeChild(adFrame);
+                document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); 
+            }, 2000);
         }
 
         document.addEventListener('keydown', function(e) {
