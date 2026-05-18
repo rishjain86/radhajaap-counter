@@ -114,7 +114,7 @@
             .video-container { height: 220px; margin-bottom: 15px; } .bhajan-list { max-height: calc(100vh - 400px); } .list-item { font-size: 1rem; padding: 12px 15px; }
             .diya-container { bottom: 13%; padding: 0 10px; } .diya { font-size: 38px; }
 
-            .sidebar { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; flex-direction: row; justify-content: space-around; align-items: center; border-radius: 25px 25px 0 0; padding: 5px; gap: 2px; z-index: 1000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); }
+            .sidebar { position: fixed; bottom: 50px; left: 0; width: 100%; height: 75px; flex-direction: row; justify-content: space-around; align-items: center; border-radius: 25px 25px 0 0; padding: 5px; gap: 2px; z-index: 1000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); }
             .sidebar-title, .sidebar hr, .streak-banner { display: none; }
             
             .main-content::before {
@@ -125,6 +125,12 @@
             .menu-item { flex-direction: column; padding: 5px; font-size: 11px; gap: 3px; flex: 1; text-align: center; border-radius: 10px; background: transparent; }
             .menu-item span { font-size: 20px; } .menu-item.active { background: rgba(255,255,255,0.2); border: none; }
         }
+
+        /* Banner ad placeholder */
+        #bannerAd {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 50px; z-index: 2000;
+            background: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -133,6 +139,9 @@
     <div class="diya-container" id="diyaAnim">
         <span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span>
     </div>
+
+    <!-- यह div AppCreator24 अपने आप बैनर ऐड से भर देगा -->
+    <div id="bannerAd"></div>
 
     <div class="modal" id="malaPopup">
         <div class="glass-panel modal-content">
@@ -431,7 +440,7 @@
             playSound(); 
             document.getElementById('malaPopup').style.display = 'none'; 
             isPopupOpen = false; 
-            // IMPORTANT 
+            // AppCreator24 के लिए यही तरीका सही है 
             window.location.href = currentAdUrl; 
             setTimeout(() => { document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }, 300); 
         }
