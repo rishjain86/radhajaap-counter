@@ -58,20 +58,15 @@
         
         .stats-box { display: flex; gap: 30px; font-size: 1.3rem; font-weight: bold; background: rgba(0,0,0,0.3); padding: 10px 25px; border-radius: 20px; margin-bottom: 20px; }
         
-        /* Glass Select Dropdown */
         .glass-select { width: 100%; max-width: 320px; padding: 12px 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.4); border-radius: 15px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; outline: none; margin-bottom: 20px; text-align: center; appearance: none; -webkit-appearance: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .glass-select option { background: #2d3748; color: white; font-weight: bold; }
 
-        /* Professional Counter Number */
         .counter-display { font-size: 8rem; font-weight: bold; margin: 10px 0 30px 0; text-shadow: 0 0 15px rgba(255,255,255,0.4); font-variant-numeric: tabular-nums; line-height: 1; }
         
-        /* Global Button Styles */
         .btn { padding: 15px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.4rem; cursor: pointer; color: white; background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 15px rgba(0,0,0,0.2); transition: transform 0.1s; }
         .btn:active { transform: scale(0.95); }
-        
-        /* Button Group specific layout (Only for Jaap and Reset) */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; max-width: 500px; }
-        .btn-group .btn { flex: 1; } /* Make them exactly equal width */
+        .btn-group .btn { flex: 1; } 
         .btn-inc { background: rgba(46, 204, 113, 0.5); }
         .btn-reset { background: rgba(231, 76, 60, 0.5); }
 
@@ -82,9 +77,8 @@
         .list-item { padding: 15px 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-align: left; transition: all 0.2s; }
         .list-item:hover, .list-item:focus { background: rgba(255,255,255,0.2); transform: scale(1.02); }
 
-        /* Fixed Settings Row */
         .setting-row { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; font-size: 1.5rem; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; margin-bottom: 15px; }
-        .setting-btn { padding: 10px 25px; font-size: 1.2rem; flex: none; width: auto; /* Prevent taking full width */ }
+        .setting-btn { padding: 10px 25px; font-size: 1.2rem; flex: none; width: auto; }
 
         /* FX */
         .aarti-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1; }
@@ -99,7 +93,7 @@
         /* Popups */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; }
         .modal-content { text-align: center; padding: 40px; width: 500px; max-width: 90%; border-radius: 30px; }
-        .ad-loader { font-size: 1.2rem; margin-top: 15px; color: #FFD700; }
+        .ad-loader { font-size: 1.2rem; margin-top: 15px; color: #FFD700; font-weight: bold; }
 
         /* Mobile */
         @media (max-width: 768px) {
@@ -115,7 +109,6 @@
             .btn-group { gap: 15px; padding: 0 10px; } 
             .btn { font-size: 1.2rem; padding: 14px; border-radius: 12px; } 
             
-            /* Mobile Settings Row Fix */
             .setting-row { font-size: 1.2rem; padding: 15px; }
             .setting-btn { font-size: 1rem; padding: 8px 20px; }
             
@@ -146,8 +139,8 @@
         <div class="glass-panel modal-content">
             <div style="font-size: 60px; margin-bottom: 15px; animation: bounce 1s infinite;">🌸</div>
             <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
-            <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
-            <div class="ad-loader" id="adNotice">Loading Ad...</div>
+            <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 10px;">आपने 1 माला पूरी कर ली है!</p>
+            <div class="ad-loader" id="adNotice">कृपया प्रतीक्षा करें...</div>
             <button tabindex="0" class="btn" id="closePopupBtn" onclick="closePopup()" style="margin-top: 20px; font-size: 1.2rem;">आगे बढ़ें (Close)</button>
         </div>
     </div>
@@ -280,8 +273,8 @@
         let isPopupOpen = false;
 
         window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV12');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV3');
+            const savedData = localStorage.getItem('premiumJaapDataV16');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV7');
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -352,8 +345,8 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV12', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV3', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV16', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV7', JSON.stringify(targets)); 
         }
 
         function switchScreen(id) {
@@ -433,15 +426,13 @@
             document.getElementById('closePopupBtn').focus(); 
             
             setTimeout(() => {
-                try {
-                    if(isRewarded) {
-                        document.getElementById('adNotice').innerText = "Rewarded Ad Loading...";
-                        window.location.href = "appcreator24://rewarded"; 
-                    } else {
-                        document.getElementById('adNotice').innerText = "Ad Loading...";
-                        window.location.href = "appcreator24://interstitial";
-                    }
-                } catch(e) {}
+                // ANCHOR TRICK TO PREVENT WHITE SCREEN CRASH 
+                let adLink = document.createElement("a");
+                adLink.href = isRewarded ? "appcreator24://rewarded" : "appcreator24://interstitial";
+                adLink.target = "_blank"; // Forces intent catch without page unload
+                document.body.appendChild(adLink);
+                adLink.click();
+                document.body.removeChild(adLink);
             }, 1000);
         }
 
