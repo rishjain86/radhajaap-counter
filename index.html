@@ -93,6 +93,9 @@
         /* Popups */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; }
         .modal-content { text-align: center; padding: 40px; width: 500px; max-width: 90%; border-radius: 30px; }
+        
+        /* AD Button Link Fix */
+        .ad-btn-link { display: inline-block; text-decoration: none; text-align: center; }
 
         /* Mobile */
         @media (max-width: 768px) {
@@ -139,7 +142,8 @@
             <div style="font-size: 60px; margin-bottom: 15px; animation: bounce 1s infinite;">🌸</div>
             <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
             <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
-            <button tabindex="0" class="btn" id="closePopupBtn" onclick="closePopup()" style="margin-top: 10px; font-size: 1.2rem;">आगे बढ़ें (Close)</button>
+            
+            <a id="adLinkBtn" href="appcreator24://interstitial" class="btn ad-btn-link" style="margin-top: 20px; font-size: 1.2rem; width: 100%;" onclick="closePopupUI()">आगे बढ़ें (Close)</a>
         </div>
     </div>
 
@@ -148,7 +152,7 @@
             <div style="font-size: 70px; margin-bottom: 10px; animation: fadeIn 0.8s ease;">🔥</div>
             <h1 id="streakPopupTitle" style="font-size: 2.2rem; margin-bottom: 15px;">पहला दिन</h1>
             <p id="streakPopupMsg" style="font-size: 1.3rem; margin-bottom: 25px;">आज से आपकी भक्ति यात्रा शुरू हुई!</p>
-            <button tabindex="0" class="btn" id="closeStreakBtn" onclick="closeStreakPopup()" style="background: rgba(255,255,255,0.3); font-size: 1.2rem;">जय श्री राम</button>
+            <button tabindex="0" class="btn ad-btn-link" id="closeStreakBtn" onclick="closeStreakPopup()" style="background: rgba(255,255,255,0.3); font-size: 1.2rem; width: 100%;">जय श्री राम</button>
         </div>
     </div>
 
@@ -269,11 +273,10 @@
         let targets = { radha: 108, shiv: 108, ram: 108, navkar: 108 };
         let activeScreen = 'radha';
         let isPopupOpen = false;
-        let pendingAdUrl = ""; // To hold the ad link until user clicks close
 
         window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV18');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV9');
+            const savedData = localStorage.getItem('premiumJaapDataV19');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV10');
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -344,8 +347,8 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV18', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV9', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV19', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV10', JSON.stringify(targets)); 
         }
 
         function switchScreen(id) {
@@ -401,7 +404,7 @@
             document.getElementById(`mala_${id}`).innerText = Math.floor(data[id] / 108);
         }
 
-        // The Real Ad Logic - Prepares link but DOES NOT click it automatically
+        // PERFECT AD LOGIC: Sets up REAL Link to trigger AppCreator24 intent safely.
         function checkAdMilestones(id) {
             const count = data[id];
             const target = targets[id];
@@ -420,30 +423,28 @@
 
         function showModal(message, adUrl, title="जय श्री कृष्ण") {
             isPopupOpen = true;
-            pendingAdUrl = adUrl; // Save URL to trigger when user clicks Close
-            
             document.getElementById('malaPopupTitle').innerText = title;
             document.getElementById('popupMessage').innerText = message;
+            
+            // This is the Magic: Sets the actual anchor tag link to trigger AdMob
+            document.getElementById('adLinkBtn').href = adUrl;
+            
             document.getElementById('malaPopup').style.display = 'flex';
-            setTimeout(() => { document.getElementById('closePopupBtn').focus(); }, 100); 
+            setTimeout(() => { document.getElementById('adLinkBtn').focus(); }, 100); 
         }
 
-        // Triggers Ad ONLY when user explicitly closes popup
-        function closePopup() { 
-            document.getElementById('malaPopup').style.display = 'none'; 
-            isPopupOpen = false; 
-            document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); 
-            
-            // Send the ad signal here!
-            if (pendingAdUrl !== "") {
-                window.location.href = pendingAdUrl;
-                pendingAdUrl = ""; // clear it
-            }
+        function closePopupUI() { 
+            // Hides the popup, but the browser STILL follows the link to tell AC24 to show the ad.
+            setTimeout(() => {
+                document.getElementById('malaPopup').style.display = 'none'; 
+                isPopupOpen = false; 
+                document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); 
+            }, 50);
         }
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.keyCode === 13 || e.keyCode === 32 || e.keyCode === 23 || e.keyCode === 66) {
-                if(document.activeElement && (document.activeElement.tagName === 'BUTTON' || document.activeElement.tagName === 'SELECT' || document.activeElement.classList.contains('menu-item') || document.activeElement.classList.contains('list-item'))) {
+                if(document.activeElement && (document.activeElement.tagName === 'A' || document.activeElement.tagName === 'BUTTON' || document.activeElement.tagName === 'SELECT' || document.activeElement.classList.contains('menu-item') || document.activeElement.classList.contains('list-item'))) {
                     return; 
                 }
                 if(!isPopupOpen && activeScreen !== 'settings' && activeScreen !== 'bhajan') {
