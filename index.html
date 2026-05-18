@@ -69,9 +69,9 @@
         .btn { padding: 15px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.4rem; cursor: pointer; color: white; background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 15px rgba(0,0,0,0.2); transition: transform 0.1s; }
         .btn:active { transform: scale(0.95); }
         
-        /* Button Group specific layout (Only for Jaap and Reset) */
+        /* Button Group specific layout */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; max-width: 500px; }
-        .btn-group .btn { flex: 1; } /* Make them exactly equal width */
+        .btn-group .btn { flex: 1; } 
         .btn-inc { background: rgba(46, 204, 113, 0.5); }
         .btn-reset { background: rgba(231, 76, 60, 0.5); }
 
@@ -84,7 +84,7 @@
 
         /* Fixed Settings Row */
         .setting-row { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; font-size: 1.5rem; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; margin-bottom: 15px; }
-        .setting-btn { padding: 10px 25px; font-size: 1.2rem; flex: none; width: auto; /* Prevent taking full width */ }
+        .setting-btn { padding: 10px 25px; font-size: 1.2rem; flex: none; width: auto; }
 
         /* FX */
         .aarti-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1; }
@@ -114,7 +114,6 @@
             .btn-group { gap: 15px; padding: 0 10px; } 
             .btn { font-size: 1.2rem; padding: 14px; border-radius: 12px; } 
             
-            /* Mobile Settings Row Fix */
             .setting-row { font-size: 1.2rem; padding: 15px; }
             .setting-btn { font-size: 1rem; padding: 8px 20px; }
             
@@ -278,8 +277,8 @@
         let isPopupOpen = false;
 
         window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV13');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV4');
+            const savedData = localStorage.getItem('premiumJaapDataV14');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV5');
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -350,8 +349,8 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV13', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV4', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV14', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV5', JSON.stringify(targets)); 
         }
 
         function switchScreen(id) {
@@ -423,7 +422,6 @@
             }
         }
 
-        // Removed the window.location.href logic to prevent ERR_UNKNOWN_URL_SCHEME crashes
         function showModal(message, title="जय श्री कृष्ण") {
             isPopupOpen = true;
             document.getElementById('malaPopupTitle').innerText = title;
