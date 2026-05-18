@@ -2,612 +2,501 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>भजन एवं जप संग्रह</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>प्रीमियम भजन एवं जप</title>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text-color: #fff;
+            --focus-ring: #FFD700;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background: linear-gradient(135deg, #FEFCE8 0%, #FFFBEB 100%);
-            min-height: 100vh;
-            transition: all 0.3s ease;
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh; color: var(--text-color); transition: background 0.8s ease; overflow: hidden;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); background-size: 400% 400%; animation: gradientBG 15s ease infinite;
         }
 
-        body.dark-mode {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* Floating Action Button (FAB) for Menu */
-        .fab-menu {
-            position: fixed;
-            bottom: 30px;
-            right: 25px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #D97706, #F59E0B);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
-            z-index: 1000;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .fab-menu:active { transform: scale(0.9); }
-        body.dark-mode .fab-menu { background: linear-gradient(135deg, #4a5568, #2d3748); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        /* Dynamic Time & Deity Themes */
+        body.theme-morning { background: linear-gradient(135deg, #FF7E5F, #FEB47B); } 
+        body.theme-night { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); } 
+        body.theme-bhajan { background: linear-gradient(135deg, #FF416C, #FF4B2B); }
+        body.theme-radha { background: linear-gradient(135deg, #8E2DE2, #4A00E0); } 
+        body.theme-shiv { background: linear-gradient(135deg, #141E30, #243B55); } 
+        body.theme-ram { background: linear-gradient(135deg, #FF4E50, #F9D423); } 
+        body.theme-navkar { background: linear-gradient(135deg, #11998e, #38ef7d); } 
 
-        /* Side Menu (Hamburger Drawer) */
-        .side-menu-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 1999; display: none; opacity: 0; transition: opacity 0.3s;
-        }
-        .side-menu {
-            position: fixed; top: 0; left: -280px; width: 260px; height: 100%;
-            background: #FEF3C7; z-index: 2000; transition: left 0.3s ease;
-            box-shadow: 2px 0 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow-y: auto;
-        }
-        body.dark-mode .side-menu { background: #2d3748; }
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
 
-        .side-menu-header {
-            background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%); color: white;
-            padding: 25px 20px; font-size: 22px; font-weight: bold; text-align: center;
-        }
-        body.dark-mode .side-menu-header { background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%); }
+        :focus { outline: none; box-shadow: 0 0 0 5px var(--focus-ring), 0 0 20px var(--focus-ring) !important; transform: scale(1.02); transition: all 0.2s; z-index: 10; }
 
-        .menu-item {
-            padding: 16px 20px; font-size: 16px; font-weight: bold; color: #92400E;
-            border-bottom: 1px solid rgba(217, 119, 6, 0.2); cursor: pointer; display: flex; align-items: center; gap: 15px;
-        }
-        body.dark-mode .menu-item { color: #e2e8f0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .menu-item.active, .menu-item:hover { background: white; border-left: 5px solid #D97706; }
-        body.dark-mode .menu-item.active, body.dark-mode .menu-item:hover { background: #4a5568; border-left: 5px solid #F59E0B; }
+        /* Layout */
+        .container { max-width: 98vw; margin: 1vh auto; display: flex; height: 98vh; gap: 20px; }
+        .sidebar { width: 300px; padding: 20px; display: flex; flex-direction: column; gap: 10px; border-radius: 25px; z-index: 100; overflow-y: auto; }
+        .sidebar-title { text-align: center; margin-bottom: 5px; font-size: 1.8rem; letter-spacing: 2px; }
+        
+        .streak-banner { text-align: center; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 15px; margin-bottom: 10px; font-weight: bold; }
+        .greeting-text { font-size: 1.1rem; color: #FFD700; margin-bottom: 5px;}
+        .streak-count { font-size: 1.4rem; color: #fff; }
 
-        /* Main Container & Screens */
-        .container { max-width: 400px; margin: 0 auto; min-height: 100vh; display: none; flex-direction: column; padding-bottom: 100px; }
-        .screen { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
-        .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* TV & Desktop (Landscape) Optimization */
-        @media (min-width: 768px), (orientation: landscape) {
-            .container { 
-                max-width: 900px !important; /* Container ko choda (wide) kar diya */
-                justify-content: center; 
-                padding-top: 5vh;
-            }
-            .counter-container { 
-                padding: 40px 60px !important; /* Box ko bada kiya */
-                border-radius: 30px;
-            }
-            .counter-display { 
-                font-size: 8rem !important; /* Jaap ka number TV par bahut bada dikhega */
-                margin: 25px 0 !important; 
-            }
-            .target-dropdown {
-                font-size: 18px !important;
-                padding: 15px !important;
-            }
-            .mala-stats { 
-                font-size: 22px !important; 
-                padding: 15px !important;
-            }
-            .btn-inc { 
-                font-size: 2.5rem !important; /* Jap karein button bada kar diya */
-                padding: 25px !important; 
-            }
-            .btn-reset {
-                font-size: 1.5rem !important;
-                padding: 15px !important;
-            }
-            /* Bhajan Video Player ko bada karna */
-            .video-container {
-                height: 450px !important; /* TV par video half screen lega */
-                border-radius: 20px;
-            }
-            .section-title {
-                font-size: 35px !important;
-            }
-            .list-item {
-                font-size: 20px !important; /* List items padhne me aasan honge */
-                padding: 20px !important;
-            }
-        }
+        .menu-item { padding: 15px 20px; font-size: 18px; font-weight: bold; color: #fff; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); border: 1px solid transparent; transition: all 0.3s ease; }
+        .menu-item.active, .menu-item:hover { background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); }
+        
+        .main-content { flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; border-radius: 25px; }
+        .screen { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.5s ease; z-index: 5; }
+        .screen.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* UI Elements */
-        .section-title { color: #1E40AF; font-size: 20px; font-weight: bold; margin-bottom: 15px; text-align: center; }
-        body.dark-mode .section-title { color: #F59E0B; }
+        .mantra-title { font-size: 2.5rem; font-weight: bold; margin-bottom: 5px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); text-align: center; }
+        .mantra-subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 15px; font-weight: bold; color: #FFD700; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
         
-        .video-container { background: #000; border-radius: 15px; overflow: hidden; margin-bottom: 20px; height: 200px; }
+        .stats-box { display: flex; gap: 30px; font-size: 1.3rem; font-weight: bold; background: rgba(0,0,0,0.3); padding: 10px 25px; border-radius: 20px; margin-bottom: 20px; }
+        
+        /* Glass Select Dropdown */
+        .glass-select { width: 100%; max-width: 320px; padding: 12px 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.4); border-radius: 15px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; outline: none; margin-bottom: 20px; text-align: center; appearance: none; -webkit-appearance: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .glass-select option { background: #2d3748; color: white; font-weight: bold; }
+
+        /* Professional Counter Number */
+        .counter-display { font-size: 8rem; font-weight: bold; margin: 10px 0 30px 0; text-shadow: 0 0 15px rgba(255,255,255,0.4); font-variant-numeric: tabular-nums; line-height: 1; }
+        
+        /* Global Button Styles */
+        .btn { padding: 15px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.4rem; cursor: pointer; color: white; background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 15px rgba(0,0,0,0.2); transition: transform 0.1s; }
+        .btn:active { transform: scale(0.95); }
+        
+        /* Button Group specific layout (Only for Jaap and Reset) */
+        .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; max-width: 500px; }
+        .btn-group .btn { flex: 1; } /* Make them exactly equal width */
+        .btn-inc { background: rgba(46, 204, 113, 0.5); }
+        .btn-reset { background: rgba(231, 76, 60, 0.5); }
+
+        .video-container { width: 100%; max-width: 700px; height: 350px; background: #000; border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .video-frame { width: 100%; height: 100%; border: none; }
-        .video-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 20px; }
-        
-        .card-list { background: #F0F9FF; border: 2px solid #1E40AF; border-radius: 15px; padding: 20px; margin-bottom: 20px; }
-        body.dark-mode .card-list { background: #2d3748; border-color: #4a5568; }
-        .list-item { display: flex; align-items: center; background: white; border-radius: 10px; padding: 15px; margin-bottom: 10px; cursor: pointer; border-left: 4px solid #F59E0B; font-weight: bold; }
-        body.dark-mode .list-item { background: #4a5568; border-left-color: #F59E0B; }
+        .video-placeholder { width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 1.5rem; }
+        .bhajan-list { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 700px; max-height: 250px; overflow-y: auto; padding-right: 10px; }
+        .list-item { padding: 15px 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-align: left; transition: all 0.2s; }
+        .list-item:hover, .list-item:focus { background: rgba(255,255,255,0.2); transform: scale(1.02); }
 
-        /* Counter Box Themes */
-        .counter-container { border-radius: 20px; padding: 25px; margin-bottom: 20px; text-align: center; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .theme-radha { background: linear-gradient(135deg, #8B5CF6, #A78BFA); }
-        .theme-shiv { background: linear-gradient(135deg, #3B82F6, #60A5FA); }
-        .theme-ram { background: linear-gradient(135deg, #EA580C, #FB923C); }
-        .theme-navkar { background: linear-gradient(135deg, #059669, #34D399); }
+        /* Fixed Settings Row */
+        .setting-row { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; font-size: 1.5rem; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; margin-bottom: 15px; }
+        .setting-btn { padding: 10px 25px; font-size: 1.2rem; flex: none; width: auto; /* Prevent taking full width */ }
 
-        .target-dropdown { width: 100%; padding: 10px; border-radius: 10px; border: none; margin-top: 10px; font-weight: bold; color: #333; background: white; outline: none; }
+        /* FX */
+        .aarti-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1; }
+        .flower { position: absolute; font-size: 35px; animation: fall linear infinite; opacity: 0; }
+        @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0.2; } }
 
-        .mala-stats { display: flex; justify-content: space-between; margin-top: 15px; font-size: 16px; font-weight: bold; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; }
+        .diya-container { position: absolute; bottom: 6%; left: 0; width: 100%; display: none; justify-content: space-evenly; align-items: center; padding: 0 20px; pointer-events: none; z-index: 2; }
+        .diya { font-size: 60px; animation: diya-glow 2s ease-in-out infinite alternate; }
+        .diya:nth-child(4) { animation-delay: 0s; } .diya:nth-child(3), .diya:nth-child(5) { animation-delay: 0.3s; } .diya:nth-child(2), .diya:nth-child(6) { animation-delay: 0.6s; } .diya:nth-child(1), .diya:nth-child(7) { animation-delay: 0.9s; }
+        @keyframes diya-glow { 0% { text-shadow: 0 0 10px rgba(255, 165, 0, 0.4), 0 0 20px rgba(255, 69, 0, 0.2); transform: scale(0.95); } 100% { text-shadow: 0 0 25px rgba(255, 165, 0, 0.9), 0 0 45px rgba(255, 215, 0, 0.8), 0 0 70px #FFD700; transform: scale(1.1); } }
 
-        .counter-display { font-size: 4.5rem; font-weight: bold; margin: 15px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        
-        .counter-buttons { display: grid; grid-template-columns: 1fr; gap: 15px; margin: 20px 0; }
-        .btn { padding: 18px; border: none; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: white; transition: transform 0.1s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .btn:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .btn-inc { background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.5); font-size: 1.5rem; }
-        .btn-reset { background: rgba(239, 68, 68, 0.9); padding: 12px; font-size: 1rem; }
-        
-        .progress-bar { width: 100%; height: 12px; background: rgba(255,255,255,0.3); border-radius: 10px; overflow: hidden; margin-bottom: 5px; }
-        .progress-fill { height: 100%; background: #fff; width: 0%; transition: width 0.3s; }
-        .progress-text { font-size: 12px; opacity: 0.9; }
+        /* Popups */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; }
+        .modal-content { text-align: center; padding: 40px; width: 500px; max-width: 90%; border-radius: 30px; }
+        .ad-loader { font-size: 1.2rem; margin-top: 15px; color: #FFD700; }
 
-        /* Splash & Popups */
-        .splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; color: white; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 3000; padding: 20px;}
-        .mala-popup-content { background: linear-gradient(135deg, #F59E0B, #D97706); color: white; padding: 30px; border-radius: 20px; text-align: center; width: 100%; max-width: 320px; animation: popupBounce 0.5s; }
-        @keyframes popupBounce { 0% { transform: scale(0.8); opacity: 0;} 100% { transform: scale(1); opacity: 1;} }
-        .notification { position: fixed; top: 20px; right: 20px; background: #10B981; color: white; padding: 15px; border-radius: 10px; display: none; z-index: 5000; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2);}
-        
-        /* Settings Toggle */
-        .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: bold; font-size: 16px; }
-        .toggle-btn { padding: 10px 20px; background: #10B981; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        .toggle-btn.off { background: #EF4444; }
+        /* Mobile */
+        @media (max-width: 768px) {
+            .container { flex-direction: column; height: 100vh; margin: 0; max-width: 100vw; gap: 0; }
+            .main-content { border-radius: 0; padding: 15px; padding-bottom: 90px; justify-content: flex-start; padding-top: 6vh; }
+            .mantra-title { font-size: 1.8rem; } 
+            .mantra-subtitle { font-size: 0.95rem; margin-bottom: 12px; }
+            .stats-box { font-size: 1.1rem; padding: 8px 20px; margin-bottom: 15px; }
+            .glass-select { font-size: 1rem; padding: 10px; margin-bottom: 20px; max-width: 280px; }
+            
+            .counter-display { font-size: 4.5rem; margin: 5px 0 25px 0; text-shadow: 0 0 10px rgba(255,255,255,0.4); } 
+            
+            .btn-group { gap: 15px; padding: 0 10px; } 
+            .btn { font-size: 1.2rem; padding: 14px; border-radius: 12px; } 
+            
+            /* Mobile Settings Row Fix */
+            .setting-row { font-size: 1.2rem; padding: 15px; }
+            .setting-btn { font-size: 1rem; padding: 8px 20px; }
+            
+            .video-container { height: 220px; margin-bottom: 15px; } .bhajan-list { max-height: calc(100vh - 400px); } .list-item { font-size: 1rem; padding: 12px 15px; }
+            .diya-container { bottom: 13%; padding: 0 10px; } .diya { font-size: 38px; }
+
+            .sidebar { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; flex-direction: row; justify-content: space-around; align-items: center; border-radius: 25px 25px 0 0; padding: 5px; gap: 2px; z-index: 1000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); }
+            .sidebar-title, .sidebar hr, .streak-banner { display: none; }
+            
+            .main-content::before {
+                content: attr(data-streak);
+                position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px;
+            }
+
+            .menu-item { flex-direction: column; padding: 5px; font-size: 11px; gap: 3px; flex: 1; text-align: center; border-radius: 10px; background: transparent; }
+            .menu-item span { font-size: 20px; } .menu-item.active { background: rgba(255,255,255,0.2); border: none; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="splash-screen" id="splashScreen">
-        <div style="font-size: 80px; margin-bottom: 20px;">🕉️</div>
-        <h2>भजन एवं जप ऐप</h2>
-        <p style="margin-top: 10px;">शांति और भक्ति का मार्ग</p>
+    <div class="aarti-container" id="fxContainer"></div>
+    <div class="diya-container" id="diyaAnim">
+        <span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span>
     </div>
-
-    <div class="notification" id="notification"></div>
 
     <div class="modal" id="malaPopup">
-        <div class="mala-popup-content">
-            <div style="font-size: 60px; margin-bottom: 15px;">🎉</div>
-            <h2 style="margin-bottom: 10px;">बधाई हो!</h2>
-            <p id="malaCompletionMessage" style="margin-bottom: 20px; font-size: 18px;">आपने 1 माला पूरी कर ली है!</p>
-            <button onclick="closeMalaPopup()" id="closePopupBtn" style="background: white; color: #D97706; border: none; padding: 12px 30px; border-radius: 20px; font-weight: bold; cursor:pointer; font-size: 16px;">जय श्री कृष्ण</button>
+        <div class="glass-panel modal-content">
+            <div style="font-size: 60px; margin-bottom: 15px; animation: bounce 1s infinite;">🌸</div>
+            <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
+            <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
+            <div class="ad-loader" id="adNotice">Loading Ad...</div>
+            <button tabindex="0" class="btn" id="closePopupBtn" onclick="closePopup()" style="margin-top: 20px; font-size: 1.2rem;">आगे बढ़ें (Close)</button>
         </div>
     </div>
 
-    <div class="side-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
-    <div class="side-menu" id="sideMenu">
-        <div class="side-menu-header">भक्ति मार्ग</div>
-        <div class="menu-item active" onclick="switchScreen(0, 'भजन संग्रह')"><span>🎵</span> भजन संग्रह</div>
-        <div class="menu-item" onclick="switchScreen(1, 'राधा जप')"><span>📿</span> राधा जप काउंटर</div>
-        <div class="menu-item" onclick="switchScreen(2, 'शिव जप')"><span>🔱</span> शिव जप काउंटर</div>
-        <div class="menu-item" onclick="switchScreen(3, 'राम जप')"><span>🚩</span> राम जप काउंटर</div>
-        <div class="menu-item" onclick="switchScreen(4, 'नवकार मंत्र')"><span>🙏</span> नवकार मंत्र</div>
-        <div class="menu-item" onclick="switchScreen(5, 'पॉलिसी')"><span>📜</span> प्राइवेसी पॉलिसी</div>
-        <div class="menu-item" onclick="switchScreen(6, 'सेटिंग्स')"><span>⚙️</span> सेटिंग्स</div>
+    <div class="modal" id="streakPopup">
+        <div class="glass-panel modal-content" style="background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(178, 31, 31, 0.4));">
+            <div style="font-size: 70px; margin-bottom: 10px; animation: fadeIn 0.8s ease;">🔥</div>
+            <h1 id="streakPopupTitle" style="font-size: 2.2rem; margin-bottom: 15px;">पहला दिन</h1>
+            <p id="streakPopupMsg" style="font-size: 1.3rem; margin-bottom: 25px;">आज से आपकी भक्ति यात्रा शुरू हुई!</p>
+            <button tabindex="0" class="btn" id="closeStreakBtn" onclick="closeStreakPopup()" style="background: rgba(255,255,255,0.3); font-size: 1.2rem;">जय श्री राम</button>
+        </div>
     </div>
 
-    <div class="fab-menu" onclick="toggleMenu()">☰</div>
-
-    <div class="container" id="mainApp">
-        
-        <div class="section-title" id="pageTitle" style="margin-top: 20px;">भजन संग्रह</div>
-
-        <div class="screen active" id="screen0">
-            <div class="video-container" id="videoContainer">
-                <div class="video-placeholder">
-                    <div style="font-size: 40px; margin-bottom: 10px;">🎵</div>
-                    <div>राधा कृष्ण भजन संग्रह</div>
+    <div class="container">
+        <div class="glass-panel main-content" id="mainArea" data-streak="🔥 स्ट्रीक: 1 दिन">
+            
+            <div class="screen" id="screen_bhajan">
+                <div class="mantra-title">🎵 भजन एवं आरती</div>
+                <div class="video-container" id="videoContainer">
+                    <div class="video-placeholder"><span style="font-size: 40px; margin-bottom: 10px;">🪔</span>भजन सुनने के लिए नीचे से चुनें</div>
+                </div>
+                <div class="bhajan-list">
+                    <button tabindex="0" class="list-item" onclick="playVideo('xDYTKQc9Gr8')">▶️ श्री कृष्ण गोविन्द हरे मुरारे</button>
+                    <button tabindex="0" class="list-item" onclick="playVideo('fiOu9jAr78k')">▶️ राधे राधे भजन (आरती)</button>
+                    <button tabindex="0" class="list-item" onclick="playVideo('Feoea8FQTI0')">▶️ मेरे तो गिरिधर गोपाल</button>
+                    <button tabindex="0" class="list-item" onclick="playVideo('W9c4f7kHlW8')">▶️ शिव तांडव स्तोत्रम्</button>
+                    <button tabindex="0" class="list-item" onclick="playVideo('pSgHjI_mZcI')">▶️ श्री राम जानकी बैठे हैं</button>
                 </div>
             </div>
-            <div class="card-list">
-                <div class="list-item" onclick="playVideo('xDYTKQc9Gr8')">▶️ श्री कृष्ण गोविन्द हरे मुरारे</div>
-                <div class="list-item" onclick="playVideo('fiOu9jAr78k')">▶️ राधे राधे भजन</div>
-                <div class="list-item" onclick="playVideo('Feoea8FQTI0')">▶️ मेरे तो गिरिधर गोपाल</div>
-            </div>
-        </div>
 
-        <div class="screen" id="screen1">
-            <div class="counter-container theme-radha">
-                <div style="font-size: 22px; font-weight:bold;">ॐ राधे राधे</div>
+            <div class="screen active" id="screen_radha">
+                <div class="mantra-title">॥ ॐ राधे राधे ॥</div>
+                <div class="mantra-subtitle">(1 माला = 108 जप)</div>
+                <div class="stats-box"><span>माला: <span id="mala_radha">0</span></span><span>कुल: <span id="total_radha">0</span></span></div>
                 
-                <select id="target_radha" class="target-dropdown" onchange="updateTarget('radha', this.value)">
-                    <option value="108">लक्ष्य: 1 माला (108 जप)</option>
-                    <option value="540">लक्ष्य: 5 माला (540 जप)</option>
-                    <option value="1188">लक्ष्य: 11 माला (1188 जप)</option>
-                    <option value="2268">लक्ष्य: 21 माला (2268 जप)</option>
+                <select id="target_radha" class="glass-select" onchange="updateTarget('radha', this.value)">
+                    <option value="108">🎯 लक्ष्य: 1 माला (108 जप)</option>
+                    <option value="540">🎯 लक्ष्य: 5 माला (540 जप)</option>
+                    <option value="1188">🎯 लक्ष्य: 11 माला (1188 जप)</option>
+                    <option value="2268">🎯 लक्ष्य: 21 माला (2268 जप)</option>
+                    <option value="5508">🎯 लक्ष्य: 51 माला (5508 जप)</option>
                 </select>
 
-                <div class="mala-stats">
-                    <span>पूर्ण माला: <span id="radhaMala">0</span></span>
-                    <span>कुल जप: <span id="radhaTotal">0</span></span>
-                </div>
-
-                <div class="counter-display" id="radhaCount">0</div>
-                
-                <div class="progress-bar"><div class="progress-fill" id="radhaProgress"></div></div>
-                <div class="progress-text" id="radhaTargetText">लक्ष्य प्रगति: 0%</div>
-
-                <div class="counter-buttons">
-                    <button class="btn btn-inc" onclick="incrementCounter('radha')">📿 जप करें</button>
-                    <button class="btn btn-reset" onclick="resetCounter('radha')">🔄 रीसेट</button>
-                </div>
+                <div class="counter-display" id="count_radha">0</div>
+                <div class="btn-group"><button tabindex="0" class="btn btn-inc" onclick="increment('radha')">📿 जप करें</button><button tabindex="0" class="btn btn-reset" onclick="reset('radha')">🔄 रीसेट</button></div>
             </div>
-        </div>
 
-        <div class="screen" id="screen2">
-            <div class="counter-container theme-shiv">
-                <div style="font-size: 22px; font-weight:bold;">ॐ नमः शिवाय</div>
+            <div class="screen" id="screen_shiv">
+                <div class="mantra-title">॥ ॐ नमः शिवाय ॥</div>
+                <div class="mantra-subtitle">(1 माला = 108 जप)</div>
+                <div class="stats-box"><span>माला: <span id="mala_shiv">0</span></span><span>कुल: <span id="total_shiv">0</span></span></div>
                 
-                <select id="target_shiv" class="target-dropdown" onchange="updateTarget('shiv', this.value)">
-                    <option value="108">लक्ष्य: 1 माला (108 जप)</option>
-                    <option value="540">लक्ष्य: 5 माला (540 जप)</option>
-                    <option value="1188">लक्ष्य: 11 माला (1188 जप)</option>
-                    <option value="2268">लक्ष्य: 21 माला (2268 जप)</option>
+                <select id="target_shiv" class="glass-select" onchange="updateTarget('shiv', this.value)">
+                    <option value="108">🎯 लक्ष्य: 1 माला (108 जप)</option>
+                    <option value="540">🎯 लक्ष्य: 5 माला (540 जप)</option>
+                    <option value="1188">🎯 लक्ष्य: 11 माला (1188 जप)</option>
+                    <option value="2268">🎯 लक्ष्य: 21 माला (2268 जप)</option>
+                    <option value="5508">🎯 लक्ष्य: 51 माला (5508 जप)</option>
                 </select>
 
-                <div class="mala-stats">
-                    <span>पूर्ण माला: <span id="shivMala">0</span></span>
-                    <span>कुल जप: <span id="shivTotal">0</span></span>
-                </div>
-
-                <div class="counter-display" id="shivCount">0</div>
-                
-                <div class="progress-bar"><div class="progress-fill" id="shivProgress"></div></div>
-                <div class="progress-text" id="shivTargetText">लक्ष्य प्रगति: 0%</div>
-
-                <div class="counter-buttons">
-                    <button class="btn btn-inc" onclick="incrementCounter('shiv')">📿 जप करें</button>
-                    <button class="btn btn-reset" onclick="resetCounter('shiv')">🔄 रीसेट</button>
-                </div>
+                <div class="counter-display" id="count_shiv">0</div>
+                <div class="btn-group"><button tabindex="0" class="btn btn-inc" onclick="increment('shiv')">📿 जप करें</button><button tabindex="0" class="btn btn-reset" onclick="reset('shiv')">🔄 रीसेट</button></div>
             </div>
-        </div>
 
-        <div class="screen" id="screen3">
-            <div class="counter-container theme-ram">
-                <div style="font-size: 22px; font-weight:bold;">जय श्री राम</div>
+            <div class="screen" id="screen_ram">
+                <div class="mantra-title">॥ जय श्री राम ॥</div>
+                <div class="mantra-subtitle">(1 माला = 108 जप)</div>
+                <div class="stats-box"><span>माला: <span id="mala_ram">0</span></span><span>कुल: <span id="total_ram">0</span></span></div>
                 
-                <select id="target_ram" class="target-dropdown" onchange="updateTarget('ram', this.value)">
-                    <option value="108">लक्ष्य: 1 माला (108 जप)</option>
-                    <option value="540">लक्ष्य: 5 माला (540 जप)</option>
-                    <option value="1188">लक्ष्य: 11 माला (1188 जप)</option>
-                    <option value="2268">लक्ष्य: 21 माला (2268 जप)</option>
+                <select id="target_ram" class="glass-select" onchange="updateTarget('ram', this.value)">
+                    <option value="108">🎯 लक्ष्य: 1 माला (108 जप)</option>
+                    <option value="540">🎯 लक्ष्य: 5 माला (540 जप)</option>
+                    <option value="1188">🎯 लक्ष्य: 11 माला (1188 जप)</option>
+                    <option value="2268">🎯 लक्ष्य: 21 माला (2268 जप)</option>
+                    <option value="5508">🎯 लक्ष्य: 51 माला (5508 जप)</option>
                 </select>
 
-                <div class="mala-stats">
-                    <span>पूर्ण माला: <span id="ramMala">0</span></span>
-                    <span>कुल जप: <span id="ramTotal">0</span></span>
-                </div>
-
-                <div class="counter-display" id="ramCount">0</div>
-                
-                <div class="progress-bar"><div class="progress-fill" id="ramProgress"></div></div>
-                <div class="progress-text" id="ramTargetText">लक्ष्य प्रगति: 0%</div>
-
-                <div class="counter-buttons">
-                    <button class="btn btn-inc" onclick="incrementCounter('ram')">📿 जप करें</button>
-                    <button class="btn btn-reset" onclick="resetCounter('ram')">🔄 रीसेट</button>
-                </div>
+                <div class="counter-display" id="count_ram">0</div>
+                <div class="btn-group"><button tabindex="0" class="btn btn-inc" onclick="increment('ram')">📿 जप करें</button><button tabindex="0" class="btn btn-reset" onclick="reset('ram')">🔄 रीसेट</button></div>
             </div>
-        </div>
 
-        <div class="screen" id="screen4">
-            <div class="counter-container theme-navkar">
-                <div style="font-size: 22px; font-weight:bold;">णमो अरिहंताणं</div>
+            <div class="screen" id="screen_navkar">
+                <div class="mantra-title">॥ णमो अरिहंताणं ॥</div>
+                <div class="mantra-subtitle">(1 माला = 108 जप)</div>
+                <div class="stats-box"><span>माला: <span id="mala_navkar">0</span></span><span>कुल: <span id="total_navkar">0</span></span></div>
                 
-                <select id="target_navkar" class="target-dropdown" onchange="updateTarget('navkar', this.value)">
-                    <option value="108">लक्ष्य: 1 माला (108 जप)</option>
-                    <option value="540">लक्ष्य: 5 माला (540 जप)</option>
-                    <option value="1188">लक्ष्य: 11 माला (1188 जप)</option>
-                    <option value="2268">लक्ष्य: 21 माला (2268 जप)</option>
+                <select id="target_navkar" class="glass-select" onchange="updateTarget('navkar', this.value)">
+                    <option value="108">🎯 लक्ष्य: 1 माला (108 जप)</option>
+                    <option value="540">🎯 लक्ष्य: 5 माला (540 जप)</option>
+                    <option value="1188">🎯 लक्ष्य: 11 माला (1188 जप)</option>
+                    <option value="2268">🎯 लक्ष्य: 21 माला (2268 जप)</option>
+                    <option value="5508">🎯 लक्ष्य: 51 माला (5508 जप)</option>
                 </select>
 
-                <div class="mala-stats">
-                    <span>पूर्ण माला: <span id="navkarMala">0</span></span>
-                    <span>कुल जप: <span id="navkarTotal">0</span></span>
-                </div>
-
-                <div class="counter-display" id="navkarCount">0</div>
-                
-                <div class="progress-bar"><div class="progress-fill" id="navkarProgress"></div></div>
-                <div class="progress-text" id="navkarTargetText">लक्ष्य प्रगति: 0%</div>
-
-                <div class="counter-buttons">
-                    <button class="btn btn-inc" onclick="incrementCounter('navkar')">📿 जप करें</button>
-                    <button class="btn btn-reset" onclick="resetCounter('navkar')">🔄 रीसेट</button>
-                </div>
+                <div class="counter-display" id="count_navkar">0</div>
+                <div class="btn-group"><button tabindex="0" class="btn btn-inc" onclick="increment('navkar')">📿 जप करें</button><button tabindex="0" class="btn btn-reset" onclick="reset('navkar')">🔄 रीसेट</button></div>
             </div>
+
+            <div class="screen" id="screen_settings">
+                <div class="mantra-title" style="margin-bottom: 30px;">सेटिंग्स</div>
+                <div class="setting-row"><span>🔊 जप ध्वनि</span><button tabindex="0" id="soundBtn" class="btn setting-btn" onclick="toggleSound()">ON</button></div>
+                <div class="setting-row"><span>✨ एनिमेशन और आरती</span><button tabindex="0" id="animBtn" class="btn setting-btn" onclick="toggleAnimations()">ON</button></div>
+            </div>
+
         </div>
 
-        <div class="screen" id="screen5">
-            <div class="card-list" style="text-align: center;">
-                <p style="margin-bottom: 20px; line-height: 1.6;">हम आपकी प्राइवेसी का सम्मान करते हैं। यह ऐप आपका कोई भी निजी डेटा इंटरनेट पर स्टोर नहीं करती है।</p>
-                <button onclick="showPrivacyAlert()" style="padding: 15px 30px; background: #1E40AF; color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; width: 100%;">पॉलिसी पढ़ें (Alert)</button>
+        <div class="glass-panel sidebar" id="sidebar">
+            <div class="sidebar-title">🕉️ भक्ति मार्ग</div>
+            
+            <div class="streak-banner">
+                <div class="greeting-text" id="greetingMsg">जय श्री राम</div>
+                <div class="streak-count" id="streakMsg">🔥 स्ट्रीक: 1 दिन</div>
             </div>
-        </div>
 
-        <div class="screen" id="screen6">
-            <div class="card-list">
-                <div class="setting-row">
-                    <span>🔊 क्लिक साउंड (Click Sound)</span>
-                    <button id="soundToggleBtn" class="toggle-btn" onclick="toggleSound()">ON</button>
-                </div>
-                <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.1); margin: 15px 0;">
-                <div class="setting-row">
-                    <span>🌙 डार्क मोड (Dark Mode)</span>
-                    <button id="darkToggleBtn" class="toggle-btn off" onclick="toggleDarkMode()">OFF</button>
-                </div>
-            </div>
+            <hr style="border: 1px solid rgba(255,255,255,0.2); margin-bottom: 5px;">
+            <div tabindex="0" class="menu-item" onclick="switchScreen('bhajan')"><span>🎵</span> <div>भजन</div></div>
+            <div tabindex="0" class="menu-item active" onclick="switchScreen('radha')"><span>📿</span> <div>राधा</div></div>
+            <div tabindex="0" class="menu-item" onclick="switchScreen('shiv')"><span>🔱</span> <div>शिव</div></div>
+            <div tabindex="0" class="menu-item" onclick="switchScreen('ram')"><span>🚩</span> <div>राम</div></div>
+            <div tabindex="0" class="menu-item" onclick="switchScreen('navkar')"><span>🙏</span> <div>नवकार</div></div>
+            <div tabindex="0" class="menu-item" onclick="switchScreen('settings')"><span>⚙️</span> <div>सेटिंग्स</div></div>
         </div>
 
     </div>
 
     <script>
-        // Data & Variables
-        let counts = { radha: 0, shiv: 0, ram: 0, navkar: 0 };
+        let data = { radha: 0, shiv: 0, ram: 0, navkar: 0, sound: true, anim: true };
         let targets = { radha: 108, shiv: 108, ram: 108, navkar: 108 };
-        let names = { radha: "राधा", shiv: "शिव", ram: "श्री राम", navkar: "नवकार मंत्र" };
-        
-        let lastAdTime = Date.now();
-        let darkMode = false;
-        let soundEnabled = true;
-        let navigationCount = 0;
-        let audioCtx;
-        
-        // TV specific variables
-        let activeScreenId = 0; // Tracks which screen is open
-        let isPopupOpen = false; // Tracks if a popup is active
+        let activeScreen = 'radha';
+        let isPopupOpen = false;
 
-        // Init App
-        window.addEventListener('load', () => {
-            loadSavedData();
-            setTimeout(() => {
-                document.getElementById('splashScreen').style.display = 'none';
-                document.getElementById('mainApp').style.display = 'flex';
-                
-                // Trigger auto interstitial every 3 minutes
-                setInterval(() => { triggerNativeInterstitial('Timer_3_Min'); }, 3 * 60 * 1000); 
-            }, 2500);
-        });
+        window.onload = () => {
+            const savedData = localStorage.getItem('premiumJaapDataV12');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV3');
+            
+            if(savedData) data = { ...data, ...JSON.parse(savedData) };
+            if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
+            
+            handleDailyStreakAndGreeting();
+            
+            ['radha', 'shiv', 'ram', 'navkar'].forEach(id => {
+                document.getElementById(`target_${id}`).value = targets[id];
+                updateUI(id);
+            });
+            
+            document.getElementById('soundBtn').innerText = data.sound ? 'ON' : 'OFF';
+            document.getElementById('animBtn').innerText = data.anim ? 'ON' : 'OFF';
+            
+            if(data.anim) { startFlowerAnimation(); toggleAartiDiya(true); }
+            switchScreen('radha'); 
+        };
 
-        // Audio Engine (Tick Sound)
-        function initAudio() {
-            if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-        }
-        function playClickSound() {
-            if(!soundEnabled) return;
-            if(!audioCtx) initAudio();
-            if(audioCtx.state === 'suspended') audioCtx.resume();
+        function handleDailyStreakAndGreeting() {
+            const hour = new Date().getHours();
+            let greeting = "जय श्री राम"; let timeTheme = "";
+            if(hour >= 5 && hour < 12) { greeting = "☀️ सुप्रभात"; timeTheme = "theme-morning"; }
+            else if(hour >= 12 && hour < 18) { greeting = "⛅ शुभ दोपहर"; }
+            else { greeting = "🌙 शुभ रात्रि"; timeTheme = "theme-night"; }
             
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.1);
-        }
+            document.getElementById('greetingMsg').innerText = greeting;
+            window.currentTimeTheme = timeTheme;
 
-        // Navigation
-        function toggleMenu() {
-            const menu = document.getElementById('sideMenu');
-            const overlay = document.getElementById('menuOverlay');
-            if (menu.style.left === '0px') {
-                menu.style.left = '-280px';
-                overlay.style.opacity = '0';
-                setTimeout(() => overlay.style.display = 'none', 300);
-            } else {
-                overlay.style.display = 'block';
-                setTimeout(() => { overlay.style.opacity = '1'; menu.style.left = '0px'; }, 10);
+            let lastDate = localStorage.getItem('jaapLastDate');
+            let streak = parseInt(localStorage.getItem('jaapStreak')) || 0;
+            let today = new Date().toDateString();
+            let showStreakPopup = false;
+
+            if (lastDate !== today) {
+                let yesterday = new Date(Date.now() - 86400000).toDateString();
+                if (lastDate === yesterday) { streak++; } else { streak = 1; }
+                localStorage.setItem('jaapLastDate', today);
+                localStorage.setItem('jaapStreak', streak);
+                showStreakPopup = true; 
+            } else if (streak === 0) {
+                streak = 1;
+                localStorage.setItem('jaapLastDate', today);
+                localStorage.setItem('jaapStreak', streak);
+                showStreakPopup = true;
+            }
+
+            const streakText = `🔥 स्ट्रीक: ${streak} दिन`;
+            document.getElementById('streakMsg').innerText = streakText;
+            document.getElementById('mainArea').setAttribute('data-streak', streakText);
+
+            if (showStreakPopup) {
+                isPopupOpen = true;
+                if (streak === 1) {
+                    document.getElementById('streakPopupTitle').innerText = "🔥 पहला दिन!";
+                    document.getElementById('streakPopupMsg').innerText = "आज से आपकी भक्ति यात्रा शुरू। जय श्री राम!";
+                } else {
+                    document.getElementById('streakPopupTitle').innerText = `🔥 लगातार ${streak} दिन!`;
+                    document.getElementById('streakPopupMsg').innerText = "अद्भुत! आपने अपना नियम और स्ट्रीक बनाए रखा है।";
+                }
+                document.getElementById('streakPopup').style.display = 'flex';
+                setTimeout(() => { document.getElementById('closeStreakBtn').focus(); }, 200);
             }
         }
 
-        function switchScreen(id, title) {
-            activeScreenId = id; // Track active screen for TV remote logic
-            
+        function closeStreakPopup() {
+            playSound(); document.getElementById('streakPopup').style.display = 'none'; isPopupOpen = false;
+            document.querySelector(`#screen_${activeScreen} .btn-inc`).focus();
+        }
+
+        function saveData() { 
+            localStorage.setItem('premiumJaapDataV12', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV3', JSON.stringify(targets)); 
+        }
+
+        function switchScreen(id) {
+            activeScreen = id;
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            document.getElementById(`screen_${id}`).classList.add('active');
             
-            document.getElementById('screen' + id).classList.add('active');
-            document.querySelectorAll('.menu-item')[id].classList.add('active');
-            document.getElementById('pageTitle').textContent = title;
-            toggleMenu();
+            const menus = document.querySelectorAll('.menu-item');
+            menus.forEach(m => m.classList.remove('active'));
+            
+            if(id === 'bhajan') menus[0].classList.add('active');
+            else if(id === 'radha') menus[1].classList.add('active');
+            else if(id === 'shiv') menus[2].classList.add('active');
+            else if(id === 'ram') menus[3].classList.add('active');
+            else if(id === 'navkar') menus[4].classList.add('active');
+            else if(id === 'settings') menus[5].classList.add('active');
 
-            navigationCount++;
-            if(navigationCount >= 4) {
-                triggerNativeInterstitial('Menu_Navigation');
-                navigationCount = 0;
+            if(id === 'settings' && window.currentTimeTheme) { document.body.className = window.currentTimeTheme; } 
+            else { document.body.className = id !== 'settings' ? `theme-${id}` : ''; }
+            
+            if(id !== 'bhajan' && id !== 'settings' && data.anim) toggleAartiDiya(true); else toggleAartiDiya(false);
+
+            if(id !== 'settings' && id !== 'bhajan') setTimeout(() => { document.querySelector(`#screen_${id} .btn-inc`).focus(); }, 100);
+            if(id === 'bhajan') setTimeout(() => { document.querySelector('.bhajan-list button').focus(); }, 100);
+            
+            if(id !== 'bhajan') document.getElementById('videoContainer').innerHTML = `<div class="video-placeholder"><span style="font-size: 40px; margin-bottom: 10px;">🪔</span>भजन सुनने के लिए नीचे से चुनें</div>`;
+        }
+
+        function playVideo(videoId) {
+            playSound();
+            document.getElementById('videoContainer').innerHTML = `<iframe class="video-frame" src="https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>`;
+        }
+
+        function updateTarget(id, val) {
+            targets[id] = parseInt(val);
+            saveData();
+            playSound();
+        }
+
+        function increment(id) {
+            playSound();
+            if (navigator.vibrate) navigator.vibrate(30);
+            data[id]++; updateUI(id); saveData(); checkAdMilestones(id);
+        }
+
+        function reset(id) {
+            if(confirm("क्या आप काउंटर को 0 करना चाहते हैं?")) { data[id] = 0; updateUI(id); saveData(); }
+        }
+
+        function updateUI(id) {
+            document.getElementById(`count_${id}`).innerText = data[id];
+            document.getElementById(`total_${id}`).innerText = data[id];
+            document.getElementById(`mala_${id}`).innerText = Math.floor(data[id] / 108);
+        }
+
+        function checkAdMilestones(id) {
+            const count = data[id];
+            const target = targets[id];
+
+            if (count > 0 && count === target) {
+                showModal(`🌟 अद्भुत! आपका ${target/108} माला का लक्ष्य पूरा हुआ!`, true, "लक्ष्य पूर्ण");
+                return;
+            }
+
+            if (count > 0 && count % 540 === 0) { 
+                showModal(`अद्भुत! आपने 5 माला पूरी कर ली हैं।`, true, "जय श्री कृष्ण"); 
+            } else if (count > 0 && count % 108 === 0) { 
+                showModal(`आपने 1 माला पूरी कर ली है।`, false, "जय श्री कृष्ण"); 
             }
         }
 
-        // TV Remote (D-Pad) Keypress Event
-        document.addEventListener('keydown', function(event) {
-            // Only count if popup is closed and we are on a Jaap screen (screens 1 to 4)
-            if (!isPopupOpen && activeScreenId >= 1 && activeScreenId <= 4) {
-                
-                // KeyCodes for TV Remote OK/Center, Space, and Enter
-                if (event.key === 'Enter' || event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 23 || event.keyCode === 66) {
-                    
-                    // Prevent default action (like scrolling down with spacebar)
-                    if (event.keyCode === 32) event.preventDefault();
+        function showModal(message, isRewarded, title="जय श्री कृष्ण") {
+            isPopupOpen = true;
+            document.getElementById('malaPopupTitle').innerText = title;
+            document.getElementById('popupMessage').innerText = message;
+            document.getElementById('malaPopup').style.display = 'flex';
+            document.getElementById('closePopupBtn').focus(); 
+            
+            setTimeout(() => {
+                try {
+                    if(isRewarded) {
+                        document.getElementById('adNotice').innerText = "Rewarded Ad Loading...";
+                        window.location.href = "appcreator24://rewarded"; 
+                    } else {
+                        document.getElementById('adNotice').innerText = "Ad Loading...";
+                        window.location.href = "appcreator24://interstitial";
+                    }
+                } catch(e) {}
+            }, 1000);
+        }
 
-                    // Increment the specific counter based on active screen
-                    if (activeScreenId === 1) incrementCounter('radha');
-                    else if (activeScreenId === 2) incrementCounter('shiv');
-                    else if (activeScreenId === 3) incrementCounter('ram');
-                    else if (activeScreenId === 4) incrementCounter('navkar');
+        function closePopup() { document.getElementById('malaPopup').style.display = 'none'; isPopupOpen = false; document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13 || e.keyCode === 32 || e.keyCode === 23 || e.keyCode === 66) {
+                if(document.activeElement && (document.activeElement.tagName === 'BUTTON' || document.activeElement.tagName === 'SELECT' || document.activeElement.classList.contains('menu-item') || document.activeElement.classList.contains('list-item'))) {
+                    return; 
                 }
-            } else if (isPopupOpen && (event.key === 'Enter' || event.keyCode === 13 || event.keyCode === 23 || event.keyCode === 66)) {
-                // If popup is open, pressing 'OK' on TV remote will close the popup
-                closeMalaPopup();
+                if(!isPopupOpen && activeScreen !== 'settings' && activeScreen !== 'bhajan') {
+                    e.preventDefault(); increment(activeScreen);
+                }
             }
         });
 
-        // Counter Engine
-        function incrementCounter(type) {
-            playClickSound(); // Play sound on click
-            counts[type]++;
-            
-            if(navigator.vibrate) navigator.vibrate(40); // Small vibration
-
-            // 108 = 1 Mala logic
-            if (counts[type] > 0 && counts[type] % 108 === 0) {
-                isPopupOpen = true; // Block TV remote background clicks
-                const malasDone = counts[type] / 108;
-                document.getElementById('malaCompletionMessage').textContent = `आपने ${names[type]} की ${malasDone} माला पूरी कर ली है!`;
-                document.getElementById('malaPopup').style.display = 'flex';
-                document.getElementById('closePopupBtn').focus(); // Auto-focus close button for TV remote
-                
-                // Target Completion Check
-                if(counts[type] === targets[type]) {
-                    document.getElementById('malaCompletionMessage').innerHTML += `<br><br>🌟 आपका लक्ष्य (${targets[type]} जप) पूरा हुआ!`;
-                }
-                
-                // Trigger Native Interstitial Ad after Mala Complete
-                setTimeout(() => { triggerNativeInterstitial('108_Jap_' + type); }, 1000);
-            }
-            
-            updateUI(type);
+        function toggleSound() { data.sound = !data.sound; document.getElementById('soundBtn').innerText = data.sound ? 'ON' : 'OFF'; saveData(); }
+        
+        function toggleAnimations() {
+            data.anim = !data.anim; document.getElementById('animBtn').innerText = data.anim ? 'ON' : 'OFF';
+            const fx = document.getElementById('fxContainer');
+            if(data.anim) { fx.style.display = 'block'; startFlowerAnimation(); if(activeScreen !== 'bhajan' && activeScreen !== 'settings') toggleAartiDiya(true); } 
+            else { fx.style.display = 'none'; fx.innerHTML = ''; toggleAartiDiya(false); }
             saveData();
         }
 
-        function resetCounter(type) {
-            playClickSound();
-            if(confirm('क्या आप ' + names[type] + ' का जप रीसेट करना चाहते हैं?')) {
-                counts[type] = 0;
-                updateUI(type);
-                saveData();
-                showNotification('जप रीसेट हो गया');
+        function toggleAartiDiya(show) { document.getElementById('diyaAnim').style.display = show ? 'flex' : 'none'; }
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext; let audioCtx;
+        function playSound() {
+            if(!data.sound) return; if(!audioCtx) audioCtx = new AudioContext(); if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function startFlowerAnimation() {
+            const container = document.getElementById('fxContainer'); container.innerHTML = '';
+            const flowers = ['🌸', '🌺', '🌼', '🏵️']; const isMobile = window.innerWidth <= 768; const count = isMobile ? 8 : 15; 
+            for(let i=0; i<count; i++) {
+                setTimeout(() => {
+                    if(!data.anim) return;
+                    const el = document.createElement('div'); el.className = 'flower'; el.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+                    el.style.left = Math.random() * 100 + 'vw'; el.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
+                    container.appendChild(el); el.addEventListener('animationend', () => { el.remove(); if(data.anim) startFlowerAnimationSingle(); });
+                }, i * 400);
             }
         }
-
-        function updateTarget(type, value) {
-            targets[type] = parseInt(value);
-            updateUI(type);
-            saveData();
-            showNotification('लक्ष्य सेट: ' + value + ' जप');
-        }
-
-        function updateUI(type) {
-            let current = counts[type];
-            let target = targets[type];
-            let malas = Math.floor(current / 108);
-            
-            document.getElementById(type + 'Count').textContent = current;
-            document.getElementById(type + 'Total').textContent = current;
-            document.getElementById(type + 'Mala').textContent = malas;
-            
-            // Progress Calculation based on TARGET
-            let percent = (current / target) * 100;
-            if(percent > 100) percent = 100; // Cap at 100%
-            
-            document.getElementById(type + 'Progress').style.width = percent + '%';
-            document.getElementById(type + 'TargetText').textContent = `लक्ष्य प्रगति: ${Math.floor(percent)}% (${current}/${target})`;
-            
-            document.getElementById('target_' + type).value = target;
-        }
-
-        function closeMalaPopup() {
-            playClickSound();
-            isPopupOpen = false; // Allow TV remote clicks again
-            document.getElementById('malaPopup').style.display = 'none';
-        }
-
-        // Settings Toggles
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            let btn = document.getElementById('soundToggleBtn');
-            if(soundEnabled) { btn.textContent = 'ON'; btn.classList.remove('off'); playClickSound(); } 
-            else { btn.textContent = 'OFF'; btn.classList.add('off'); }
-            saveData();
-        }
-
-        function toggleDarkMode() {
-            playClickSound();
-            darkMode = !darkMode;
-            let btn = document.getElementById('darkToggleBtn');
-            if (darkMode) {
-                document.body.classList.add('dark-mode');
-                btn.textContent = 'ON'; btn.classList.remove('off');
-            } else {
-                document.body.classList.remove('dark-mode');
-                btn.textContent = 'OFF'; btn.classList.add('off');
-            }
-            saveData();
-        }
-
-        // Save/Load Logic
-        function saveData() {
-            localStorage.setItem('japAppCounts', JSON.stringify(counts));
-            localStorage.setItem('japAppTargets', JSON.stringify(targets));
-            localStorage.setItem('japAppDarkMode', darkMode);
-            localStorage.setItem('japAppSound', soundEnabled);
-        }
-
-        function loadSavedData() {
-            let sCounts = localStorage.getItem('japAppCounts');
-            let sTargets = localStorage.getItem('japAppTargets');
-            
-            if (sCounts) counts = JSON.parse(sCounts);
-            if (sTargets) targets = JSON.parse(sTargets);
-            
-            updateUI('radha'); updateUI('shiv'); updateUI('ram'); updateUI('navkar');
-            
-            let sDark = localStorage.getItem('japAppDarkMode');
-            if (sDark === 'true') { toggleDarkMode(); } // Call to set UI
-            
-            let sSound = localStorage.getItem('japAppSound');
-            if (sSound === 'false') { toggleSound(); } // Call to set UI
-        }
-
-        // --- NEW APP CREATOR 24 NATIVE AD TRIGGER ---
-        function triggerNativeInterstitial(source) {
-            const now = Date.now();
-            if (now - lastAdTime < 60000) return; // 1 min Anti-spam
-            
-            lastAdTime = now;
-        }
-
-        // Utils
-        function playVideo(id) {
-            playClickSound();
-            document.getElementById('videoContainer').innerHTML = `<iframe class="video-frame" src="https://www.youtube.com/embed/${id}?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>`;
-        }
-
-        function showPrivacyAlert() {
-            playClickSound();
-            alert("🔒 प्राइवेसी पॉलिसी\n\nयह ऐप आपके किसी भी निजी डेटा (नाम, नंबर, लोकेशन) को कलेक्ट या इंटरनेट पर शेयर नहीं करती है।\n\nआपके सभी जप काउंटर का डेटा सिर्फ आपके ही फ़ोन (Local Storage) में सुरक्षित रहता है।");
-        }
-
-        function showNotification(msg) {
-            const notif = document.getElementById('notification');
-            notif.textContent = msg;
-            notif.style.display = 'block';
-            setTimeout(() => notif.style.display = 'none', 3000);
+        function startFlowerAnimationSingle() {
+            const container = document.getElementById('fxContainer'); const flowers = ['🌸', '🌺', '🌼', '🏵️'];
+            const el = document.createElement('div'); el.className = 'flower'; el.innerText = flowers[Math.floor(Math.random() * flowers.length)]; 
+            el.style.left = Math.random() * 100 + 'vw'; el.style.animationDuration = (Math.random() * 3 + 4) + 's'; container.appendChild(el);
+            el.addEventListener('animationend', () => { el.remove(); if(data.anim) startFlowerAnimationSingle(); });
         }
     </script>
 </body>
