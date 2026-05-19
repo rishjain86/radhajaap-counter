@@ -139,7 +139,7 @@
             <div style="font-size: 60px; margin-bottom: 15px; animation: bounce 1s infinite;">🌸</div>
             <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
             <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
-            <button id="adLinkBtn" class="btn ad-btn-link" style="margin-top:20px;font-size:1.2rem;width:100%;" onclick="triggerAd()"> आगे बढ़ें </button> 
+            <button class="btn" style="margin-top:20px;font-size:1.2rem;width:100%;" onclick="closePopup()"> आगे बढ़ें (Close) </button>
         </div>
     </div>
 
@@ -268,13 +268,11 @@
         let data = { radha: 0, shiv: 0, ram: 0, navkar: 0, sound: true, anim: true };
         let targets = { radha: 108, shiv: 108, ram: 108, navkar: 108 };
         let activeScreen = 'radha';
-        
         let isPopupOpen = false;
-        let currentAdUrl = ""; 
 
         window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV22');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV13');
+            const savedData = localStorage.getItem('premiumJaapDataV23');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV14');
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -345,8 +343,8 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV22', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV13', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV23', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV14', JSON.stringify(targets)); 
         }
 
         function switchScreen(id) {
@@ -402,52 +400,35 @@
             document.getElementById(`mala_${id}`).innerText = Math.floor(data[id] / 108);
         }
 
+        // NO AD TRICKS HERE - PURE HTML POPUP
         function checkAdMilestones(id) {
             const count = data[id];
             const target = targets[id];
 
             if (count > 0 && count === target) {
-                showModal(`🌟 अद्भुत! आपका ${target/108} माला का लक्ष्य पूरा हुआ!`, "appcreator24://rewarded", "लक्ष्य पूर्ण");
+                showModal(`🌟 अद्भुत! आपका ${target/108} माला का लक्ष्य पूरा हुआ!`, "लक्ष्य पूर्ण");
                 return;
             }
 
             if (count > 0 && count % 540 === 0) { 
-                showModal(`अद्भुत! आपने 5 माला पूरी कर ली हैं।`, "appcreator24://rewarded", "जय श्री कृष्ण"); 
+                showModal(`अद्भुत! आपने 5 माला पूरी कर ली हैं।`, "जय श्री कृष्ण"); 
             } else if (count > 0 && count % 108 === 0) { 
-                showModal(`आपने 1 माला पूरी कर ली है।`, "appcreator24://interstitial", "जय श्री कृष्ण"); 
+                showModal(`आपने 1 माला पूरी कर ली है।`, "जय श्री कृष्ण"); 
             }
         }
 
-        // PERFECT CRASH-FREE FIX FOR APPCREATOR24
-        function showModal(message, adUrl, title="जय श्री कृष्ण") { 
+        function showModal(message, title="जय श्री कृष्ण") { 
             isPopupOpen = true; 
-            currentAdUrl = adUrl; 
             document.getElementById('malaPopupTitle').innerText = title; 
             document.getElementById('popupMessage').innerText = message; 
             document.getElementById('malaPopup').style.display = 'flex'; 
-            setTimeout(() => { document.getElementById('adLinkBtn').focus(); }, 100); 
         } 
         
-        function triggerAd() { 
+        function closePopup() { 
             playSound(); 
             document.getElementById('malaPopup').style.display = 'none'; 
             isPopupOpen = false; 
-            
-            // CREATES INVISIBLE IFRAME TO TRIGGER AD WITHOUT NAVIGATING MAIN PAGE
-            let adFrame = document.createElement("iframe");
-            adFrame.style.position = "absolute";
-            adFrame.style.width = "1px";
-            adFrame.style.height = "1px";
-            adFrame.style.border = "none";
-            adFrame.style.opacity = "0";
-            adFrame.src = currentAdUrl;
-            document.body.appendChild(adFrame);
-
-            // Clean up iframe and focus back
-            setTimeout(() => { 
-                if(document.body.contains(adFrame)) document.body.removeChild(adFrame);
-                document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); 
-            }, 2000);
+            setTimeout(() => { document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }, 100); 
         }
 
         document.addEventListener('keydown', function(e) {
