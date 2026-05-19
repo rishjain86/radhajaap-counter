@@ -7,77 +7,79 @@
     
     <style>
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-bg: rgba(20, 25, 35, 0.85);
+            --glass-border: rgba(255, 215, 0, 0.3);
             --text-color: #fff;
-            --focus-ring: #FFD700;
+            --focus-ring: #00E676;
+            --neon-green: #00E676;
+            --neon-gold: #FFD700;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
 
         body {
             min-height: 100vh; color: var(--text-color); transition: background 0.8s ease; overflow: hidden;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); background-size: 400% 400%; animation: gradientBG 15s ease infinite;
+            background: #0d1117;
         }
 
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        /* Dynamic Neon Deity Themes */
+        body.theme-morning { background: linear-gradient(135deg, #1f1510, #0d1117); } 
+        body.theme-night { background: linear-gradient(135deg, #050b14, #0d1117); } 
+        body.theme-bhajan { background: linear-gradient(135deg, #1a0810, #0d1117); }
+        body.theme-radha { background: linear-gradient(135deg, #14052b, #0d1117); } 
+        body.theme-shiv { background: linear-gradient(135deg, #051820, #0d1117); } 
+        body.theme-ram { background: linear-gradient(135deg, #241005, #0d1117); } 
+        body.theme-navkar { background: linear-gradient(135deg, #051c10, #0d1117); } 
 
-        /* Themes */
-        body.theme-morning { background: linear-gradient(135deg, #FF7E5F, #FEB47B); } 
-        body.theme-night { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); } 
-        body.theme-bhajan { background: linear-gradient(135deg, #FF416C, #FF4B2B); }
-        body.theme-radha { background: linear-gradient(135deg, #8E2DE2, #4A00E0); } 
-        body.theme-shiv { background: linear-gradient(135deg, #141E30, #243B55); } 
-        body.theme-ram { background: linear-gradient(135deg, #FF4E50, #F9D423); } 
-        body.theme-navkar { background: linear-gradient(135deg, #11998e, #38ef7d); } 
+        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); }
 
-        .glass-panel { background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+        :focus { outline: none; box-shadow: 0 0 0 4px var(--focus-ring); transform: scale(1.01); transition: all 0.2s; }
 
-        :focus { outline: none; box-shadow: 0 0 0 5px var(--focus-ring), 0 0 20px var(--focus-ring) !important; transform: scale(1.02); transition: all 0.2s; z-index: 10; }
-
-        /* Layout */
-        .container { max-width: 98vw; margin: 1vh auto; display: flex; height: 98vh; gap: 20px; }
-        .sidebar { width: 300px; padding: 20px; display: flex; flex-direction: column; gap: 10px; border-radius: 25px; z-index: 100; overflow-y: auto; }
-        .sidebar-title { text-align: center; margin-bottom: 5px; font-size: 1.8rem; letter-spacing: 2px; }
+        /* Layout Fixes for Banner Ads */
+        .container { max-width: 98vw; margin: 1vh auto; display: flex; height: calc(98vh - 70px); gap: 20px; margin-bottom: 70px !important; }
+        .sidebar { width: 300px; padding: 20px; display: flex; flex-direction: column; gap: 10px; border-radius: 20px; z-index: 100; overflow-y: auto; }
+        .sidebar-title { text-align: center; margin-bottom: 5px; font-size: 1.8rem; letter-spacing: 2px; font-weight: bold; color: var(--neon-gold); text-shadow: 0 0 10px rgba(255,215,0,0.3); }
         
-        .streak-banner { text-align: center; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 15px; margin-bottom: 10px; font-weight: bold; }
-        .greeting-text { font-size: 1.1rem; color: #FFD700; margin-bottom: 5px;}
-        .streak-count { font-size: 1.4rem; color: #fff; }
+        .streak-banner { text-align: center; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .greeting-text { font-size: 1.1rem; color: var(--neon-gold); margin-bottom: 5px;}
+        .streak-count { font-size: 1.4rem; font-weight: bold; color: #fff; }
 
-        .menu-item { padding: 15px 20px; font-size: 18px; font-weight: bold; color: #fff; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); border: 1px solid transparent; transition: all 0.3s ease; }
-        .menu-item.active, .menu-item:hover { background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); }
+        .menu-item { padding: 15px 20px; font-size: 18px; font-weight: bold; color: #fff; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); border: 1px solid transparent; transition: all 0.3s ease; }
+        .menu-item.active, .menu-item:hover { background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.4); box-shadow: 0 0 15px rgba(0, 230, 118, 0.15); }
         
-        .main-content { flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; border-radius: 25px; }
-        .screen { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.5s ease; z-index: 5; }
+        .main-content { flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; border-radius: 20px; }
+        .screen { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: center; animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5; }
         .screen.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-        /* UI Elements */
-        .mantra-title { font-size: 2.5rem; font-weight: bold; margin-bottom: 5px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); text-align: center; }
-        .mantra-subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 15px; font-weight: bold; color: #FFD700; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
+        /* UI Counter Elements */
+        .mantra-title { font-size: 2.5rem; font-weight: bold; margin-bottom: 5px; text-shadow: 0 0 15px rgba(255,255,255,0.1); text-align: center; color: #fff; }
+        .mantra-subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 15px; font-weight: bold; color: var(--neon-gold); text-shadow: 0 0 8px rgba(255,215,0,0.2); }
         
-        .stats-box { display: flex; gap: 30px; font-size: 1.3rem; font-weight: bold; background: rgba(0,0,0,0.3); padding: 10px 25px; border-radius: 20px; margin-bottom: 20px; }
+        .stats-box { display: flex; gap: 30px; font-size: 1.3rem; font-weight: bold; background: rgba(0,0,0,0.4); padding: 10px 25px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .stats-box span span { color: var(--neon-green); }
         
-        .glass-select { width: 100%; max-width: 320px; padding: 12px 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.4); border-radius: 15px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; outline: none; margin-bottom: 20px; text-align: center; appearance: none; -webkit-appearance: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .glass-select option { background: #2d3748; color: white; font-weight: bold; }
+        .glass-select { width: 100%; max-width: 320px; padding: 12px 20px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; outline: none; margin-bottom: 20px; text-align: center; appearance: none; -webkit-appearance: none; }
+        .glass-select option { background: #1a202c; color: white; }
 
-        .counter-display { font-size: 8rem; font-weight: bold; margin: 10px 0 30px 0; text-shadow: 0 0 15px rgba(255,255,255,0.4); font-variant-numeric: tabular-nums; line-height: 1; }
+        .counter-display { font-size: 8rem; font-weight: bold; margin: 10px 0 30px 0; text-shadow: 0 0 20px rgba(0, 230, 118, 0.3); color: var(--neon-green); font-variant-numeric: tabular-nums; line-height: 1; }
         
-        .btn { padding: 15px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.4rem; cursor: pointer; color: white; background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 15px rgba(0,0,0,0.2); transition: transform 0.1s; }
-        .btn:active { transform: scale(0.95); }
+        .btn { padding: 15px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.4rem; cursor: pointer; color: white; background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 255, 255, 0.1); transition: all 0.1s ease; }
+        .btn:active { transform: scale(0.97); }
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; max-width: 500px; }
         .btn-group .btn { flex: 1; } 
-        .btn-inc { background: rgba(46, 204, 113, 0.5); }
-        .btn-reset { background: rgba(231, 76, 60, 0.5); }
+        .btn-inc { background: rgba(0, 230, 118, 0.15); border-color: var(--neon-green); box-shadow: 0 4px 15px rgba(0, 230, 118, 0.2); }
+        .btn-inc:active { background: rgba(0, 230, 118, 0.3); }
+        .btn-reset { background: rgba(231, 76, 60, 0.15); border-color: #e74c3c; }
 
         .video-container { width: 100%; max-width: 700px; height: 350px; background: #000; border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .video-frame { width: 100%; height: 100%; border: none; }
         .video-placeholder { width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 1.5rem; }
         .bhajan-list { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 700px; max-height: 250px; overflow-y: auto; padding-right: 10px; }
-        .list-item { padding: 15px 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-align: left; transition: all 0.2s; }
-        .list-item:hover, .list-item:focus { background: rgba(255,255,255,0.2); transform: scale(1.02); }
+        .list-item { padding: 15px 20px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; color: white; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-align: left; }
+        .list-item:hover { background: rgba(255,255,255,0.1); }
 
-        .setting-row { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; font-size: 1.5rem; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; margin-bottom: 15px; }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; font-size: 1.5rem; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
         .setting-btn { padding: 10px 25px; font-size: 1.2rem; flex: none; width: auto; }
 
         /* FX */
@@ -87,43 +89,56 @@
 
         .diya-container { position: absolute; bottom: 6%; left: 0; width: 100%; display: none; justify-content: space-evenly; align-items: center; padding: 0 20px; pointer-events: none; z-index: 2; }
         .diya { font-size: 60px; animation: diya-glow 2s ease-in-out infinite alternate; }
-        .diya:nth-child(4) { animation-delay: 0s; } .diya:nth-child(3), .diya:nth-child(5) { animation-delay: 0.3s; } .diya:nth-child(2), .diya:nth-child(6) { animation-delay: 0.6s; } .diya:nth-child(1), .diya:nth-child(7) { animation-delay: 0.9s; }
-        @keyframes diya-glow { 0% { text-shadow: 0 0 10px rgba(255, 165, 0, 0.4), 0 0 20px rgba(255, 69, 0, 0.2); transform: scale(0.95); } 100% { text-shadow: 0 0 25px rgba(255, 165, 0, 0.9), 0 0 45px rgba(255, 215, 0, 0.8), 0 0 70px #FFD700; transform: scale(1.1); } }
+        @keyframes diya-glow { 0% { text-shadow: 0 0 10px rgba(255, 165, 0, 0.4); transform: scale(0.95); } 100% { text-shadow: 0 0 25px #FFD700; transform: scale(1.05); } }
 
-        /* Popups */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; }
-        .modal-content { text-align: center; padding: 40px; width: 500px; max-width: 90%; border-radius: 30px; }
+        /* --- STUNNING DESIGNER MODAL WITH NEON HIGHLIGHTS --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 8, 15, 0.95); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(10px); }
+        .modal-content { 
+            text-align: center; padding: 35px; width: 450px; max-width: 90%; border-radius: 24px;
+            background: #111622; border: 2px solid var(--neon-gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.1);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .modal-icon { font-size: 70px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(0, 230, 118, 0.4); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        
+        .modal-title { font-size: 2.2rem; font-weight: 800; color: var(--neon-green); margin-bottom: 8px; text-shadow: 0 0 10px rgba(0,230,118,0.2); }
+        .modal-text { font-size: 1.25rem; line-height: 1.5; color: #e2e8f0; margin-bottom: 15px; font-weight: 500; }
+        
+        /* Ad Warning Box */
+        .ad-warning-box {
+            background: rgba(255, 215, 0, 0.06); border: 1px dashed var(--neon-gold);
+            padding: 12px; border-radius: 12px; font-size: 0.95rem; color: #cbd5e1;
+            margin-bottom: 25px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        
+        .modal-btn { 
+            width: 100%; padding: 15px; border: none; font-size: 1.3rem; font-weight: bold; color: #000;
+            background: var(--neon-gold); border-radius: 14px; cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3); transition: all 0.2s ease;
+        }
+        .modal-btn:hover { background: #ffe24d; box-shadow: 0 6px 25px rgba(255, 215, 0, 0.45); }
 
-        /* Mobile */
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .container { flex-direction: column; height: 100vh; margin: 0; max-width: 100vw; gap: 0; }
-            .main-content { border-radius: 0; padding: 15px; padding-bottom: 95px; justify-content: flex-start; padding-top: 6vh; }
+            .container { flex-direction: column; height: 100vh; margin: 0; max-width: 100vw; gap: 0; margin-bottom: 70px !important; }
+            .main-content { border-radius: 0; padding: 15px; padding-bottom: 100px; justify-content: flex-start; padding-top: 5vh; }
             .mantra-title { font-size: 1.8rem; } 
             .mantra-subtitle { font-size: 0.95rem; margin-bottom: 12px; }
             .stats-box { font-size: 1.1rem; padding: 8px 20px; margin-bottom: 15px; }
             .glass-select { font-size: 1rem; padding: 10px; margin-bottom: 20px; max-width: 280px; }
-            
-            .counter-display { font-size: 4.5rem; margin: 5px 0 25px 0; text-shadow: 0 0 10px rgba(255,255,255,0.4); } 
-            
-            .btn-group { gap: 15px; padding: 0 10px; } 
-            .btn { font-size: 1.2rem; padding: 14px; border-radius: 12px; } 
-            
-            .setting-row { font-size: 1.2rem; padding: 15px; }
-            .setting-btn { font-size: 1rem; padding: 8px 20px; }
-            
-            .video-container { height: 220px; margin-bottom: 15px; } .bhajan-list { max-height: calc(100vh - 400px); } .list-item { font-size: 1rem; padding: 12px 15px; }
+            .counter-display { font-size: 5rem; margin: 5px 0 25px 0; } 
+            .btn-group { gap: 15px; padding: 0 10px; } .btn { font-size: 1.2rem; padding: 14px; border-radius: 12px; } 
+            .setting-row { font-size: 1.2rem; padding: 15px; } .setting-btn { font-size: 1rem; padding: 8px 20px; }
+            .video-container { height: 220px; margin-bottom: 15px; } .bhajan-list { max-height: calc(100vh - 420px); } .list-item { font-size: 1rem; padding: 12px 15px; }
             .diya-container { bottom: 13%; padding: 0 10px; } .diya { font-size: 38px; }
-
-            .sidebar { position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; flex-direction: row; justify-content: space-around; align-items: center; border-radius: 25px 25px 0 0; padding: 5px; gap: 2px; z-index: 1000; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); }
+            .sidebar { position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; flex-direction: row; justify-content: space-around; align-items: center; border-radius: 20px 20px 0 0; padding: 5px; gap: 2px; z-index: 1000; background: rgba(10, 15, 26, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.05); }
             .sidebar-title, .sidebar hr, .streak-banner { display: none; }
-            
-            .main-content::before {
-                content: attr(data-streak);
-                position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px;
-            }
-
+            .main-content::before { content: attr(data-streak); position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; border: 1px solid rgba(255,255,255,0.05); }
             .menu-item { flex-direction: column; padding: 5px; font-size: 11px; gap: 3px; flex: 1; text-align: center; border-radius: 10px; background: transparent; }
-            .menu-item span { font-size: 20px; } .menu-item.active { background: rgba(255,255,255,0.2); border: none; }
+            .menu-item span { font-size: 20px; } .menu-item.active { background: rgba(0, 230, 118, 0.12); border: none; color: var(--neon-green); }
         }
     </style>
 </head>
@@ -135,21 +150,26 @@
     </div>
 
     <div class="modal" id="malaPopup">
-        <div class="glass-panel modal-content">
-            <div style="font-size: 60px; margin-bottom: 15px; animation: bounce 1s infinite;">🌸</div>
-            <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
-            <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
+        <div class="modal-content">
+            <div class="modal-icon">🌸</div>
+            <h1 class="modal-title" id="malaPopupTitle">जय श्री कृष्ण</h1>
+            <p class="modal-text" id="popupMessage">आपने 1 माला पूरी कर ली है!</p>
             
-            <button id="adLinkBtn" class="btn" style="margin-top:20px;font-size:1.2rem;width:100%;" onclick="triggerAd()"> आगे बढ़ें </button> 
+            <div class="ad-warning-box">
+                <span>⚠️</span>
+                <span>भक्ति यात्रा को जारी रखने के लिए आगे विज्ञापन देखना अनिवार्य है।</span>
+            </div>
+            
+            <button id="adLinkBtn" class="modal-btn" onclick="triggerAd()"> आगे बढ़ें </button> 
         </div>
     </div>
 
     <div class="modal" id="streakPopup">
-        <div class="glass-panel modal-content" style="background: linear-gradient(135deg, rgba(253, 187, 45, 0.4), rgba(178, 31, 31, 0.4));">
-            <div style="font-size: 70px; margin-bottom: 10px; animation: fadeIn 0.8s ease;">🔥</div>
-            <h1 id="streakPopupTitle" style="font-size: 2.2rem; margin-bottom: 15px;">पहला दिन</h1>
-            <p id="streakPopupMsg" style="font-size: 1.3rem; margin-bottom: 25px;">आज से आपकी भक्ति यात्रा शुरू हुई!</p>
-            <button tabindex="0" class="btn" id="closeStreakBtn" onclick="closeStreakPopup()" style="background: rgba(255,255,255,0.3); font-size: 1.2rem; width: 100%;">जय श्री राम</button>
+        <div class="glass-panel modal-content" style="border-color: var(--neon-green);">
+            <div style="font-size: 70px; margin-bottom: 10px;">🔥</div>
+            <h1 style="font-size: 2.2rem; margin-bottom: 15px; color: var(--neon-green);" id="streakPopupTitle">पहला दिन</h1>
+            <p style="font-size: 1.3rem; margin-bottom: 25px;" id="streakPopupMsg">आज से आपकी भक्ति यात्रा शुरू हुई!</p>
+            <button tabindex="0" class="btn btn-inc" id="closeStreakBtn" onclick="closeStreakPopup()" style="width:100%;">जय श्री राम</button>
         </div>
     </div>
 
@@ -241,7 +261,7 @@
             <div class="screen" id="screen_settings">
                 <div class="mantra-title" style="margin-bottom: 30px;">सेटिंग्स</div>
                 <div class="setting-row"><span>🔊 जप ध्वनि</span><button tabindex="0" id="soundBtn" class="btn setting-btn" onclick="toggleSound()">ON</button></div>
-                <div class="setting-row"><span>✨ एनिमेशन और आरती</span><button tabindex="0" id="animBtn" class="btn setting-btn" onclick="toggleAnimations()">ON</button></div>
+                <div class="setting-row"><span>✨ एनिमेशन/आरती</span><button tabindex="0" id="animBtn" class="btn setting-btn" onclick="toggleAnimations()">ON</button></div>
             </div>
 
         </div>
@@ -254,7 +274,7 @@
                 <div class="streak-count" id="streakMsg">🔥 स्ट्रीक: 1 दिन</div>
             </div>
 
-            <hr style="border: 1px solid rgba(255,255,255,0.2); margin-bottom: 5px;">
+            <hr style="border: 1px solid rgba(255,255,255,0.05); margin-bottom: 5px;">
             <div tabindex="0" class="menu-item" onclick="switchScreen('bhajan')"><span>🎵</span> <div>भजन</div></div>
             <div tabindex="0" class="menu-item active" onclick="switchScreen('radha')"><span>📿</span> <div>राधा</div></div>
             <div tabindex="0" class="menu-item" onclick="switchScreen('shiv')"><span>🔱</span> <div>शिव</div></div>
@@ -269,13 +289,12 @@
         let data = { radha: 0, shiv: 0, ram: 0, navkar: 0, sound: true, anim: true };
         let targets = { radha: 108, shiv: 108, ram: 108, navkar: 108 };
         let activeScreen = 'radha';
-        
         let isPopupOpen = false;
-        let currentAdUrl = ""; 
 
-        window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV26');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV17');
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedData = localStorage.getItem('premiumJaapDataV30');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV21');
+            const savedScreen = localStorage.getItem('premiumActiveScreen') || 'radha';
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -283,16 +302,20 @@
             handleDailyStreakAndGreeting();
             
             ['radha', 'shiv', 'ram', 'navkar'].forEach(id => {
-                document.getElementById(`target_${id}`).value = targets[id];
+                const selectEl = document.getElementById(`target_${id}`);
+                if (selectEl) selectEl.value = targets[id];
                 updateUI(id);
             });
             
             document.getElementById('soundBtn').innerText = data.sound ? 'ON' : 'OFF';
             document.getElementById('animBtn').innerText = data.anim ? 'ON' : 'OFF';
             
-            if(data.anim) { startFlowerAnimation(); toggleAartiDiya(true); }
-            switchScreen('radha'); 
-        };
+            switchScreen(savedScreen); 
+            
+            setTimeout(() => {
+                if(data.anim) { startFlowerAnimation(); toggleAartiDiya(true); }
+            }, 300);
+        });
 
         function handleDailyStreakAndGreeting() {
             const hour = new Date().getHours();
@@ -346,12 +369,14 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV26', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV17', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV30', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV21', JSON.stringify(targets)); 
+            localStorage.setItem('premiumActiveScreen', activeScreen); 
         }
 
         function switchScreen(id) {
             activeScreen = id;
+            saveData();
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(`screen_${id}`).classList.add('active');
             
@@ -370,8 +395,7 @@
             
             if(id !== 'bhajan' && id !== 'settings' && data.anim) toggleAartiDiya(true); else toggleAartiDiya(false);
 
-            if(id !== 'settings' && id !== 'bhajan') setTimeout(() => { document.querySelector(`#screen_${id} .btn-inc`).focus(); }, 100);
-            if(id === 'bhajan') setTimeout(() => { document.querySelector('.bhajan-list button').focus(); }, 100);
+            if(id !== 'settings' && id !== 'bhajan') setTimeout(() => { document.querySelector(`#screen_${id} .btn-inc`).focus(); }, 50);
             
             if(id !== 'bhajan') document.getElementById('videoContainer').innerHTML = `<div class="video-placeholder"><span style="font-size: 40px; margin-bottom: 10px;">🪔</span>भजन सुनने के लिए नीचे से चुनें</div>`;
         }
@@ -403,49 +427,37 @@
             document.getElementById(`mala_${id}`).innerText = Math.floor(data[id] / 108);
         }
 
-        // AD LOGIC
         function checkAdMilestones(id) {
             const count = data[id];
             const target = targets[id];
 
             if (count > 0 && count === target) {
-                showModal(`🌟 अद्भुत! आपका ${target/108} माला का लक्ष्य पूरा हुआ!`, "appcreator24://rewarded", "लक्ष्य पूर्ण");
+                showModal(`🎯 शत-शत नमन! आपका ${target/108} माला का पावन लक्ष्य पूर्ण हुआ!`, "लक्ष्य पूर्ण");
                 return;
             }
 
             if (count > 0 && count % 540 === 0) { 
-                showModal(`अद्भुत! आपने 5 माला पूरी कर ली हैं।`, "appcreator24://rewarded", "जय श्री कृष्ण"); 
+                showModal(`🌟 अद्भुत भक्ति! आपकी 5 माला पूर्ण हो चुकी हैं।`, "पावन बधाई"); 
             } else if (count > 0 && count % 108 === 0) { 
-                showModal(`आपने 1 माला पूरी कर ली है।`, "appcreator24://interstitial", "जय श्री कृष्ण"); 
+                showModal(`🌸 श्रद्धा और समर्पण! आपकी 1 माला पूर्ण हुई।`, "जय श्री कृष्ण"); 
             }
         }
 
-        function showModal(message, adUrl, title="जय श्री कृष्ण") { 
+        function showModal(message, title) { 
             isPopupOpen = true; 
-            currentAdUrl = adUrl; 
             document.getElementById('malaPopupTitle').innerText = title; 
             document.getElementById('popupMessage').innerText = message; 
             document.getElementById('malaPopup').style.display = 'flex'; 
-            setTimeout(() => { document.getElementById('adLinkBtn').focus(); }, 100); 
+            setTimeout(() => { document.getElementById('adLinkBtn').focus(); }, 50); 
         } 
         
-        // THE MAGIC FIX FOR GITHUB HOSTING WHITE SCREEN ERROR
         function triggerAd() { 
             playSound(); 
             document.getElementById('malaPopup').style.display = 'none'; 
             isPopupOpen = false; 
             
-            // 1. एक डमी हिस्ट्री बनाओ ताकि Back जाने पर ऐप बंद न हो
-            history.pushState(null, null, window.location.href);
-            
-            // 2. एड का लिंक फायर करो
-            window.location.href = currentAdUrl; 
-            
-            // 3. 1 सेकंड बाद उस सफ़ेद स्क्रीन को बैक (Back) कर दो, जिससे आप वापस ऐप में आ जाओगे!
-            setTimeout(() => { 
-                window.history.back(); 
-                setTimeout(() => { document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }, 200); 
-            }, 1000); 
+            // THE ULTIMATE FIX: Safe reload to trigger AppCreator24's "Every 1 Pages" ad
+            window.location.href = window.location.href.split('?')[0] + "?ad=" + Date.now();
         }
 
         document.addEventListener('keydown', function(e) {
@@ -483,14 +495,14 @@
 
         function startFlowerAnimation() {
             const container = document.getElementById('fxContainer'); container.innerHTML = '';
-            const flowers = ['🌸', '🌺', '🌼', '🏵️']; const isMobile = window.innerWidth <= 768; const count = isMobile ? 8 : 15; 
+            const flowers = ['🌸', '🌺', '🌼', '🏵️']; const isMobile = window.innerWidth <= 768; const count = isMobile ? 6 : 12; 
             for(let i=0; i<count; i++) {
                 setTimeout(() => {
                     if(!data.anim) return;
                     const el = document.createElement('div'); el.className = 'flower'; el.innerText = flowers[Math.floor(Math.random() * flowers.length)];
                     el.style.left = Math.random() * 100 + 'vw'; el.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
                     container.appendChild(el); el.addEventListener('animationend', () => { el.remove(); if(data.anim) startFlowerAnimationSingle(); });
-                }, i * 400);
+                }, i * 500);
             }
         }
         function startFlowerAnimationSingle() {
