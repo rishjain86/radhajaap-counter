@@ -140,7 +140,7 @@
             <h1 id="malaPopupTitle" style="font-size: 2rem; margin-bottom: 10px;">जय श्री कृष्ण</h1>
             <p id="popupMessage" style="font-size: 1.4rem; margin-bottom: 20px;">आपने 1 माला पूरी कर ली है!</p>
             
-            <button id="adLinkBtn" class="btn ad-btn-link" style="margin-top:20px;font-size:1.2rem;width:100%;" onclick="triggerAd()"> आगे बढ़ें </button> 
+            <button id="adLinkBtn" class="btn" style="margin-top:20px;font-size:1.2rem;width:100%;" onclick="triggerAd()"> आगे बढ़ें </button> 
         </div>
     </div>
 
@@ -274,8 +274,8 @@
         let currentAdUrl = ""; 
 
         window.onload = () => {
-            const savedData = localStorage.getItem('premiumJaapDataV24');
-            const savedTargets = localStorage.getItem('premiumJaapTargetsV15');
+            const savedData = localStorage.getItem('premiumJaapDataV26');
+            const savedTargets = localStorage.getItem('premiumJaapTargetsV17');
             
             if(savedData) data = { ...data, ...JSON.parse(savedData) };
             if(savedTargets) targets = { ...targets, ...JSON.parse(savedTargets) };
@@ -346,8 +346,8 @@
         }
 
         function saveData() { 
-            localStorage.setItem('premiumJaapDataV24', JSON.stringify(data)); 
-            localStorage.setItem('premiumJaapTargetsV15', JSON.stringify(targets)); 
+            localStorage.setItem('premiumJaapDataV26', JSON.stringify(data)); 
+            localStorage.setItem('premiumJaapTargetsV17', JSON.stringify(targets)); 
         }
 
         function switchScreen(id) {
@@ -403,20 +403,20 @@
             document.getElementById(`mala_${id}`).innerText = Math.floor(data[id] / 108);
         }
 
-        // AD LOGIC: Calling the 'go:Adscreen' intent to safely show the ad in AppCreator24
+        // AD LOGIC
         function checkAdMilestones(id) {
             const count = data[id];
             const target = targets[id];
 
             if (count > 0 && count === target) {
-                showModal(`🌟 अद्भुत! आपका ${target/108} माला का लक्ष्य पूरा हुआ!`, "go:Adscreen", "लक्ष्य पूर्ण");
+                showModal(`🌟 अद्भुत! आपका ${target/108} माला का लक्ष्य पूरा हुआ!`, "appcreator24://rewarded", "लक्ष्य पूर्ण");
                 return;
             }
 
             if (count > 0 && count % 540 === 0) { 
-                showModal(`अद्भुत! आपने 5 माला पूरी कर ली हैं।`, "go:Adscreen", "जय श्री कृष्ण"); 
+                showModal(`अद्भुत! आपने 5 माला पूरी कर ली हैं।`, "appcreator24://rewarded", "जय श्री कृष्ण"); 
             } else if (count > 0 && count % 108 === 0) { 
-                showModal(`आपने 1 माला पूरी कर ली है।`, "go:Adscreen", "जय श्री कृष्ण"); 
+                showModal(`आपने 1 माला पूरी कर ली है।`, "appcreator24://interstitial", "जय श्री कृष्ण"); 
             }
         }
 
@@ -429,15 +429,23 @@
             setTimeout(() => { document.getElementById('adLinkBtn').focus(); }, 100); 
         } 
         
+        // THE MAGIC FIX FOR GITHUB HOSTING WHITE SCREEN ERROR
         function triggerAd() { 
             playSound(); 
             document.getElementById('malaPopup').style.display = 'none'; 
             isPopupOpen = false; 
             
-            // Sends user to the Adscreen section where Interstitial is enabled
+            // 1. एक डमी हिस्ट्री बनाओ ताकि Back जाने पर ऐप बंद न हो
+            history.pushState(null, null, window.location.href);
+            
+            // 2. एड का लिंक फायर करो
             window.location.href = currentAdUrl; 
             
-            setTimeout(() => { document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }, 1000); 
+            // 3. 1 सेकंड बाद उस सफ़ेद स्क्रीन को बैक (Back) कर दो, जिससे आप वापस ऐप में आ जाओगे!
+            setTimeout(() => { 
+                window.history.back(); 
+                setTimeout(() => { document.querySelector(`#screen_${activeScreen} .btn-inc`).focus(); }, 200); 
+            }, 1000); 
         }
 
         document.addEventListener('keydown', function(e) {
