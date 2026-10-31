@@ -160,7 +160,7 @@
                 <span>भक्ति यात्रा को जारी रखने के लिए आगे विज्ञापन देखना अनिवार्य है।</span>
             </div>
             
-            <button id="adLinkBtn" class="modal-btn" onclick="triggerAd()"> आगे बढ़ें </button> 
+            <button id="adLinkBtn" class="modal-btn" onclick="triggerAd()"> आगे बढ़ें </button> 
         </div>
     </div>
 
@@ -512,5 +512,293 @@
             el.addEventListener('animationend', () => { el.remove(); if(data.anim) startFlowerAnimationSingle(); });
         }
     </script>
+<style id="up-style">
+:root{--e-hi:rgba(255,255,255,.07);--e-lo:rgba(0,0,0,.6);--spring:cubic-bezier(.34,1.56,.64,1);--ease:cubic-bezier(.22,1,.36,1)}
+body.theme-dhyan{background:linear-gradient(135deg,#04201a,#0d1117)}
+body.theme-shlok{background:linear-gradient(135deg,#1f1706,#0d1117)}
+
+/* ---- Embossed buttons / menus ---- */
+.btn,.list-item,.menu-item,.setting-btn{position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.02));box-shadow:6px 6px 14px var(--e-lo),-3px -3px 10px var(--e-hi),inset 1px 1px 1px rgba(255,255,255,.16),inset -1px -1px 2px rgba(0,0,0,.4);transition:transform .25s var(--spring),box-shadow .25s,background .3s,border-color .3s}
+.btn.btn-inc{background:linear-gradient(145deg,rgba(0,230,118,.32),rgba(0,230,118,.08))}
+.btn.btn-reset{background:linear-gradient(145deg,rgba(231,76,60,.30),rgba(231,76,60,.07))}
+.menu-item.active,.menu-item:hover{background:linear-gradient(145deg,rgba(0,230,118,.20),rgba(0,230,118,.05))}
+.list-item:hover{background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.04))}
+.stats-box,.setting-row{box-shadow:inset 4px 4px 10px rgba(0,0,0,.55),inset -3px -3px 8px var(--e-hi)}
+.glass-select{box-shadow:inset 3px 3px 8px rgba(0,0,0,.6),inset -2px -2px 6px var(--e-hi),0 0 0 1px rgba(255,215,0,.15)}
+.modal-btn{position:relative;overflow:hidden;background:linear-gradient(180deg,#ffe766,#e6b800);box-shadow:0 6px 0 #9c7d00,0 12px 24px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.6);transition:transform .15s,box-shadow .15s}
+.modal-btn:hover{background:linear-gradient(180deg,#fff08a,#f0c400)}
+
+/* ---- TV-friendly focus (D-pad) ---- */
+.btn:focus,.menu-item:focus,.list-item:focus,.setting-btn:focus,.modal-btn:focus,.glass-select:focus{box-shadow:0 0 0 4px var(--focus-ring),0 0 28px rgba(0,230,118,.55),6px 6px 14px var(--e-lo);transform:scale(1.05);animation:up-focus 1.6s ease-in-out infinite}
+@keyframes up-focus{50%{box-shadow:0 0 0 4px var(--focus-ring),0 0 42px rgba(0,230,118,.85),6px 6px 14px var(--e-lo)}}
+.btn:active,.menu-item:active,.list-item:active,.setting-btn:active{transform:scale(.96);box-shadow:inset 4px 4px 10px rgba(0,0,0,.6),inset -2px -2px 6px rgba(255,255,255,.06)}
+.modal-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #9c7d00,0 6px 12px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.5)}
+
+/* ---- Motion ---- */
+.sidebar-title{background:linear-gradient(90deg,#FFD700,#fff6c2,#FFD700);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:up-shine 4s linear infinite}
+@keyframes up-shine{to{background-position:-200% 0}}
+.screen.active>:not(.counter-display){animation:up-rise .6s var(--ease) both}
+.screen.active>:nth-child(2){animation-delay:.05s}.screen.active>:nth-child(3){animation-delay:.1s}
+.screen.active>:nth-child(4){animation-delay:.15s}.screen.active>:nth-child(5){animation-delay:.2s}
+.screen.active>:nth-child(6){animation-delay:.25s}
+@keyframes up-rise{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+.counter-display{animation:up-breathe 3s ease-in-out infinite}
+@keyframes up-breathe{50%{text-shadow:0 0 34px rgba(0,230,118,.55)}}
+.counter-display.bump{animation:up-bump .45s var(--spring)}
+@keyframes up-bump{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+.modal-content{animation:up-pop .5s var(--spring)}
+@keyframes up-pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.up-prog{width:min(420px,80%);height:10px;border-radius:10px;margin:-14px 0 24px;background:rgba(0,0,0,.5);box-shadow:inset 2px 2px 5px rgba(0,0,0,.7),inset -1px -1px 3px var(--e-hi);overflow:hidden}
+.up-prog i{display:block;height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,#00b862,#00E676,#FFD700);box-shadow:0 0 12px rgba(0,230,118,.6);transition:width .5s var(--ease)}
+.up-rip{position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:up-rip .6s ease-out forwards;pointer-events:none}
+@keyframes up-rip{to{transform:scale(4);opacity:0}}
+
+/* ---- Loaders ---- */
+#up-splash{position:fixed;inset:0;z-index:20000;background:radial-gradient(circle at 50% 40%,#1b1630,#05080f);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .6s,visibility .6s}
+#up-splash.out{opacity:0;visibility:hidden}
+.up-splash-t{color:#FFD700;font-size:1.6rem;font-weight:bold;letter-spacing:3px;text-shadow:0 0 14px rgba(255,215,0,.4)}
+.up-ring{position:relative;width:120px;height:120px}
+.up-ring::before,.up-ring::after{content:"";position:absolute;inset:0;border-radius:50%;border:4px solid transparent}
+.up-ring::before{border-top-color:#FFD700;border-right-color:#FFD700;animation:up-spin 1.1s linear infinite;filter:drop-shadow(0 0 8px #FFD700)}
+.up-ring::after{inset:14px;border-bottom-color:#00E676;border-left-color:#00E676;animation:up-spin 1.6s linear infinite reverse}
+.up-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px;animation:up-pulse 1.8s ease-in-out infinite}
+.up-ring.sm{width:64px;height:64px}.up-ring.sm::after{inset:9px}
+@keyframes up-spin{to{transform:rotate(360deg)}}
+@keyframes up-pulse{50%{transform:scale(1.15)}}
+.video-container{position:relative}
+.up-vload{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#05080f;z-index:2}
+
+/* ---- New screens ---- */
+.up-breath{width:min(240px,45vw);height:min(240px,45vw);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:bold;color:#fff;margin:5px 0 15px;background:radial-gradient(circle at 35% 30%,rgba(0,230,118,.45),rgba(0,230,118,.08));box-shadow:0 0 40px rgba(0,230,118,.3),inset 6px 6px 16px rgba(255,255,255,.12),inset -8px -8px 18px rgba(0,0,0,.5);transform:scale(.72);transition:transform 4s ease-in-out}
+.up-breath.in{transform:scale(1.08)}
+.up-time{font-size:3.2rem;font-weight:bold;color:var(--neon-gold);margin-bottom:18px;font-variant-numeric:tabular-nums;text-shadow:0 0 14px rgba(255,215,0,.3)}
+.up-card{width:100%;max-width:640px;padding:36px 28px;margin:15px 0 25px;border-radius:24px;text-align:center;background:linear-gradient(145deg,#1a2030,#10141f);border:1px solid rgba(255,215,0,.35);box-shadow:8px 8px 22px rgba(0,0,0,.6),-4px -4px 14px var(--e-hi),inset 1px 1px 1px rgba(255,255,255,.12)}
+.up-card.pop{animation:up-pop .6s var(--spring)}
+.up-sh{font-size:2rem;font-weight:bold;line-height:1.5;color:var(--neon-gold);margin-bottom:16px}
+.up-mn{font-size:1.2rem;line-height:1.6;color:#e2e8f0;margin-bottom:14px}
+.up-src{font-size:1rem;color:var(--neon-green);font-weight:bold}
+
+@media (min-width:1200px){.container{padding:0 2vw}.sidebar{width:340px}.menu-item{font-size:22px;padding:18px 24px}.counter-display{font-size:10rem}.up-sh{font-size:2.4rem}}
+@media (max-width:768px){.up-breath{width:160px;height:160px}.up-time{font-size:2.3rem;margin-bottom:12px}.up-sh{font-size:1.4rem}.up-mn{font-size:1rem}.up-card{padding:22px 16px}.menu-item div{font-size:10px}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+
+<script id="up-script">
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var IDS=['radha','shiv','ram','navkar'], NEW={dhyan:1,shlok:1};
+
+/* Add your own bhajans here: {id:'YOUTUBE_VIDEO_ID', title:'Bhajan name'} */
+var EXTRA_BHAJANS=[];
+
+/* ---------- Splash loader (skipped after ad reload) ---------- */
+if(!/[?&]ad=/.test(location.search)){
+  var sp=document.createElement('div');sp.id='up-splash';
+  sp.innerHTML='<div class="up-ring"><b>🕉️</b></div><div class="up-splash-t">भक्ति मार्ग</div>';
+  document.body.appendChild(sp);
+  setTimeout(function(){sp.classList.add('out');setTimeout(function(){sp.remove()},700)},1100);
+}
+
+/* ---------- Extra bhajans ---------- */
+EXTRA_BHAJANS.forEach(function(b){
+  var el=document.createElement('button');el.className='list-item';el.tabIndex=0;el.textContent='▶️ '+b.title;
+  el.addEventListener('click',function(){window.playVideo(b.id)});
+  $('.bhajan-list').appendChild(el);
+});
+
+/* ---------- New screens + menu items ---------- */
+var main=$('#mainArea');
+var d1=document.createElement('div');d1.className='screen';d1.id='screen_dhyan';
+d1.innerHTML='<div class="mantra-title">🧘 ध्यान</div><div class="mantra-subtitle">(शांत बैठें, गहरी श्वास लें)</div>'
++'<select id="dhyan_min" class="glass-select"><option value="5">⏱ 5 मिनट</option><option value="11">⏱ 11 मिनट</option><option value="21">⏱ 21 मिनट</option><option value="51">⏱ 51 मिनट</option></select>'
++'<div class="up-breath" id="upBreath"><span id="upBreathTxt">तैयार</span></div><div class="up-time" id="upTime">05:00</div>'
++'<div class="btn-group"><button tabindex="0" class="btn btn-inc" id="upStart">▶️ शुरू करें</button><button tabindex="0" class="btn btn-reset" id="upStop">⏹ रोकें</button></div>';
+var d2=document.createElement('div');d2.className='screen';d2.id='screen_shlok';
+d2.innerHTML='<div class="mantra-title">📖 आज का श्लोक</div><div class="up-card" id="upCard"><div class="up-sh" id="upSh"></div><div class="up-mn" id="upMn"></div><div class="up-src" id="upSrc"></div></div>'
++'<div class="btn-group"><button tabindex="0" class="btn btn-inc" id="upNext">➡️ अगला श्लोक</button></div>';
+main.appendChild(d1);main.appendChild(d2);
+
+var setItem=$$('.menu-item').filter(function(m){return /settings/.test(m.getAttribute('onclick')||'')})[0];
+[['dhyan','🧘','ध्यान'],['shlok','📖','श्लोक']].forEach(function(x){
+  var m=document.createElement('div');m.className='menu-item';m.tabIndex=0;
+  m.innerHTML='<span>'+x[1]+'</span> <div>'+x[2]+'</div>';
+  m.addEventListener('click',function(){window.switchScreen(x[0])});
+  setItem.parentNode.insertBefore(m,setItem);m.setAttribute('data-screen',x[0]);
+});
+$$('.menu-item').forEach(function(m){var r=/switchScreen\('(\w+)'\)/.exec(m.getAttribute('onclick')||'');if(r)m.setAttribute('data-screen',r[1])});
+
+/* ---------- switchScreen wrapper (original is still called) ---------- */
+var _sw=window.switchScreen;
+function syncActive(id){$$('.menu-item').forEach(function(m){m.classList.toggle('active',m.getAttribute('data-screen')===id)})}
+function focusPrimary(id){var e=$('#screen_'+id+' .btn-inc')||$('.menu-item.active');if(e){e.focus();if(e.scrollIntoView)e.scrollIntoView({block:'nearest'})}}
+window.switchScreen=function(id){
+  if(!document.getElementById('screen_'+id))id='radha';   /* bug fix: invalid saved screen */
+  if(id!=='dhyan')stopDhyan();
+  if(NEW[id]){
+    activeScreen=id;saveData();
+    $$('.screen').forEach(function(s){s.classList.remove('active')});
+    $('#screen_'+id).classList.add('active');
+    document.body.className='theme-'+id;toggleAartiDiya(false);
+    $('#videoContainer').innerHTML='<div class="video-placeholder"><span style="font-size: 40px; margin-bottom: 10px;">🪔</span>भजन सुनने के लिए नीचे से चुनें</div>';
+    setTimeout(function(){focusPrimary(id)},50);
+  }else{_sw(id)}
+  syncActive(id);
+};
+
+/* ---------- Bug fix: closeStreakPopup crashed on bhajan/settings ---------- */
+window.closeStreakPopup=function(){
+  playSound();$('#streakPopup').style.display='none';isPopupOpen=false;focusPrimary(activeScreen);
+};
+
+/* ---------- Themed reset confirmation (works on Fire TV, same behaviour) ---------- */
+var cm=document.createElement('div');cm.className='modal';cm.id='upConfirm';
+cm.innerHTML='<div class="modal-content"><div class="modal-icon">🔄</div><h1 class="modal-title" style="font-size:1.8rem">काउंटर रीसेट</h1><p class="modal-text">क्या आप काउंटर को 0 करना चाहते हैं?</p><div class="btn-group"><button tabindex="0" class="btn btn-reset" id="upNo">नहीं</button><button tabindex="0" class="btn btn-inc" id="upYes">हाँ</button></div></div>';
+document.body.appendChild(cm);
+var pending=null;
+function closeConfirm(){cm.style.display='none';isPopupOpen=false;pending=null;focusPrimary(activeScreen)}
+window.reset=function(id){pending=id;isPopupOpen=true;cm.style.display='flex';setTimeout(function(){$('#upNo').focus()},50)};
+$('#upNo').addEventListener('click',closeConfirm);
+$('#upYes').addEventListener('click',function(){var id=pending;if(id){data[id]=0;updateUI(id);saveData()}closeConfirm()});
+
+/* ---------- Counter bump + progress bar ---------- */
+IDS.forEach(function(id){
+  var el=$('#count_'+id),bar=document.createElement('div'),last=null;
+  bar.className='up-prog';bar.innerHTML='<i></i>';el.parentNode.insertBefore(bar,el.nextSibling);
+  function sync(){
+    var c=data[id]||0,t=targets[id]||108,p=c>0&&c%t===0?100:(c%t)/t*100;
+    $('i',bar).style.width=p+'%';
+  }
+  new MutationObserver(function(){
+    sync();
+    if(last!==null&&last!==el.textContent){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump')}
+    last=el.textContent;
+  }).observe(el,{childList:true,characterData:true,subtree:true});
+  $('#target_'+id).addEventListener('change',function(){setTimeout(sync,0)});
+  sync();
+});
+
+/* ---------- Ripple ---------- */
+document.addEventListener('pointerdown',function(e){
+  var t=e.target.closest&&e.target.closest('.btn,.modal-btn,.list-item,.menu-item,.setting-btn');if(!t)return;
+  var r=t.getBoundingClientRect(),s=document.createElement('span');s.className='up-rip';
+  s.style.left=(e.clientX-r.left-60)+'px';s.style.top=(e.clientY-r.top-60)+'px';
+  t.appendChild(s);setTimeout(function(){s.remove()},650);
+});
+
+/* ---------- Video loader ---------- */
+var _pv=window.playVideo;
+window.playVideo=function(v){
+  _pv(v);var c=$('#videoContainer'),f=$('iframe',c);if(!f)return;
+  var l=document.createElement('div');l.className='up-vload';l.innerHTML='<div class="up-ring sm"></div>';c.appendChild(l);
+  var done=function(){if(l.parentNode)l.parentNode.removeChild(l)};
+  f.addEventListener('load',done);setTimeout(done,8000);
+};
+
+/* ---------- Dhyan (meditation timer) ---------- */
+var dh={t:null,end:0,left:0,run:false,phase:-1};
+function fmt(s){s=Math.max(0,Math.ceil(s));return('0'+Math.floor(s/60)).slice(-2)+':'+('0'+s%60).slice(-2)}
+function total(){return parseInt($('#dhyan_min').value,10)*60}
+function dhReset(){dh.left=total();$('#upTime').textContent=fmt(dh.left)}
+function breath(on,txt){$('#upBreath').classList.toggle('in',on);$('#upBreathTxt').textContent=txt}
+function chime(){
+  if(!data.sound)return;
+  if(!audioCtx)audioCtx=new AudioContext();if(audioCtx.state==='suspended')audioCtx.resume();
+  [528,660,792].forEach(function(f,i){
+    var o=audioCtx.createOscillator(),g=audioCtx.createGain(),t0=audioCtx.currentTime+i*.5;
+    o.type='sine';o.frequency.value=f;o.connect(g);g.connect(audioCtx.destination);
+    g.gain.setValueAtTime(.25,t0);g.gain.exponentialRampToValueAtTime(.001,t0+2);o.start(t0);o.stop(t0+2);
+  });
+}
+function tick(){
+  var rem=(dh.end-Date.now())/1000;
+  if(rem<=0){stopDhyan();$('#upTime').textContent='00:00';$('#upBreathTxt').textContent='🙏 पूर्ण';chime();return}
+  $('#upTime').textContent=fmt(rem);
+  var ph=Math.floor((total()-rem)/4)%2;
+  if(ph!==dh.phase){dh.phase=ph;breath(ph===0,ph===0?'श्वास लें':'श्वास छोड़ें')}
+}
+function stopDhyan(){
+  clearInterval(dh.t);dh.run=false;dh.phase=-1;
+  $('#upStart').textContent='▶️ शुरू करें';$('#dhyan_min').disabled=false;
+  breath(false,'तैयार');dhReset();
+}
+$('#upStart').addEventListener('click',function(){
+  playSound();
+  if(dh.run){dh.left=(dh.end-Date.now())/1000;clearInterval(dh.t);dh.run=false;this.textContent='▶️ जारी रखें';breath(false,'विराम');return}
+  if(dh.left<=0)dhReset();
+  dh.end=Date.now()+dh.left*1000;dh.run=true;dh.phase=-1;this.textContent='⏸ विराम';
+  $('#dhyan_min').disabled=true;dh.t=setInterval(tick,250);tick();
+});
+$('#upStop').addEventListener('click',function(){playSound();stopDhyan()});
+$('#dhyan_min').addEventListener('change',function(){if(!dh.run)dhReset()});
+dhReset();
+
+/* ---------- Shlok of the day ---------- */
+var SH=[
+['कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।','तुम्हारा अधिकार केवल कर्म करने में है, उसके फलों में कभी नहीं।','भगवद्गीता 2.47'],
+['सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः।','सभी सुखी हों, सभी निरोगी हों।','शांति मंत्र'],
+['असतो मा सद्गमय। तमसो मा ज्योतिर्गमय।','हमें असत्य से सत्य की ओर, अंधकार से प्रकाश की ओर ले चलो।','बृहदारण्यक उपनिषद'],
+['वसुधैव कुटुम्बकम्।','सम्पूर्ण पृथ्वी एक परिवार है।','महोपनिषद'],
+['सत्यमेव जयते।','अंततः सत्य की ही विजय होती है।','मुण्डक उपनिषद'],
+['उद्धरेदात्मनात्मानं नात्मानमवसादयेत्।','स्वयं ही अपना उद्धार करो, स्वयं को गिरने मत दो।','भगवद्गीता 6.5'],
+['श्रद्धावाँल्लभते ज्ञानम्।','श्रद्धावान व्यक्ति ज्ञान प्राप्त करता है।','भगवद्गीता 4.39']];
+var si=Math.floor(Date.now()/86400000)%SH.length;
+function showSh(){
+  var s=SH[si],c=$('#upCard');
+  $('#upSh').textContent=s[0];$('#upMn').textContent=s[1];$('#upSrc').textContent=s[2];
+  c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');
+}
+$('#upNext').addEventListener('click',function(){playSound();si=(si+1)%SH.length;showSh()});
+showSh();
+
+/* ---------- Fire TV / remote: D-pad, Select, Back ---------- */
+function openModal(){return $$('.modal').filter(function(m){return m.style.display==='flex'})[0]}
+function focusables(root){
+  return $$('[tabindex="0"],button,select',root).filter(function(e){
+    if(e.disabled)return false;var r=e.getBoundingClientRect();return r.width>0&&r.height>0;
+  });
+}
+window.addEventListener('keydown',function(e){
+  var k=e.keyCode,key=e.key,ae=document.activeElement,modal=openModal();
+  var back=(k===4||k===27||key==='Escape'||key==='GoBack'||key==='BrowserBack');
+  var enter=(k===13||k===23||k===66);
+
+  if(back){
+    if(cm.style.display==='flex'){e.preventDefault();closeConfirm();return}
+    if($('#streakPopup').style.display==='flex'){e.preventDefault();window.closeStreakPopup();return}
+    if(modal){e.preventDefault();return}                 /* ad popup stays mandatory */
+    if(activeScreen!=='radha'){e.preventDefault();window.switchScreen('radha')}
+    return;
+  }
+  if(enter&&ae&&ae!==document.body){
+    if(ae.classList.contains('menu-item')||ae.classList.contains('list-item')||(ae.tagName==='BUTTON'&&k!==13)){
+      e.preventDefault();ae.click();return;
+    }
+  }
+  if(NEW[activeScreen]&&(enter||k===32)&&!modal)e.stopImmediatePropagation(); /* bug fix: no counter bump on new screens */
+
+  var dir={37:'L',38:'U',39:'R',40:'D'}[k];
+  if(!dir)return;
+  if(ae&&ae.tagName==='SELECT'&&(dir==='U'||dir==='D'))return;
+  var list=focusables(modal||document);
+  if(!ae||ae===document.body||list.indexOf(ae)<0){if(list[0]){e.preventDefault();list[0].focus()}return}
+  var a=ae.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2,best=null,bs=1e9;
+  list.forEach(function(c){
+    if(c===ae)return;var r=c.getBoundingClientRect(),dx=r.left+r.width/2-ax,dy=r.top+r.height/2-ay,s=1e9;
+    if(dir==='D'&&dy>4)s=dy+Math.abs(dx)*2;
+    if(dir==='U'&&dy<-4)s=-dy+Math.abs(dx)*2;
+    if(dir==='R'&&dx>4)s=dx+Math.abs(dy)*2;
+    if(dir==='L'&&dx<-4)s=-dx+Math.abs(dy)*2;
+    if(s<bs){bs=s;best=c}
+  });
+  e.preventDefault();
+  if(best){best.focus();if(best.scrollIntoView)best.scrollIntoView({block:'nearest'})}
+},true);
+
+/* highlight the right menu item after first load */
+syncActive(activeScreen);
+})();
+</script>
 </body>
 </html>
